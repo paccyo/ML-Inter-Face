@@ -18,11 +18,34 @@ def main(page: ft.Page):
     sidebar_container = ft.Container(
         sidebar,
         expand=False,
-        margin=10,
-        padding=15,
+        margin=1,
+        padding=20,
         bgcolor=ft.colors.GREY,
         border_radius=10,
-        alignment=ft.alignment.top_center,
+        alignment=ft.alignment.top_left,
+        height=300,
+        width=200
+    )
+
+    sidebar1 = ft.Column(
+        [
+            ft.Text("Layer Options", style="headlineMedium"),
+            ft.ElevatedButton("Dense", on_click=lambda e: add_layer("Dense")),
+            ft.ElevatedButton("Conv", on_click=lambda e: add_layer("Conv")),
+        ],
+        alignment=ft.MainAxisAlignment.START,
+        expand=False,
+    )
+    sidebar_container1 = ft.Container(
+        sidebar1,
+        expand=False,
+        margin=1,
+        padding=20,
+        bgcolor=ft.colors.GREY,
+        border_radius=10,
+        alignment=ft.alignment.top_left,
+        height=300,
+        width=200
     )
 
     def on_drag_update(e: ft.DragUpdateEvent):
@@ -84,10 +107,12 @@ def main(page: ft.Page):
 
     # Layout
     page.add(
+        
         ft.Row(
-            [
-                sidebar_container,
-                ft.VerticalDivider(width=1, color="black"),
+            [   ft.Column([sidebar_container,
+                ft.Divider(color="white"),
+                sidebar_container1]),
+                ft.VerticalDivider(width=1, color="white"),
                 design_area,
                 ft.VerticalDivider(width=1, color="black"),
                 preview_area,
