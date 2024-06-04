@@ -1,4 +1,5 @@
 import flet as ft
+import flet.canvas as cv
 import inspect
 
 def main(page: ft.Page):
@@ -6,18 +7,34 @@ def main(page: ft.Page):
     page.title = "Neural Network Designer"
     page.vertical_alignment = ft.MainAxisAlignment.START
 
+    def update_connect_layer(layers):
+        print(design_area.content.shapes)
+        design_area.content.shapes = []
+        draw_line_list = []
+        for layer in layers[:-1]:
+            draw_line_list.append([layer.left+(layer.width//2),layer.top+layer.height])
+        for i, layer in enumerate(layers[1:]):
+            draw_line_list[i].append(layer.left+(layer.width//2))
+            draw_line_list[i].append(layer.top)
+        for draw_line_point in draw_line_list:
+            design_area.content.shapes.append(
+                cv.Line(
+                    draw_line_point[0],
+                    draw_line_point[1], 
+                    draw_line_point[2], 
+                    draw_line_point[3], 
+                    ft.Paint(stroke_width=2, color=ft.colors.BLACK)
+                )
+            )
+        design_area.update()
+    
     def on_drag_update(e: ft.DragUpdateEvent):
         e.control.top = max(0, e.control.top + e.delta_y)
         e.control.left = max(0, e.control.left + e.delta_x)
         e.control.update()
         # print(design_area.content.controls)
-        layer = []
-        # for x in design_area.content.controls[1:]:
-            # layer.append([x.top,x.content.content.value])
-            # print(x.content.content.data)
-        layer.sort()
-        # print(layer)
-
+        layer = sorted(design_area.content.content.controls[1:], key = lambda x:x.top)
+        update_connect_layer(layer)
 
     def on_tap_layer(e):
 
@@ -55,7 +72,7 @@ def main(page: ft.Page):
     
     # Main design area with drag-and-drop functionality
     def add_layer(layer_type):
-        data = {"Default":{"input":0,"output":0,"activate":"relu"},"Dense":{"units":0},"Conv":{"kernel Size":(0,0)}}
+        data = {"Default":{"input":0,"output":0,"activate":None},"Dense":{"units":0},"Conv":{"kernel Size":(0,0)}}
         if layer_type == 'Dense':
             rect = ft.GestureDetector(
                 content=ft.Container(content=ft.Text(layer_type), bgcolor=ft.colors.CYAN, border_radius=15),
@@ -81,7 +98,9 @@ def main(page: ft.Page):
                 on_tap=on_tap_layer,
             )
         rect.content.content.data = data
-        design_area.content.controls.append(rect)
+        design_area.content.content.controls.append(rect)
+        layer = sorted(design_area.content.content.controls[1:], key = lambda x:x.top)
+        update_connect_layer(layer)
         page.update()
 
     # Sidebar with layer options
@@ -126,16 +145,19 @@ def main(page: ft.Page):
         # width=200
     )
 
-    design_area = ft.Container(content=ft.Stack(
-        [
-            ft.Text("Design", style="headlineMedium" ,text_align=ft.alignment.top_center)
-        ],
-        expand=True,    
-        ),
-        width=400,
-        height=800,
-        bgcolor=ft.colors.BLUE,
-        border_radius=15
+    design_area = ft.Container(
+        content=cv.Canvas(
+            content=ft.Stack(
+                [
+                    ft.Text("Design", style="headlineMedium" ,text_align=ft.alignment.top_center)
+                ],
+                expand=True,    
+            ),
+            width=400,
+            height=800,
+            # bgcolor=ft.colors.BLUE,
+            # border_radius=15
+        )
     )
 
     # Preview area
