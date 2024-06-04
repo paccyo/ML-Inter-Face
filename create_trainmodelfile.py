@@ -1,10 +1,10 @@
 
-# 2024/06/04 BPS-sys ver1.0
+# 2024/06/04 BPS-sys ver1.0作成
 
 
 class ModelInfo:
     """
-    Use dict to create model structure.
+    モデル構造ファイル作成
     """
     def __init__(self):
         self.layers = ''
@@ -13,7 +13,7 @@ class ModelInfo:
     
     def load_import_info(self):
         """
-        read import file.
+        importテキスト読み込み
         """
         with open('imports_file.txt') as f:
             imports_data = f.read()
@@ -21,7 +21,7 @@ class ModelInfo:
 
     def send_model(self, model_dict):
         """
-        Please model structure dict.
+        辞書からモデルを構築
         """
         before_unique_layer_name = ''    # １つ前のレイヤー変数名(layername)
         first_unique_layer_name = ''     # 最初のレイヤー変数名(inputs)
@@ -57,7 +57,7 @@ class ModelInfo:
         
     def write_modelfile(self):
         """
-        create model_info.py file.
+        モデルファイル書き出し
         """
         if self.layers:
             with open('model_info.py', 'w') as f:
