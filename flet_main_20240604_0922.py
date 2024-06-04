@@ -158,7 +158,22 @@ def main(page: ft.Page):
         animation_duration=300,
         tabs=[
             ft.Tab(
+                tab_content=ft.Icon(ft.icons.FILE_COPY),
+                content=ft.Text("save etc.."),
+            ),
+            ft.Tab(
+                text="データ選択",
+                icon=ft.icons.DATA_USAGE,
+                content=ft.Text("data selection"),
+            ),
+            ft.Tab(
+                text="前処理",
+                icon=ft.icons.DATASET,
+                content=ft.Text("data Preprocessing"),
+            ),
+            ft.Tab(
                 text="モデル構築",
+                icon=ft.icons.NUMBERS,
                 content=ft.Row(
                     [
                         ft.Column(
@@ -180,17 +195,14 @@ def main(page: ft.Page):
                 #     content=ft.Text("This is Tab 1"), alignment=ft.alignment.center
                 ),
             ft.Tab(
-                tab_content=ft.Icon(ft.icons.SEARCH),
-                content=ft.Text("This is Tab 2"),
-            ),
-            ft.Tab(
-                text="Tab 3",
+                text="オプション",
                 icon=ft.icons.SETTINGS,
                 content=ft.Text("This is Tab 3"),
             ),
         ],
         expand=1,
     )
+
 
     page.add(t)
 
