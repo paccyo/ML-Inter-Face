@@ -1,158 +1,18 @@
+from keras.models import Model
+from keras.layers import *
+from keras.optimizers import *
+from keras.preprocessing.image import *
+import tensorflow as tf
+from keras.callbacks import ModelCheckpoint
 
-# 2024/06/04 BPS-sys ver1.0
-
-
-class ModelInfo:
-    """
-    Use dict to create model structure.
-    """
-    def __init__(self):
-        self.layers = ''
-        self.imports = ''
-        self.load_import_info()
-    
-    def load_import_info(self):
-        """
-        read import file.
-        """
-        with open('imports_file.txt') as f:
-            imports_data = f.read()
-        self.imports += imports_data + '\n\n'
-
-    def send_model(self, model_dict):
-        """
-        Please model structure dict.
-        """
-        before_unique_layer_name = ''    # １つ前のレイヤー変数名(layername)
-        first_unique_layer_name = ''     # 最初のレイヤー変数名(inputs)
-        filal_unique_layer_name = ''     # 最後のレイヤー変数名(outputs)
-        for i, (unique_layer_name, layer_params) in enumerate(model_dict.items()):
-            params = ''    # 各レイヤーパラメータの格納用変数
-            if i == 0:
-                first_unique_layer_name = unique_layer_name
-            if i == len(model_dict)-1:
-                filal_unique_layer_name = unique_layer_name
-            
-            # レイヤー関数名を取得
-            layer_name = unique_layer_name[:-4]
-
-            # パラメータ引数をセット
-            for layer_param_name, layer_param_value in layer_params.items():
-                params += f'{layer_param_name}={layer_param_value},'
-            
-            # 不要なコンマを削除
-            params = params[:-1]
-
-            # 行ごとにレイヤー作成
-            if before_unique_layer_name:
-                self.layers += f'    {unique_layer_name} = {layer_name}({params})({before_unique_layer_name})\n'
-            else:
-                self.layers += f'    {unique_layer_name} = {layer_name}({params})\n'
-            
-            # １つ前のレイヤー名を更新
-            before_unique_layer_name = unique_layer_name
-            
-        # 最終層作成
-        self.layers += f'    model = Model(inputs={first_unique_layer_name}, outputs={filal_unique_layer_name})\n'
-        
-    def write_modelfile(self):
-        """
-        create model_info.py file.
-        """
-        if self.layers:
-            with open('model_info.py', 'w') as f:
-                f.write(self.imports+'def model_build():\n'+self.layers+'    return model')
-            
-
-if __name__ == '__main__':
-    # テストケース
-    test_dic = {
-        'Dense0000': {
-            'units': 0,
-            'use_bias': True,
-            'kernel_initializer': '\'glorot_uniform\'',
-            'bias_initializer': '\'zeros\'',
-            'kernel_regularizer': None,
-            'bias_regularizer': None,
-            'activity_regularizer': None,
-            'kernel_constraint': None,
-            'bias_constraint': None,
-            'lora_rank': None
-        },
-
-        'Activation0000': {
-            'activation':None
-        },
-
-        'Conv2D0000': {
-            'filters': 0,
-            'kernel_size': (0, 0),
-            'strides': (1, 1),
-            'padding': '\'valid\'',
-            'data_format': None,
-            'dilation_rate': (1, 1),
-            'groups': 1,
-            'activation': None,
-            'use_bias': True,
-            'kernel_initializer': '\'glorot_uniform\'',
-            'bias_initializer': '\'zeros\'',
-            'kernel_regularizer': None,
-            'bias_regularizer': None,
-            'activity_regularizer': None,
-            'kernel_constraint': None,
-            'bias_constraint': None
-        },
-
-        'Conv1D0000': {
-            'filters': 0,
-            'kernel_size': 0,
-            'strides': 1,
-            'padding': '\'valid\'',
-            'data_format': None,
-            'dilation_rate': 1,
-            'groups': 1,
-            'activation': None,
-            'use_bias': True,
-            'kernel_initializer': '\'glorot_uniform\'',
-            'bias_initializer': '\'zeros\'',
-            'kernel_regularizer': None,
-            'bias_regularizer': None,
-            'activity_regularizer': None,
-            'kernel_constraint': None,
-            'bias_constraint': None
-        },
-
-        'MaxPooling2D0000': {
-            'pool_size': (2, 2),
-            'strides': None,
-            'padding': '\'valid\'',
-            'data_format': None,
-            'name': None
-        },
-
-        'MaxPooling1D0000': {
-            'pool_size': 2,
-            'strides': None,
-            'padding': '\'valid\'',
-            'data_format': None,
-            'name': None
-        },
-
-        'Flatten0000': {
-            'data_format': None
-        },
-
-        'GlobalAveragePooling2D0000': {
-            'data_format': None,
-            'keepdims': False
-        },
-
-
-    }
-
-
-    # 実行
-
-    model_info = ModelInfo()
-    model_info.send_model(test_dic)
-    model_info.write_modelfile()
+def model_build():
+    Dense0000 = Dense(units=0,use_bias=True,kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer=None,bias_regularizer=None,activity_regularizer=None,kernel_constraint=None,bias_constraint=None,lora_rank=None)
+    Activation0000 = Activation(activation=None)(Dense0000)
+    Conv2D0000 = Conv2D(filters=0,kernel_size=(0, 0),strides=(1, 1),padding='valid',data_format=None,dilation_rate=(1, 1),groups=1,activation=None,use_bias=True,kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer=None,bias_regularizer=None,activity_regularizer=None,kernel_constraint=None,bias_constraint=None)(Activation0000)
+    Conv1D0000 = Conv1D(filters=0,kernel_size=0,strides=1,padding='valid',data_format=None,dilation_rate=1,groups=1,activation=None,use_bias=True,kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer=None,bias_regularizer=None,activity_regularizer=None,kernel_constraint=None,bias_constraint=None)(Conv2D0000)
+    MaxPooling2D0000 = MaxPooling2D(pool_size=(2, 2),strides=None,padding='valid',data_format=None,name=None)(Conv1D0000)
+    MaxPooling1D0000 = MaxPooling1D(pool_size=2,strides=None,padding='valid',data_format=None,name=None)(MaxPooling2D0000)
+    Flatten0000 = Flatten(data_format=None)(MaxPooling1D0000)
+    GlobalAveragePooling2D0000 = GlobalAveragePooling2D(data_format=None,keepdims=False)(Flatten0000)
+    model = Model(inputs=Dense0000, outputs=GlobalAveragePooling2D0000)
+    return model
