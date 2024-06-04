@@ -4,3 +4,5 @@ from keras.optimizers import *
 from keras.preprocessing.image import *
 import tensorflow as tf
 from keras.callbacks import ModelCheckpoint
+from keras.losses import *
+from keras.metrics import *
