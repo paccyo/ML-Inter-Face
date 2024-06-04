@@ -193,23 +193,7 @@ def main(page: ft.Page):
     )
 
     page.add(t)
-    # Layout
-    # page.add(
-        
-    #     ft.Row(
-    #         [   ft.Column([sidebar_container,
-    #                 ft.Divider(color="black"),
-    #                 sidebar_container1
-    #             ]),
-    #             ft.VerticalDivider(width=1, color="black"),
-    #             design_area,
-    #             ft.VerticalDivider(width=1, color="black"),
-    #             preview_area,
-    #         ],
-    #         alignment=ft.MainAxisAlignment.START,
-    #         expand=True,
-    #     )
-    # )
+
 
 # Start the app
 ft.app(target=main)
