@@ -1,4 +1,7 @@
+import flet as ft
 
+DROPDOWN = "DropDown"
+TEXTFIELD = "TextField"
 
 dicts = {
     'Dense': {
@@ -11,7 +14,8 @@ dicts = {
         'activity_regularizer': None,
         'kernel_constraint': None,
         'bias_constraint': None,
-        'lora_rank': None
+        'lora_rank': None,
+        'color':ft.colors.AMBER
     },
     'Input': {
         'shape': None,
@@ -20,10 +24,12 @@ dicts = {
         'sparse': None,
         'batch_shape': None,
         'name': None,
-        'tensor': None
+        'tensor': None,
+        'color':ft.colors.GREY
     },
     'Activation': {
-        'activation': None
+        'activation': None,
+        'color':ft.colors.YELLOW
     },
     'Embedding': {
         'input_dim': None,
@@ -33,7 +39,8 @@ dicts = {
         'embeddings_constraint': None,
         'mask_zero': False,
         'weights': None,
-        'lora_rank': None
+        'lora_rank': None,
+        'color':ft.colors.BLACK
     },
     'Conv1D': {
         'filters': None,
@@ -51,7 +58,8 @@ dicts = {
         'bias_regularizer': None,
         'activity_regularizer': None,
         'kernel_constraint': None,
-        'bias_constraint': None
+        'bias_constraint': None,
+        'color':ft.colors.GREEN
     },
     'Conv2D': {
         'filters': None,
@@ -69,7 +77,8 @@ dicts = {
         'bias_regularizer': None,
         'activity_regularizer': None,
         'kernel_constraint': None,
-        'bias_constraint': None
+        'bias_constraint': None,
+        'color':ft.colors.GREEN_100
     },
     'Conv3D': {
         'filters': None,
@@ -87,73 +96,86 @@ dicts = {
         'bias_regularizer': None,
         'activity_regularizer': None,
         'kernel_constraint': None,
-        'bias_constraint': None
+        'bias_constraint': None,
+        'color':ft.colors.GREEN_200
     },
     'MaxPooling1D': {
         'pool_size': 2,
         'strides': None,
         'padding': 'valid',
         'data_format': None,
-        'name': None
+        'name': None,
+        'color':ft.colors.BLUE
     },
     'MaxPooling2D': {
         'pool_size': (2, 2),
         'strides': None,
         'padding': 'valid',
         'data_format': None,
-        'name': None
+        'name': None,
+        'color':ft.colors.BLUE_100
     },
     'MaxPooling3D': {
         'pool_size': (2, 2, 2),
         'strides': None,
         'padding': 'valid',
         'data_format': None,
-        'name': None
+        'name': None,
+        'color':ft.colors.BLUE_200
     },
     'AveragePooling1D': {
         'pool_size': None,
         'strides': None,
         'padding': 'valid',
         'data_format': None,
-        'name': None
+        'name': None,
+        'color':ft.colors.BLUE_GREY
     },
     'AveragePooling2D': {
         'pool_size': None,
         'strides': None,
         'padding': 'valid',
         'data_format': None,
-        'name': None
+        'name': None,
+        'color':ft.colors.BLUE_GREY_100
     },
     'AveragePooling3D': {
         'pool_size': None,
         'strides': None,
         'padding': 'valid',
         'data_format': None,
-        'name': None
+        'name': None,
+        'color':ft.colors.BLUE_GREY_200
     },
     'GlobalMaxPooling1D': {
         'data_format': None,
-        'keepdims': False
+        'keepdims': False,
+        'color':ft.colors.BLUE_ACCENT
     },
     'GlobalMaxPooling2D': {
         'data_format': None,
-        'keepdims': False
+        'keepdims': False,
+        'color':ft.colors.BLUE_ACCENT_100
     },
     'GlobalMaxPooling3D': {
         'data_format': None,
-        'keepdims': False
+        'keepdims': False,
+        'color':ft.colors.BLUE_ACCENT_200
     },
     'GlobalAveragePooling1D': {
         'data_format': None,
-        'keepdims': False
+        'keepdims': False,
+        'color':ft.colors.BLUE_500
     },
     'GlobalAveragePooling2D': {
         'data_format': None,
-        'keepdims': False
+        'keepdims': False,
+        'color':ft.colors.BLUE_600
     },
     'GlobalAveragePooling3D': {
         'data_format': None,
-        'keepdims': False
+        'keepdims': False,
+        'color':ft.colors.BLUE_700
     },
     'LSTM': {
         'units': None,
@@ -179,7 +201,8 @@ dicts = {
         'go_backwards': False,
         'stateful': False,
         'unroll': False,
-        'use_cudnn': 'auto'
+        'use_cudnn': 'auto',
+        'color':ft.colors.DEEP_ORANGE
     },
     'GRU': {
         'units': None,
@@ -205,7 +228,8 @@ dicts = {
         'stateful': False,
         'unroll': False,
         'reset_after': True,
-        'use_cudnn': 'auto'
+        'use_cudnn': 'auto',
+        'color':ft.colors.INDIGO
     },
     'SimpleRNN': {
         'units': None,
@@ -228,13 +252,15 @@ dicts = {
         'go_backwards': False,
         'stateful': False,
         'unroll': False,
-        'seed': None
+        'seed': None,
+        'color':ft.colors.LIME
     },
     'Bidirectional': {
         'layer': None,
         'merge_mode': 'concat',
         'weights': None,
-        'backward_layer': None
+        'backward_layer': None,
+        'color':ft.colors.RED
     },
     'ConvLSTM1D': {
         'filters': None,
@@ -263,7 +289,8 @@ dicts = {
         'return_sequences': False,
         'return_state': False,
         'go_backwards': False,
-        'stateful': False
+        'stateful': False,
+        'color':ft.colors.ORANGE
     },
     'ConvLSTM2D': {
         'filters': None,
@@ -292,7 +319,8 @@ dicts = {
         'return_sequences': False,
         'return_state': False,
         'go_backwards': False,
-        'stateful': False
+        'stateful': False,
+        'color':ft.colors.BROWN
     },
     'ConvLSTM3D': {
         'filters': None,
@@ -321,7 +349,8 @@ dicts = {
         'return_sequences': False,
         'return_state': False,
         'go_backwards': False,
-        'stateful': False
+        'stateful': False,
+        'color':ft.colors.ON_SURFACE
     },
     'RNN': {
         'cell': None,
@@ -330,7 +359,8 @@ dicts = {
         'go_backwards': False,
         'stateful': False,
         'unroll': False,
-        'zero_output_for_mask': False
+        'zero_output_for_mask': False,
+        'color':ft.colors.PINK
     },
     'BatchNormalization': {
         'axis': -1,
@@ -346,7 +376,8 @@ dicts = {
         'gamma_regularizer': None,
         'beta_constraint': None,
         'gamma_constraint': None,
-        'synchronized': False
+        'synchronized': False,
+        'color':ft.colors.GREY_600
     },
     'LayerNormalization': {
         'axis': -1,
@@ -359,32 +390,37 @@ dicts = {
         'beta_regularizer': None,
         'gamma_regularizer': None,
         'beta_constraint': None,
-        'gamma_constraint': None
+        'gamma_constraint': None,
+        'color':ft.colors.PURPLE
     },
     'Dropout': {
         'rate': None,
         'noise_shape': None,
-        'seed': None
+        'seed': None,
+        'color':ft.colors.BLACK
     },
     'SpatialDropout1D': {
         'rate': None,
         'seed': None,
         'name': None,
-        'dtype': None
+        'dtype': None,
+        'color':ft.colors.CYAN
     },
     'SpatialDropout2D': {
         'rate': None,
         'data_format': None,
         'seed': None,
         'name': None,
-        'dtype': None
+        'dtype': None,
+        'color':ft.colors.CYAN
     },
     'SpatialDropout3D': {
         'rate': None,
         'data_format': None,
         'seed': None,
         'name': None,
-        'dtype': None
+        'dtype': None,
+        'color':ft.colors.CYAN
     },
     'MultiHeadAttention': {
         'num_heads': None,
@@ -400,23 +436,24 @@ dicts = {
         'bias_regularizer': None,
         'activity_regularizer': None,
         'kernel_constraint': None,
-        'bias_constraint': None
+        'bias_constraint': None,
+        'color':ft.colors.CYAN
     },
     'Attention': {
         'use_scale': False,
         'score_mode': 'dot',
         'dropout': 0.0,
-        'seed': None
+        'seed': None,
+        'color':ft.colors.CYAN
     },
     'Reshape': {
-        'target_shape': None
+        'target_shape': None,
+        'color':ft.colors.CYAN
     },
     'Flatten': {
-        'data_format': None
+        'data_format': None,
+        'color':ft.colors.CYAN
     },
-
-
-
 
 }
 
