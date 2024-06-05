@@ -17,7 +17,7 @@ dicts = {
     
     'Dense': {
         'units': [0, 'TextField', 1, 'UNK'],
-        'use_bias': True,
+        'use_bias': ['True', 'DropDown', ['True', 'False'], 'UNK'],
         'kernel_initializer': ['glorot_uniform', 'DropDown', ['None', 'ones', 'he_normal()', 'truncated_normal()', 'random_normal'], 'UNK'],
         'bias_initializer': ['zeros', 'DropDown', ['None', 'zeros'], 'UNK'],
         'kernel_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)'], 'UNK'],
@@ -64,22 +64,21 @@ dicts = {
     #     'color':ft.colors.GREEN
     # },
     'Conv2D': {
-        'filters': None,
-        'kernel_size': None,
-        'strides': (1, 1),
-        'padding': 'valid',
-        'data_format': None,
-        'dilation_rate': (1, 1),
-        'groups': 1,
-        'activation': None,
-        'use_bias': True,
-        'kernel_initializer': 'glorot_uniform',
-        'bias_initializer': 'zeros',
-        'kernel_regularizer': None,
-        'bias_regularizer': None,
-        'activity_regularizer': None,
-        'kernel_constraint': None,
-        'bias_constraint': None,
+        'filters': [0, 'TextField', 1, 'UNK'],
+        'kernel_size': [(1, 1), 'TextField', 2, 'UNK'],
+        'strides': [(1, 1), 'TextField', 2, 'UNK'],
+        'padding': ['valid', 'DropDown', ['valid', 'same'], 'UNK'],
+        'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],
+        'dilation_rate': [(1, 1), 'TextField', 2, 'UNK'],
+        'groups': [1, 'TextField', 1, 'UNK'],
+        'use_bias': ['True', 'DropDown', ['True', 'False'], 'UNK'],
+        'kernel_initializer': ['glorot_uniform', 'DropDown', ['None', 'ones', 'he_normal()', 'truncated_normal()', 'random_normal'], 'UNK'],
+        'bias_initializer': ['zeros', 'DropDown', ['None', 'zeros'], 'UNK'],
+        'kernel_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)'], 'UNK'],
+        'bias_regularizer': ['None', 'DropDown', ['None', 'L2(1e-4)'], 'UNK'],
+        'activity_regularizer': ['None', 'DropDown', ['None', 'L2(1e-4)'], 'UNK'],
+        'kernel_constraint': ['None', 'DropDown', ['None', 'max_norm(2.)'], 'UNK'],
+        'bias_constraint': ['None', 'DropDown', ['None'], 'UNK'],
         'color':ft.colors.GREEN_100
     },
     # 'Conv3D': {
@@ -110,11 +109,11 @@ dicts = {
     #     'color':ft.colors.BLUE
     # },
     'MaxPooling2D': {
-        'pool_size': (2, 2),
-        'strides': None,
-        'padding': 'valid',
-        'data_format': None,
-        'name': None,
+        'pool_size': [(2, 2), 'TextField', 2, 'UNK'],
+        'strides': [(1, 1), 'TextField', 2, 'UNK'],
+        'padding': ['valid', 'DropDown', ['valid', 'same'], 'UNK'],
+        'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],
+        'name': ['None', 'DropDown', ['None']],
         'color':ft.colors.BLUE_100
     },
     # 'MaxPooling3D': {
@@ -134,11 +133,11 @@ dicts = {
     #     'color':ft.colors.BLUE_GREY
     # },
     'AveragePooling2D': {
-        'pool_size': None,
-        'strides': None,
-        'padding': 'valid',
-        'data_format': None,
-        'name': None,
+        'pool_size': [(2, 2), 'TextField', 2, 'UNK'],
+        'strides': [(1, 1), 'TextField', 2, 'UNK'],
+        'padding': ['valid', 'DropDown', ['valid', 'same'], 'UNK'],
+        'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],'data_format': None,
+        'name': ['None', 'DropDown', ['None']],
         'color':ft.colors.BLUE_GREY_100
     },
     # 'AveragePooling3D': {
