@@ -5,13 +5,13 @@ TEXTFIELD = "TextField"
 
 dicts = {
     'Input': {
-        'shape': [None, 'DropDown', [None], 'UNK'],
-        'batch_size': [None, 'TextField', 1, 'UNK'],
-        'dtype': [None, 'DropDown', ['float32', 'int32'], 'UNK'],
-        'sparse': [False, 'DropDown', [True, False], 'UNK'],
-        'batch_shape': [None, 'DropDown', [None], 'UNK'],
-        'name': [None, 'DropDown', [None], 'UNK'],
-        'tensor': [None, 'DropDown', [None], 'UNK'],
+        'shape': ['None', 'DropDown', ['None'], 'UNK'],
+        'batch_size': ['None', 'TextField', 1, 'UNK'],
+        'dtype': ['None', 'DropDown', ['float32', 'int32'], 'UNK'],
+        'sparse': ['False', 'DropDown', ['True', 'False'], 'UNK'],
+        'batch_shape': ['None', 'DropDown', ['None'], 'UNK'],
+        'name': ['None', 'DropDown', ['None'], 'UNK'],
+        'tensor': ['None', 'DropDown', ['None'], 'UNK'],
         'color':ft.colors.GREY
     },
     
