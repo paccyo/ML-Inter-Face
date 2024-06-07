@@ -459,44 +459,76 @@ layer_dicts = {
     }
 
 preprocess_dicts = {
-    'ImageDataGenerator': {
-            'featurewise_center': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-            'samplewise_center': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-            'featurewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-            'samplewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-            'zca_whitening': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-            'zca_epsilon': [1e-06, 'TextField', 1, 'UNK'],
-            'rotation_range': [0, 'TextField', 1, 'UNK'],
-            'width_shift_range': [0.0, 'TextField', 1, 'UNK'],
-            'height_shift_range': [0.0, 'TextField', 1, 'UNK'],
-            'brightness_range': [['None', [0.0, 1.0]], ['DropDown', 'TextField'], [['None', 'True'], 2], 'UNK'],
-            'shear_range': [0.0, 'TextField', 1, 'UNK'],
-            'zoom_range': [0.0, 'TextField', 1, 'UNK'],
-            'channel_shift_range': [0.0, 'TextField', 1, 'UNK'],
-            'fill_mode': ['nearest', 'DropDown', ['reflect', 'nearest'], 'UNK'],
-            'cval': [0.0, 'TextField', 1, 'UNK'],
-            'horizontal_flip': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-            'vertical_flip': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-            'rescale': ['None', 'DropDown', ['None', 1./255]],
-            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],
-            'interpolation_order': [1, 'DropDown', [0, 1, 2, 3]],
-            'dtype': ['None', 'DropDown', ['None', 'float32', 'float64', 'uint8']]
-        },
-        'flow_from_directory': {
-            'target_size': (256, 256),
-            'color_mode': 'rgb',
-            'classes': None,
-            'class_mode': 'categorical',
-            'batch_size': 32,
-            'shuffle': True,
-            'seed': None,
-            'save_to_dir': None,
-            'save_prefix': '',
-            'save_format': 'png',
-            'follow_links': False,
-            'subset': None,
-            'interpolation': 'nearest',
-            'keep_aspect_ratio': False
-        }
+        'ImageDataGenerator': {
+                'featurewise_center': ['False', 'DropDown', ['True', 'False'], 'UNK'],
+                'samplewise_center': ['False', 'DropDown', ['True', 'False'], 'UNK'],
+                'featurewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'UNK'],
+                'samplewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'UNK'],
+                'zca_whitening': ['False', 'DropDown', ['True', 'False'], 'UNK'],
+                'zca_epsilon': [1e-06, 'TextField', 1, 'UNK'],
+                'rotation_range': [0, 'TextField', 1, 'UNK'],
+                'width_shift_range': [0.0, 'TextField', 1, 'UNK'],
+                'height_shift_range': [0.0, 'TextField', 1, 'UNK'],
+                'brightness_range': [['None', [0.0, 1.0]], ['DropDown', 'TextField'], [['None', 'True'], 2], 'UNK'],
+                'shear_range': [0.0, 'TextField', 1, 'UNK'],
+                'zoom_range': [0.0, 'TextField', 1, 'UNK'],
+                'channel_shift_range': [0.0, 'TextField', 1, 'UNK'],
+                'fill_mode': ['nearest', 'DropDown', ['reflect', 'nearest'], 'UNK'],
+                'cval': [0.0, 'TextField', 1, 'UNK'],
+                'horizontal_flip': ['False', 'DropDown', ['True', 'False'], 'UNK'],
+                'vertical_flip': ['False', 'DropDown', ['True', 'False'], 'UNK'],
+                'rescale': ['None', 'DropDown', ['None', 1./255]],
+                'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],
+                'interpolation_order': [1, 'DropDown', [0, 1, 2, 3]],
+                'dtype': ['None', 'DropDown', ['None', 'float32', 'float64', 'uint8']]
+            },
+            'flow_from_directory': {
+                'target_size': [(256, 256), 'TextField', 2, 'UNK'],
+                'color_mode': ['rgb', 'DropDown', ['rgb', 'grayscale'], 'UNK'],
+                'class_mode': ['categorical', 'DropDown', ['categorical', 'binary', 'sparse', 'input', 'none'], 'UNK'],
+                'batch_size': [32, 'TextField', 1, 'UNK'],
+                'shuffle': ['False', 'DropDown', ['True', 'False'], 'UNK'],
+                'seed': ['None', 'TextField', 1, 'UNK'],
+                'save_to_dir': ['None', 'TextField', 1, 'UNK'],
+                'save_prefix': ['', 'TextField', 1, 'UNK'],
+                'save_format': ['png', 'DropDown', ['png', 'jpeg'], 'UNK'],
+                'interpolation': ['nearest', 'DropDown', ['nearest', 'bilinear', 'bicubic', 'lanczos', 'box', 'hamming', 'UNK']]
+            }
     }
 
+
+compile_dicts = {
+        'optimizer':{
+            'Adam':{
+                'learning_rate':[0.001, 'TextField', 1, 'UNK'],
+                'beta_1':[0.9, 'TextField', 1, 'UNK'],
+                'beta_2':[0.999, 'TextField', 1, 'UNK'],
+                'epsilon':[1e-07, 'TextField', 1, 'UNK'],
+                'amsgrad':['False', 'DropDown', ['True', 'False'], 'UNK'],
+                'weight_decay':['None', 'TextField', 1, 'UNK'],
+                'clipnorm':['None', 'TextField', 1, 'UNK'],
+                'clipvalue':['None', 'TextField', 1, 'UNK'],
+                'global_clipnorm':['None', 'TextField', 1, 'UNK'],
+                'use_ema':['False', 'TextField', ['True', 'False'], 'UNK'],
+                'ema_momentum':[0.99, 'TextField', 1, 'UNK'],
+                'ema_overwrite_frequency':['None', 'TextField', 1, 'UNK'],
+                'loss_scale_factor':['None', 'TextField', 1, 'UNK'],
+                'gradient_accumulation_steps':['None', 'TextField', 1, 'UNK'],
+                'name':['adam', 'DropDown', ['adam'], 'UNK']
+            }
+        },
+        'loss':{
+            'CategoricalCrossentropy':{
+                'from_logits':['False', 'DropDown', ['False'], 'UNK'],
+                'label_smoothing':[0.0, 'DropDown', [0.0], 'UNK'],
+                'axis':[-1, 'DropDown', [-1], 'UNK'],
+                'reduction':['sum_over_batch_size', 'DropDown', ['sum_over_batch_size'], 'UNK'],
+                'name':['categorical_crossentropy', 'DropDown', ['categorical_crossentropy'], 'UNK']
+            }
+        },
+        'metrics':{
+            'Accuracy':{
+                'name':['accuracy', 'DropDown', ['accuracy'], 'UNK']
+            }
+        }
+    }
