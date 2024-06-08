@@ -38,6 +38,8 @@ class CompileInfo:
             # 行の作成
             self.compiles += f'    {compile_option_name} = {compile_algo_name}({params})\n'
 
+        self.write_compilefile()
+
     def write_compilefile(self):
         """
         コンパイルファイルの書き出し
@@ -88,4 +90,3 @@ if __name__ == '__main__':
 
     compile_info = CompileInfo()
     compile_info.send_compile(test_dict)
-    compile_info.write_compilefile()
