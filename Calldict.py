@@ -509,6 +509,6 @@ compile_dicts = {
                 'global_clipnorm':['None', 'TextField', 1, 'UNK']
             }
         },
-        'loss':['categorical_crossentropy'],
-        'metrics':['acc']
+        'loss':['None', 'DropDown', ['None', 'categorical_crossentropy', 'binary_crossentropy'], 'UNK'],
+        'metrics':['None', 'DropDown', ['None', 'acc'], 'UNK']
     }
