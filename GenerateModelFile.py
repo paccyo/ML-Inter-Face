@@ -38,10 +38,10 @@ class ModelInfo:
 
             # パラメータ引数をセット
             for layer_param_name, layer_param_value in layer_params.items():
-                params += f'{layer_param_name}={layer_param_value},'
+                params += f'{layer_param_name}={layer_param_value}, '
             
             # 不要なコンマを削除
-            params = params[:-1]
+            params = params[:-2]
 
             # 行ごとにレイヤー作成
             if before_unique_layer_name:
@@ -54,6 +54,8 @@ class ModelInfo:
             
         # 最終層作成
         self.layers += f'    model = Model(inputs={first_unique_layer_name}, outputs={filal_unique_layer_name})\n'
+
+        self.write_modelfile()
         
     def write_modelfile(self):
         """
@@ -155,4 +157,3 @@ if __name__ == '__main__':
 
     model_info = ModelInfo()
     model_info.send_model(test_dic)
-    model_info.write_modelfile()
