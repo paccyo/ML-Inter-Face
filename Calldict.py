@@ -509,16 +509,6 @@ compile_dicts = {
                 'global_clipnorm':['None', 'TextField', 1, 'UNK']
             }
         },
-        'loss':{
-            'CategoricalCrossentropy':{
-                'from_logits':['False', 'DropDown', ['False'], 'UNK'],
-                'label_smoothing':[0.0, 'DropDown', [0.0], 'UNK'],
-                'axis':[-1, 'DropDown', [-1], 'UNK']
-            }
-        },
-        'metrics':{
-            'Accuracy':{
-                'name':['accuracy', 'DropDown', ['accuracy'], 'UNK']
-            }
-        }
+        'loss':['categorical_crossentropy'],
+        'metrics':['acc']
     }
