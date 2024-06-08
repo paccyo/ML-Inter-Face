@@ -19,7 +19,7 @@ class ModelInfo:
             imports_data = f.read()
         self.imports += imports_data + '\n\n'
 
-    def send_model(self, model_dict):
+    def send(self, model_dict):
         """
         辞書からモデルを構築
         """

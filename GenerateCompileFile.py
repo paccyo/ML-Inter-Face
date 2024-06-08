@@ -19,7 +19,7 @@ class CompileInfo:
             imports_data = f.read()
         self.imports += imports_data + '\n\n'
 
-    def send_compile(self, compile_dict):
+    def send(self, compile_dict):
         """
         辞書からコンパイルを作成
         """
