@@ -24,19 +24,23 @@ class CompileInfo:
         辞書からコンパイルを作成
         """
         # コメントはわかりやすくするための例
-        for compile_option_name, compile_option_info in compile_dict.items():
+        for i, (compile_option_name, compile_option_info) in enumerate(compile_dict.items()):
             # Adam, Adamのパラメータ
-            for compile_algo_name, compile_params in compile_option_info.items():
-                params = ''
-                # Adamのパラメータを格納
-                for param_name, param_value in compile_params.items():
-                    params += f'{param_name}={param_value}, '
-                break
-            # 不要なコンマ削除
-            params = params[:-2]
+            if i == 0:
+                for compile_algo_name, compile_params in compile_option_info.items():
+                    params = ''
+                    # Adamのパラメータを格納
+                    for param_name, param_value in compile_params.items():
+                        params += f'{param_name}={param_value}, '
+                    break
+                # 不要なコンマ削除
+                params = params[:-2]
 
-            # 行の作成
-            self.compiles += f'    {compile_option_name} = {compile_algo_name}({params})\n'
+                # 行の作成
+                self.compiles += f'    {compile_option_name} = {compile_algo_name}({params})\n'
+            else:
+                # 行の作成
+                self.compiles += f'    {compile_option_name} = {compile_option_info[0]}\n'
 
         self.write_compilefile()
 
@@ -69,24 +73,11 @@ if __name__ == '__main__':
                 'name':"\'adam\'"
             }
         },
-        'loss':{
-            'CategoricalCrossentropy':{
-                'from_logits':False,
-                'label_smoothing':0.0,
-                'axis':-1,
-                'reduction':"\'sum_over_batch_size\'",
-                'name':"\'categorical_crossentropy\'"
-            }
-        },
-        'metrics':{
-            'Accuracy':{
-                'name':"\'accuracy\'",
-                'dtype':None
-            }
-        }
+        'loss':['\'categorical_crossentropy\''],
+        'metrics':['\'acc\'']
     }
 
     # 実行
 
     compile_info = CompileInfo()
-    compile_info.send_compile(test_dict)
+    compile_info.send(test_dict)
