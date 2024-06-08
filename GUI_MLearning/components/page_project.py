@@ -1,9 +1,9 @@
-from components.project.projectdata import ProjectData
-from components.project.dataselect import DataSelect
-from components.project.preprocessing import Preprocessing
-from components.project.modelbuild import ModelBuild
-from components.project.modelcompile import ModelCompile
-from components.project.option import Option
+from components._project.projectdata import ProjectData
+from components._project.dataselect import DataSelect
+from components._project.preprocessing import Preprocessing
+from components._project.modelbuild import ModelBuild
+from components._project.modelcompile import ModelCompile
+from components._project.option import Option
 
 import flet as ft
 
@@ -12,7 +12,7 @@ class Project(ft.View):
     def __init__(self, page:ft.Page):
         super().__init__()
         self.page = page
-        self.route = "/ProjectPage"
+        self.route = "/Page_Project"
         self.controls = [
             ft.Tabs(
                 selected_index=1,

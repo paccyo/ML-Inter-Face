@@ -21,10 +21,10 @@ preprocess_dicts = {
             'cval': [0.0, TEXTFIELD, 1, 'UNK'],
             'horizontal_flip': ['False', DROPDOWN, ['True', 'False'], 'UNK'],
             'vertical_flip': ['False', DROPDOWN, ['True', 'False'], 'UNK'],
-            'rescale': ['None', DROPDOWN, ['None', 1./255]],
+            'rescale': ['None', DROPDOWN, ['None', 1./255], 'UNK'],
             'data_format': ['channels_last', DROPDOWN, ['channels_first', 'channels_last'], 'UNK'],
-            'interpolation_order': [1, DROPDOWN, [0, 1, 2, 3]],
-            'dtype': ['None', DROPDOWN, ['None', 'float32', 'float64', 'uint8']]
+            'interpolation_order': [1, DROPDOWN, [0, 1, 2, 3], 'UNK'],
+            'dtype': ['None', DROPDOWN, ['None', 'float32', 'float64', 'uint8'], 'UNK']
         },
         'flow_from_directory': {
             'target_size': (256, 256),
