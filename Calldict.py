@@ -25,7 +25,6 @@ layer_dicts = {
             'activity_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'UNK'],
             'kernel_constraint': ['None', 'DropDown', ['None', 'max_norm(2.)'], 'UNK'],
             'bias_constraint': ['None', 'DropDown', ['None'], 'UNK'],
-            'lora_rank': ['None', 'DropDown', ['None'], 'UNK'],
             'color':ft.colors.AMBER
         },
         
@@ -504,26 +503,17 @@ compile_dicts = {
                 'beta_1':[0.9, 'TextField', 1, 'UNK'],
                 'beta_2':[0.999, 'TextField', 1, 'UNK'],
                 'epsilon':[1e-07, 'TextField', 1, 'UNK'],
-                'amsgrad':['False', 'DropDown', ['True', 'False'], 'UNK'],
-                'weight_decay':['None', 'TextField', 1, 'UNK'],
+                'decay':['None', 'TextField', 1, 'UNK'],
                 'clipnorm':['None', 'TextField', 1, 'UNK'],
                 'clipvalue':['None', 'TextField', 1, 'UNK'],
-                'global_clipnorm':['None', 'TextField', 1, 'UNK'],
-                'use_ema':['False', 'TextField', ['True', 'False'], 'UNK'],
-                'ema_momentum':[0.99, 'TextField', 1, 'UNK'],
-                'ema_overwrite_frequency':['None', 'TextField', 1, 'UNK'],
-                'loss_scale_factor':['None', 'TextField', 1, 'UNK'],
-                'gradient_accumulation_steps':['None', 'TextField', 1, 'UNK'],
-                'name':['adam', 'DropDown', ['adam'], 'UNK']
+                'global_clipnorm':['None', 'TextField', 1, 'UNK']
             }
         },
         'loss':{
             'CategoricalCrossentropy':{
                 'from_logits':['False', 'DropDown', ['False'], 'UNK'],
                 'label_smoothing':[0.0, 'DropDown', [0.0], 'UNK'],
-                'axis':[-1, 'DropDown', [-1], 'UNK'],
-                'reduction':['sum_over_batch_size', 'DropDown', ['sum_over_batch_size'], 'UNK'],
-                'name':['categorical_crossentropy', 'DropDown', ['categorical_crossentropy'], 'UNK']
+                'axis':[-1, 'DropDown', [-1], 'UNK']
             }
         },
         'metrics':{
