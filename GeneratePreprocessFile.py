@@ -1,4 +1,5 @@
 
+import os
 
 class PreprocessInfo:
     """
@@ -19,17 +20,20 @@ class PreprocessInfo:
             imports_data = f.read()
         self.imports += imports_data + '\n\n'
 
-    def Prep_dataset(self, dicts, dataset_type=None):
+    def Prep_dataset(self, dicts, dataset_type=None, dataset_path=None):
         if self.data_type == 'image':
-            self.Prep_image_dataset(dicts, dataset_type)
+            self.Prep_image_dataset(dicts, dataset_type, dataset_path)
 
-    def Prep_image_dataset(self, dicts, dataset_type):
+    def Prep_image_dataset(self, dicts, dataset_type, dataset_path):
         datagen_name = ''
         for i, (fanc_name, params) in enumerate(dicts.items()):
             self.params = ''
+            if i == 1:
+                path = os.path.join(dataset_path, dataset_type)
+                self.params += f'{path}, '
             for params_name, params_value in params.items():
                 self.params += f'{params_name}={params_value}, '
-            self.params = self.params[:-1]
+            self.params = self.params[:-2]
             if i == 0:
                 datagen_name = f'{fanc_name}_{dataset_type}'
                 self.preps += f'    {datagen_name} = {fanc_name}({self.params})\n'
