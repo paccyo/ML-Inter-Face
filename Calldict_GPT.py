@@ -1,109 +1,51 @@
-layer_dicts = {
-    'Input': {
-        'shape': ['None', 'DropDown', ['None'], 'MAIN', '入力データの形状を指定します。通常、バッチサイズを除いたデータの次元数を指定します。'],
-        'batch_size': ['None', 'TextField', 1, 'DETAIL', 'バッチサイズを指定します。Noneを指定すると任意のバッチサイズで入力可能です。'],
-        'dtype': ['None', 'DropDown', ['None', 'float32', 'int32'], 'DETAIL', '入力データのデータ型を指定します。'],
-        'sparse': ['False', 'DropDown', ['True', 'False'], 'DETAIL', '入力がスパーステンソルであるかどうかを指定します。'],
-        'batch_shape': ['None', 'DropDown', ['None'], 'DETAIL', '入力データの完全な形状（バッチサイズを含む）を指定します。'],
-        'name': ['None', 'DropDown', ['None'], 'DETAIL', 'このレイヤーの名前を指定します。'],
-        'tensor': ['None', 'DropDown', ['None'], 'DETAIL', 'テンソルを指定します。'],
-        'color': ft.colors.GREY
-    },
-    
-    'Dense': {
-        'units': [0, 'TextField', 1, 'MAIN', '出力空間の次元数を指定します。'],
-        'use_bias': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'バイアス項を使用するかどうかを指定します。'],
-        'kernel_initializer': ['glorot_uniform', 'DropDown', ['None', 'ones', 'he_normal()', 'truncated_normal()', 'random_normal'], 'DETAIL', 'カーネルの初期化方法を指定します。'],
-        'bias_initializer': ['zeros', 'DropDown', ['None', 'zeros'], 'DETAIL', 'バイアスの初期化方法を指定します。'],
-        'kernel_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'カーネルに対する正則化を指定します。'],
-        'bias_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'バイアスに対する正則化を指定します。'],
-        'activity_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', '出力に対する正則化を指定します。'],
-        'kernel_constraint': ['None', 'DropDown', ['None', 'max_norm(2.)'], 'DETAIL', 'カーネルに対する制約を指定します。'],
-        'bias_constraint': ['None', 'DropDown', ['None'], 'DETAIL', 'バイアスに対する制約を指定します。'],
-        'color': ft.colors.AMBER
-    },
-    
-    'Activation': {
-        'activation': ['None', 'DropDown', ['None', 'relu', 'sigmoid', 'gelu', 'softmax', 'tanh'], 'MAIN', '適用するアクティベーション関数を指定します。'],
-        'color': ft.colors.YELLOW
-    },
-    
-    'Conv2D': {
-        'filters': [0, 'TextField', 1, 'MAIN', '出力フィルタの数を指定します。'],
-        'kernel_size': [(1, 1), 'TextField', 2, 'MAIN', 'カーネル（フィルタ）のサイズを指定します。'],
-        'strides': [(1, 1), 'TextField', 2, 'MAIN', 'ストライドのサイズを指定します。'],
-        'padding': ['valid', 'DropDown', ['valid', 'same'], 'MAIN', 'パディングの方法を指定します。'],
+preprocess_dicts = {
+    'ImageDataGenerator': {
+        'featurewise_center': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'データセット全体の中心化を行うかどうかを指定します。'],
+        'samplewise_center': ['False', 'DropDown', ['True', 'False'], 'DETAIL', '各サンプルの中心化を行うかどうかを指定します。'],
+        'featurewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'データセット全体の標準偏差で正規化するかどうかを指定します。'],
+        'samplewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'DETAIL', '各サンプルの標準偏差で正規化するかどうかを指定します。'],
+        'zca_whitening': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'ZCA白色化を適用するかどうかを指定します。'],
+        'zca_epsilon': [1e-06, 'TextField', 1, 'DETAIL', 'ZCA白色化のためのイプシロンを指定します。'],
+        'rotation_range': [0, 'TextField', 1, 'DETAIL', 'ランダム回転の範囲を度単位で指定します。'],
+        'width_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダム水平シフトの範囲を指定します。'],
+        'height_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダム垂直シフトの範囲を指定します。'],
+        'brightness_range': [['None', [0.0, 1.0]], ['DropDown', 'TextField'], [['None', 'True'], 2], 'DETAIL', 'ランダム明度シフトの範囲を指定します。'],
+        'shear_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダムせん断の範囲を指定します。'],
+        'zoom_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダムズームの範囲を指定します。'],
+        'channel_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダムチャネルシフトの範囲を指定します。'],
+        'fill_mode': ['nearest', 'DropDown', ['reflect', 'nearest'], 'DETAIL', '境界の埋め方を指定します。'],
+        'cval': [0.0, 'TextField', 1, 'DETAIL', '境界外のピクセルに使用する値を指定します。'],
+        'horizontal_flip': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'ランダムに水平反転を行うかどうかを指定します。'],
+        'vertical_flip': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'ランダムに垂直反転を行うかどうかを指定します。'],
+        'rescale': ['None', 'DropDown', ['None', 1./255], 'MAIN', '再スケーリング係数を指定します。'],
         'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
-        'dilation_rate': [(1, 1), 'TextField', 2, 'DETAIL', '畳み込みを行う際の拡張率を指定します。'],
-        'groups': [1, 'TextField', 1, 'DETAIL', 'グループ数を指定します。'],
-        'use_bias': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'バイアス項を使用するかどうかを指定します。'],
-        'kernel_initializer': ['glorot_uniform', 'DropDown', ['None', 'ones', 'he_normal()', 'truncated_normal()', 'random_normal'], 'DETAIL', 'カーネルの初期化方法を指定します。'],
-        'bias_initializer': ['zeros', 'DropDown', ['None', 'zeros'], 'DETAIL', 'バイアスの初期化方法を指定します。'],
-        'kernel_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'カーネルに対する正則化を指定します。'],
-        'bias_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'バイアスに対する正則化を指定します。'],
-        'activity_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', '出力に対する正則化を指定します。'],
-        'kernel_constraint': ['None', 'DropDown', ['None', 'max_norm(2.)'], 'DETAIL', 'カーネルに対する制約を指定します。'],
-        'bias_constraint': ['None', 'DropDown', ['None'], 'DETAIL', 'バイアスに対する制約を指定します。'],
-        'color': ft.colors.GREEN_100
+        'interpolation_order': [1, 'DropDown', [0, 1, 2, 3], 'DETAIL', '補間の順序を指定します。'],
+        'dtype': ['None', 'DropDown', ['None', 'float32', 'float64', 'uint8'], 'MAIN', 'データ型を指定します。']
     },
-    
-    'MaxPooling2D': {
-        'pool_size': [(2, 2), 'TextField', 2, 'MAIN', 'プーリング窓のサイズを指定します。'],
-        'strides': [(1, 1), 'TextField', 2, 'MAIN', 'ストライドのサイズを指定します。'],
-        'padding': ['valid', 'DropDown', ['valid', 'same'], 'MAIN', 'パディングの方法を指定します。'],
-        'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
-        'name': ['None', 'DropDown', ['None'], 'DETAIL', 'このレイヤーの名前を指定します。'],
-        'color': ft.colors.BLUE_100
-    },
-    
-    'AveragePooling2D': {
-        'pool_size': [(2, 2), 'TextField', 2, 'MAIN', 'プーリング窓のサイズを指定します。'],
-        'strides': [(1, 1), 'TextField', 2, 'MAIN', 'ストライドのサイズを指定します。'],
-        'padding': ['valid', 'DropDown', ['valid', 'same'], 'MAIN', 'パディングの方法を指定します。'],
-        'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
-        'name': ['None', 'DropDown', ['None'], 'DETAIL', 'このレイヤーの名前を指定します。'],
-        'color': ft.colors.BLUE_GREY_100
-    },
-    
-    'GlobalMaxPooling2D': {
-        'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
-        'keepdims': ['False', 'DropDown', ['False', 'True'], 'DETAIL', '次元を保持するかどうかを指定します。'],
-        'color': ft.colors.BLUE_ACCENT_100
-    },
-    
-    'GlobalAveragePooling2D': {
-        'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
-        'keepdims': ['False', 'DropDown', ['False', 'True'], 'DETAIL', '次元を保持するかどうかを指定します。'],
-        'color': ft.colors.LIGHT_BLUE_ACCENT_100
-    },
-    
-    'Dropout': {
-        'rate': [0.0, 'TextField', 0.01, 'MAIN', 'ドロップアウト率を指定します。0から1の間の浮動小数点数。'],
-        'noise_shape': ['None', 'TextField', 1, 'DETAIL', '入力のどの要素がドロップアウトされるかを指定します。'],
-        'seed': ['None', 'TextField', 1, 'DETAIL', 'ランダムシードを指定します。'],
-        'color': ft.colors.TEAL_100
-    },
-    
-    'Flatten': {
-        'data_format': ['None', 'DropDown', ['None', 'channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
-        'color': ft.colors.PINK_100
-    },
-    
-    'Reshape': {
-        'target_shape': ['None', 'TextField', 1, 'MAIN', 'ターゲットの形状を指定します。バッチサイズを含めずに指定します。'],
-        'color': ft.colors.PURPLE_100
-    },
-    
-    'BatchNormalization': {
-        'axis': [-1, 'TextField', 1, 'MAIN', '正規化を行う軸を指定します。'],
-        'momentum': [0.99, 'TextField', 0.01, 'MAIN', '移動平均のモメンタムを指定します。'],
-        'epsilon': [0.001, 'TextField', 0.0001, 'MAIN', '分母に追加される小さな定数を指定します。'],
-        'center': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'バイアス項を追加するかどうかを指定します。'],
-        'scale': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'スケーリングを行うかどうかを指定します。'],
-        'beta_initializer': ['zeros', 'DropDown', ['zeros', 'ones', 'random_normal', 'random_uniform'], 'DETAIL', 'バイアスの初期化方法を指定します。'],
-        'gamma_initializer': ['ones', 'DropDown', ['zeros', 'ones', 'random_normal', 'random_uniform'], 'DETAIL', 'スケーリング係数の初期化方法を指定します。'],
-        'moving_mean_initializer': ['zeros', 'DropDown', ['zeros', 'ones', 'random_normal', 'random_uniform'], 'DETAIL', '移動平均の初期化方法を指定します。'],
-        'moving_variance_initializer': ['ones', 'DropDown', ['zeros', 'ones', 'random_normal', 'random_uniform'], 'DETAIL', '移動分散の初期化方法を指定します。'],
-        'color': ft.colors.LIGHT_GREEN_100
+    'flow_from_directory': {
+        'target_size': [(256, 256), 'TextField', 2, 'MAIN', 'ターゲットサイズ（高さ、幅）を指定します。'],
+        'color_mode': ['rgb', 'DropDown', ['rgb', 'grayscale'], 'MAIN', 'カラーモードを指定します。'],
+        'class_mode': ['categorical', 'DropDown', ['categorical', 'binary', 'sparse', 'input', 'none'], 'MAIN', 'ラベルの種類を指定します。'],
+        'batch_size': [32, 'TextField', 1, 'MAIN', 'バッチサイズを指定します。'],
+        'shuffle': ['False', 'DropDown', ['True', 'False'], 'MAIN', 'シャッフルするかどうかを指定します。'],
+        'seed': ['None', 'TextField', 1, 'DETAIL', '乱数シードを指定します。'],
+        'interpolation': ['nearest', 'DropDown', ['nearest', 'bilinear', 'bicubic', 'lanczos', 'box', 'hamming'], 'DETAIL', '補間方法を指定します。']
     }
+}
+
+compile_dicts = {
+    'optimizer': {
+        'Adam': {
+            'learning_rate': [0.001, 'TextField', 1, 'MAIN', '学習率を指定します。'],
+            'beta_1': [0.9, 'TextField', 1, 'DETAIL', '1番目のモーメント推定の減衰率を指定します。'],
+            'beta_2': [0.999, 'TextField', 1, 'DETAIL', '2番目のモーメント推定の減衰率を指定します。'],
+            'epsilon': [1e-07, 'TextField', 1, 'DETAIL', '数値安定性のための小さな定数を指定します。'],
+            'decay': ['None', 'TextField', 1, 'DETAIL', '学習率の減衰を指定します。'],
+            'clipnorm': ['None', 'TextField', 1, 'DETAIL', '勾配ノルムクリッピングを指定します。'],
+            'clipvalue': ['None', 'TextField', 1, 'DETAIL', '勾配値クリッピングを指定します。'],
+            'global_clipnorm': ['None', 'TextField', 1, 'DETAIL', 'グローバル勾配ノルムクリッピングを指定します。']
+        }
+    },
+    'loss': ['None', 'DropDown', ['None', 'categorical_crossentropy', 'binary_crossentropy'], 'MAIN', '損失関数を指定します。'],
+    'metrics': ['None', 'DropDown', ['None', 'acc'], 'MAIN', '評価指標を指定します。']
 }
