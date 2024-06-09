@@ -5,31 +5,31 @@ TEXTFIELD = "TextField"
 
 layer_dicts = {
         'Input': {
-            'shape': ['None', 'DropDown', ['None'], 'UNK'],
-            'batch_size': ['None', 'TextField', 1, 'UNK'],
-            'dtype': ['None', 'DropDown', ['None', 'float32', 'int32'], 'UNK'],
-            'sparse': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-            'batch_shape': ['None', 'DropDown', ['None'], 'UNK'],
-            'name': ['None', 'DropDown', ['None'], 'UNK'],
-            'tensor': ['None', 'DropDown', ['None'], 'UNK'],
+            'shape': ['None', 'DropDown', ['None'], 'MAIN', 'UNK'],
+            'batch_size': ['None', 'TextField', 1, 'DETAIL', 'UNK'],
+            'dtype': ['None', 'DropDown', ['None', 'float32', 'int32'], 'DETAIL', 'UNK'],
+            'sparse': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+            'batch_shape': ['None', 'DropDown', ['None'], 'DETAIL', 'UNK'],
+            'name': ['None', 'DropDown', ['None'], 'DETAIL', 'UNK'],
+            'tensor': ['None', 'DropDown', ['None'], 'DETAIL', 'UNK'],
             'color':ft.colors.GREY
         },
         
         'Dense': {
-            'units': [0, 'TextField', 1, 'UNK'],
-            'use_bias': ['True', 'DropDown', ['True', 'False'], 'UNK'],
-            'kernel_initializer': ['glorot_uniform', 'DropDown', ['None', 'ones', 'he_normal()', 'truncated_normal()', 'random_normal'], 'UNK'],
-            'bias_initializer': ['zeros', 'DropDown', ['None', 'zeros'], 'UNK'],
-            'kernel_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'UNK'],
-            'bias_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'UNK'],
-            'activity_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'UNK'],
-            'kernel_constraint': ['None', 'DropDown', ['None', 'max_norm(2.)'], 'UNK'],
-            'bias_constraint': ['None', 'DropDown', ['None'], 'UNK'],
+            'units': [0, 'TextField', 1, 'MAIN', 'UNK'],
+            'use_bias': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+            'kernel_initializer': ['glorot_uniform', 'DropDown', ['None', 'ones', 'he_normal()', 'truncated_normal()', 'random_normal'], 'DETAIL', 'UNK'],
+            'bias_initializer': ['zeros', 'DropDown', ['None', 'zeros'], 'DETAIL', 'UNK'],
+            'kernel_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'UNK'],
+            'bias_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'UNK'],
+            'activity_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'UNK'],
+            'kernel_constraint': ['None', 'DropDown', ['None', 'max_norm(2.)'], 'DETAIL', 'UNK'],
+            'bias_constraint': ['None', 'DropDown', ['None'], 'DETAIL', 'UNK'],
             'color':ft.colors.AMBER
         },
         
         'Activation': {
-            'activation': ['None', 'DropDown', ['None', 'relu', 'sigmoid', 'gelu', 'softmax', 'tanh'], 'UNK'],
+            'activation': ['None', 'DropDown', ['None', 'relu', 'sigmoid', 'gelu', 'softmax', 'tanh'], 'MAIN', 'UNK'],
             'color':ft.colors.YELLOW
         },
         # 'Embedding': {
@@ -63,21 +63,21 @@ layer_dicts = {
         #     'color':ft.colors.GREEN
         # },
         'Conv2D': {
-            'filters': [0, 'TextField', 1, 'UNK'],
-            'kernel_size': [(1, 1), 'TextField', 2, 'UNK'],
-            'strides': [(1, 1), 'TextField', 2, 'UNK'],
-            'padding': ['valid', 'DropDown', ['valid', 'same'], 'UNK'],
-            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],
-            'dilation_rate': [(1, 1), 'TextField', 2, 'UNK'],
-            'groups': [1, 'TextField', 1, 'UNK'],
-            'use_bias': ['True', 'DropDown', ['True', 'False'], 'UNK'],
-            'kernel_initializer': ['glorot_uniform', 'DropDown', ['None', 'ones', 'he_normal()', 'truncated_normal()', 'random_normal'], 'UNK'],
+            'filters': [0, 'TextField', 1, 'MAIN', 'UNK'],
+            'kernel_size': [(1, 1), 'TextField', 2, 'MAIN', 'UNK'],
+            'strides': [(1, 1), 'TextField', 2, 'MAIN', 'UNK'],
+            'padding': ['valid', 'DropDown', ['valid', 'same'], 'MAIN', 'UNK'],
+            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'UNK'],
+            'dilation_rate': [(1, 1), 'TextField', 2, 'DETAIL', 'UNK'],
+            'groups': [1, 'TextField', 1, 'DETAIL', 'UNK'],
+            'use_bias': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+            'kernel_initializer': ['glorot_uniform', 'DropDown', ['None', 'ones', 'he_normal()', 'truncated_normal()', 'random_normal'], 'DETAIL', 'UNK'],
             'bias_initializer': ['zeros', 'DropDown', ['None', 'zeros'], 'UNK'],
-            'kernel_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'UNK'],
-            'bias_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'UNK'],
-            'activity_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'UNK'],
-            'kernel_constraint': ['None', 'DropDown', ['None', 'max_norm(2.)'], 'UNK'],
-            'bias_constraint': ['None', 'DropDown', ['None'], 'UNK'],
+            'kernel_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'UNK'],
+            'bias_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'UNK'],
+            'activity_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'UNK'],
+            'kernel_constraint': ['None', 'DropDown', ['None', 'max_norm(2.)'], 'DETAIL', 'UNK'],
+            'bias_constraint': ['None', 'DropDown', ['None'], 'DETAIL', 'UNK'],
             'color':ft.colors.GREEN_100
         },
         # 'Conv3D': {
@@ -108,11 +108,11 @@ layer_dicts = {
         #     'color':ft.colors.BLUE
         # },
         'MaxPooling2D': {
-            'pool_size': [(2, 2), 'TextField', 2, 'UNK'],
-            'strides': [(1, 1), 'TextField', 2, 'UNK'],
-            'padding': ['valid', 'DropDown', ['valid', 'same'], 'UNK'],
-            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],
-            'name': ['None', 'DropDown', ['None'], 'UNK'],
+            'pool_size': [(2, 2), 'TextField', 2, 'MAIN', 'UNK'],
+            'strides': [(1, 1), 'TextField', 2, 'MAIN', 'UNK'],
+            'padding': ['valid', 'DropDown', ['valid', 'same'], 'MAIN', 'UNK'],
+            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'UNK'],
+            'name': ['None', 'DropDown', ['None'], 'DETAIL', 'UNK'],
             'color':ft.colors.BLUE_100
         },
         # 'MaxPooling3D': {
@@ -132,11 +132,11 @@ layer_dicts = {
         #     'color':ft.colors.BLUE_GREY
         # },
         'AveragePooling2D': {
-            'pool_size': [(2, 2), 'TextField', 2, 'UNK'],
-            'strides': [(1, 1), 'TextField', 2, 'UNK'],
-            'padding': ['valid', 'DropDown', ['valid', 'same'], 'UNK'],
-            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],
-            'name': ['None', 'DropDown', ['None'], 'UNK'],
+            'pool_size': [(2, 2), 'TextField', 2, 'MAIN', 'UNK'],
+            'strides': [(1, 1), 'TextField', 2, 'MAIN', 'UNK'],
+            'padding': ['valid', 'DropDown', ['valid', 'same'], 'MAIN', 'UNK'],
+            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'UNK'],
+            'name': ['None', 'DropDown', ['None'], 'DETAIL', 'UNK'],
             'color':ft.colors.BLUE_GREY_100
         },
         # 'AveragePooling3D': {
@@ -153,8 +153,8 @@ layer_dicts = {
         #     'color':ft.colors.BLUE_ACCENT
         # },
         'GlobalMaxPooling2D': {
-            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],
-            'keepdims': ['False', 'DropDown', ['False', 'True'], 'UNK'],
+            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'UNK'],
+            'keepdims': ['False', 'DropDown', ['False', 'True'], 'DETAIL', 'UNK'],
             'color':ft.colors.BLUE_ACCENT_100
         },
         # 'GlobalMaxPooling3D': {
@@ -168,8 +168,8 @@ layer_dicts = {
         #     'color':ft.colors.BLUE_500
         # },
         'GlobalAveragePooling2D': {
-            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],
-            'keepdims': ['False', 'DropDown', ['False', 'True'], 'UNK'],
+            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'UNK'],
+            'keepdims': ['False', 'DropDown', ['False', 'True'], 'DETAIL', 'UNK'],
             'color':ft.colors.BLUE_600
         },
         # 'GlobalAveragePooling3D': {
@@ -363,40 +363,40 @@ layer_dicts = {
         #     'color':ft.colors.PINK
         # },
         'BatchNormalization': {
-            'axis': [-1, 'TextField', 1, 'UNK'],
-            'momentum': [0.99, 'TextField', 1, 'UNK'],
-            'epsilon': [0.001, 'TextField', 1, 'UNK'],
-            'center': ['True', 'DropDown', ['True', 'False'], 'UNK'],
-            'scale': ['True', 'DropDown', ['True', 'False'], 'UNK'],
-            'beta_initializer': ['zeros', 'DropDown', ['zeros'], 'UNK'],
-            'gamma_initializer': ['ones', 'DropDown', ['ones'], 'UNK'],
-            'moving_mean_initializer': ['zeros', 'DropDown', ['zeros'], 'UNK'],
-            'moving_variance_initializer': ['ones', 'DropDown', ['ones'], 'UNK'],
-            'beta_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'UNK'],
-            'gamma_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'UNK'],
-            'beta_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'UNK']],
-            'gamma_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'UNK']],
-            'synchronized': ['False', 'DropDown', ['False', 'True'], 'UNK'],
+            'axis': [-1, 'TextField', 1, 'DETAIL', 'UNK'],
+            'momentum': [0.99, 'TextField', 1, 'DETAIL', 'UNK'],
+            'epsilon': [0.001, 'TextField', 1, 'DETAIL', 'UNK'],
+            'center': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+            'scale': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+            'beta_initializer': ['zeros', 'DropDown', ['zeros'], 'DETAIL', 'UNK'],
+            'gamma_initializer': ['ones', 'DropDown', ['ones'], 'DETAIL', 'UNK'],
+            'moving_mean_initializer': ['zeros', 'DropDown', ['zeros'], 'DETAIL', 'UNK'],
+            'moving_variance_initializer': ['ones', 'DropDown', ['ones'], 'DETAIL', 'UNK'],
+            'beta_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'UNK'],
+            'gamma_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'UNK'],
+            'beta_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'UNK']],
+            'gamma_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'UNK']],
+            'synchronized': ['False', 'DropDown', ['False', 'True'], 'DETAIL', 'UNK'],
             'color':ft.colors.GREY_600
         },
         'LayerNormalization': {
-            'axis': [-1, 'TextField', 1, 'UNK'],
-            'epsilon': [0.001, 'TextField', 1, 'UNK'],
-            'center': ['True', 'DropDown', ['True', 'False'], 'UNK'],
-            'scale': ['True', 'DropDown', ['True', 'False'], 'UNK'],
-            'rms_scaling': ['True', 'DropDown', ['True', 'False'], 'UNK'],
-            'beta_initializer': ['zeros', 'DropDown', ['zeros'], 'UNK'],
-            'gamma_initializer': ['ones', 'DropDown', ['ones'], 'UNK'],
-            'beta_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'UNK'],
-            'gamma_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'UNK'],
-            'beta_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'UNK']],
-            'gamma_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'UNK']],
+            'axis': [-1, 'TextField', 1, 'DETAIL', 'UNK'],
+            'epsilon': [0.001, 'TextField', 1, 'DETAIL', 'UNK'],
+            'center': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+            'scale': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+            'rms_scaling': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+            'beta_initializer': ['zeros', 'DropDown', ['zeros'], 'DETAIL', 'UNK'],
+            'gamma_initializer': ['ones', 'DropDown', ['ones'], 'DETAIL', 'UNK'],
+            'beta_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'UNK'],
+            'gamma_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'UNK'],
+            'beta_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'UNK']],
+            'gamma_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'UNK']],
             'color':ft.colors.PURPLE
         },
         'Dropout': {
-            'rate': [-1, 'TextField', 1, 'UNK'],
-            'noise_shape': ['None', 'DropDown', ['None'], 'UNK'],
-            'seed': ['None', 'TextField', 1, 'UNK'],
+            'rate': [0, 'TextField', 1, 'MAIN', 'UNK'],
+            'noise_shape': ['None', 'DropDown', ['None'], 'DETAIL', 'UNK'],
+            'seed': ['None', 'TextField', 1, 'DETAIL', 'UNK'],
             'color':ft.colors.BLACK
         },
         # 'SpatialDropout1D': {
@@ -407,11 +407,11 @@ layer_dicts = {
         #     'color':ft.colors.CYAN
         # },
         'SpatialDropout2D': {
-            'rate': ['None', 'TextField', 1, 'UNK'],
-            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],
-            'seed': ['None', 'TextField', 1, 'UNK'],
-            'name': ['None', 'DropDown', ['None'], 'UNK'],
-            'dtype': ['None', 'DropDown', ['None', 'float32', 'int32'], 'UNK'],
+            'rate': [0, 'TextField', 1, 'MAIN', 'UNK'],
+            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'UNK'],
+            'seed': ['None', 'TextField', 1, 'DETAIL', 'UNK'],
+            'name': ['None', 'DropDown', ['None'], 'DETAIL', 'UNK'],
+            'dtype': ['None', 'DropDown', ['None', 'float32', 'int32'], 'DETAIL', 'UNK'],
             'color':ft.colors.CYAN
         },
         # 'SpatialDropout3D': {
@@ -451,7 +451,7 @@ layer_dicts = {
         #     'color':ft.colors.CYAN
         # },
         'Flatten': {
-            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],
+            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'UNK'],
             'color':ft.colors.CYAN
         },
 
@@ -459,39 +459,36 @@ layer_dicts = {
 
 preprocess_dicts = {
         'ImageDataGenerator': {
-                'featurewise_center': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-                'samplewise_center': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-                'featurewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-                'samplewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-                'zca_whitening': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-                'zca_epsilon': [1e-06, 'TextField', 1, 'UNK'],
-                'rotation_range': [0, 'TextField', 1, 'UNK'],
-                'width_shift_range': [0.0, 'TextField', 1, 'UNK'],
-                'height_shift_range': [0.0, 'TextField', 1, 'UNK'],
-                'brightness_range': [['None', [0.0, 1.0]], ['DropDown', 'TextField'], [['None', 'True'], 2], 'UNK'],
-                'shear_range': [0.0, 'TextField', 1, 'UNK'],
-                'zoom_range': [0.0, 'TextField', 1, 'UNK'],
-                'channel_shift_range': [0.0, 'TextField', 1, 'UNK'],
-                'fill_mode': ['nearest', 'DropDown', ['reflect', 'nearest'], 'UNK'],
-                'cval': [0.0, 'TextField', 1, 'UNK'],
-                'horizontal_flip': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-                'vertical_flip': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-                'rescale': ['None', 'DropDown', ['None', 1./255]],
-                'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'UNK'],
-                'interpolation_order': [1, 'DropDown', [0, 1, 2, 3]],
-                'dtype': ['None', 'DropDown', ['None', 'float32', 'float64', 'uint8']]
+                'featurewise_center': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+                'samplewise_center': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+                'featurewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+                'samplewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+                'zca_whitening': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+                'zca_epsilon': [1e-06, 'TextField', 1, 'DETAIL', 'UNK'],
+                'rotation_range': [0, 'TextField', 1, 'DETAIL', 'UNK'],
+                'width_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'UNK'],
+                'height_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'UNK'],
+                'brightness_range': [['None', [0.0, 1.0]], ['DropDown', 'TextField'], [['None', 'True'], 2], 'DETAIL', 'UNK'],
+                'shear_range': [0.0, 'TextField', 1, 'DETAIL', 'UNK'],
+                'zoom_range': [0.0, 'TextField', 1, 'DETAIL', 'UNK'],
+                'channel_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'UNK'],
+                'fill_mode': ['nearest', 'DropDown', ['reflect', 'nearest'], 'DETAIL', 'UNK'],
+                'cval': [0.0, 'TextField', 1, 'DETAIL', 'UNK'],
+                'horizontal_flip': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+                'vertical_flip': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
+                'rescale': ['None', 'DropDown', ['None', 1./255], 'MAIN', 'UNK'],
+                'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'UNK'],
+                'interpolation_order': [1, 'DropDown', [0, 1, 2, 3], 'DETAIL', 'UNK'],
+                'dtype': ['None', 'DropDown', ['None', 'float32', 'float64', 'uint8'], 'MAIN', 'UNK']
             },
             'flow_from_directory': {
-                'target_size': [(256, 256), 'TextField', 2, 'UNK'],
-                'color_mode': ['rgb', 'DropDown', ['rgb', 'grayscale'], 'UNK'],
-                'class_mode': ['categorical', 'DropDown', ['categorical', 'binary', 'sparse', 'input', 'none'], 'UNK'],
-                'batch_size': [32, 'TextField', 1, 'UNK'],
-                'shuffle': ['False', 'DropDown', ['True', 'False'], 'UNK'],
-                'seed': ['None', 'TextField', 1, 'UNK'],
-                'save_to_dir': ['None', 'TextField', 1, 'UNK'],
-                'save_prefix': ['', 'TextField', 1, 'UNK'],
-                'save_format': ['png', 'DropDown', ['png', 'jpeg'], 'UNK'],
-                'interpolation': ['nearest', 'DropDown', ['nearest', 'bilinear', 'bicubic', 'lanczos', 'box', 'hamming', 'UNK']]
+                'target_size': [(256, 256), 'TextField', 2, 'MAIN', 'UNK'],
+                'color_mode': ['rgb', 'DropDown', ['rgb', 'grayscale'], 'MAIN', 'UNK'],
+                'class_mode': ['categorical', 'DropDown', ['categorical', 'binary', 'sparse', 'input', 'none'], 'MAIN', 'UNK'],
+                'batch_size': [32, 'TextField', 1, 'MAIN', 'UNK'],
+                'shuffle': ['False', 'DropDown', ['True', 'False'], 'MAIN', 'UNK'],
+                'seed': ['None', 'TextField', 1, 'DETAIL', 'UNK'],
+                'interpolation': ['nearest', 'DropDown', ['nearest', 'bilinear', 'bicubic', 'lanczos', 'box', 'hamming', 'UNK'], 'DETAIL', 'UNK']
             }
     }
 
@@ -499,16 +496,16 @@ preprocess_dicts = {
 compile_dicts = {
         'optimizer':{
             'Adam':{
-                'learning_rate':[0.001, 'TextField', 1, 'UNK'],
-                'beta_1':[0.9, 'TextField', 1, 'UNK'],
-                'beta_2':[0.999, 'TextField', 1, 'UNK'],
-                'epsilon':[1e-07, 'TextField', 1, 'UNK'],
-                'decay':['None', 'TextField', 1, 'UNK'],
-                'clipnorm':['None', 'TextField', 1, 'UNK'],
-                'clipvalue':['None', 'TextField', 1, 'UNK'],
-                'global_clipnorm':['None', 'TextField', 1, 'UNK']
+                'learning_rate':[0.001, 'TextField', 1, 'MAIN', 'UNK'],
+                'beta_1':[0.9, 'TextField', 1, 'DETAIL', 'UNK'],
+                'beta_2':[0.999, 'TextField', 1, 'DETAIL', 'UNK'],
+                'epsilon':[1e-07, 'TextField', 1, 'DETAIL', 'UNK'],
+                'decay':['None', 'TextField', 1, 'DETAIL', 'UNK'],
+                'clipnorm':['None', 'TextField', 1, 'DETAIL', 'UNK'],
+                'clipvalue':['None', 'TextField', 1, 'DETAIL', 'UNK'],
+                'global_clipnorm':['None', 'TextField', 1, 'DETAIL', 'UNK']
             }
         },
-        'loss':['None', 'DropDown', ['None', 'categorical_crossentropy', 'binary_crossentropy'], 'UNK'],
-        'metrics':['None', 'DropDown', ['None', 'acc'], 'UNK']
+        'loss':['None', 'DropDown', ['None', 'categorical_crossentropy', 'binary_crossentropy'], 'MAIN', 'UNK'],
+        'metrics':['None', 'DropDown', ['None', 'acc'], 'MAIN', 'UNK']
     }
