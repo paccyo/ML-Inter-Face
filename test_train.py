@@ -4,6 +4,8 @@ from GenerateCompileFile import CompileInfo
 from GenerateModelFile import ModelInfo
 from GeneratePreprocessFile import PreprocessInfo
 from GenerateDataset import DatasetInfo
+import matplotlib.pyplot as plt
+import keras
 
 
 
@@ -95,23 +97,13 @@ if __name__ == '__main__':
                 'beta_2':0.999,
                 'epsilon':1e-07,
                 'decay':0.01,
-                'clipnorm':None,
-                'clipvalue':None,
-                'global_clipnorm':None
+                # 'clipnorm':None,
+                # 'clipvalue':None,
+                # 'global_clipnorm':None
             }
         },
-        'loss':{
-            'CategoricalCrossentropy':{
-                'from_logits':False,
-                'label_smoothing':0.0,
-                'axis':-1
-            }
-        },
-        'metrics':{
-            'Accuracy':{
-                'name':"\'accuracy\'",
-            }
-        }
+        'loss':['\'categorical_crossentropy\''],
+        'metrics':['\'acc\'']
     }
     train_preprocess_dict = {
         'ImageDataGenerator': {
@@ -182,9 +174,32 @@ if __name__ == '__main__':
 
     epochs_ = 10
 
+    model.summary()
+
+    acc_hist = []
+    val_acc_hist = []
+    loss_hist = []
+    val_loss_hist = []
+
+    class PlotCallback(keras.callbacks.Callback):
+        def on_epoch_end(self, logs=None):
+            acc_hist.append(logs['acc'])
+            val_acc_hist.append(logs['val_acc'])
+            loss_hist.append(logs['loss'])
+            val_loss_hist.append(logs['val_loss'])
+            plt.figure()
+            plt.plot(acc_hist, label='正解率（学習データ）')
+            plt.plot(val_acc_hist, label='正解率（検証データ）')
+            plt.xlabel('Epoch')
+            plt.ylabel(f'{metrics_}')
+            plt.title('Training Accuracy')
+            plt.legend()
+            plt.show()
+
     model.compile(loss=loss_, optimizer=optimizer_, metrics=metrics_)
 
-    model.fit(train_generator, validation_data=validation_generator, epochs=epochs_)
+    plot_callback = PlotCallback()
 
+    model.fit(train_generator, validation_data=validation_generator, epochs=epochs_, callbacks=[plot_callback])
 
     
