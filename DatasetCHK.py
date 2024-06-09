@@ -21,24 +21,22 @@ def CHK(path=None, data_type=None, learning_way=None, target=None):
     data_type:データの種類
     learning_way:学習方法
     """
-    break_flag = False
     datasets_path = path
     results = []
     if learning_way == 'categorical':
         if data_type == 'image':
             label_num = 0
-            for label_name in glob.glob(os.path.join(datasets_path, '*')):
+            for label_path in glob.glob(os.path.join(datasets_path, '*')):
                 label_num += 1
-                for filename in glob.glob(os.path.join(os.path.join(datasets_path, label_name), '*.*')):
-                    guess = guess_type(os.path.basename(filename))
-                    if data_type in str(guess):
-                        image_path = os.path.join(os.path.join(datasets_path, label_name), filename)
-                        results.append(image_path)
-                    else:
-                        break_flag = True
-                        break
-                if break_flag:
+                if not os.path.isdir(label_path):
                     return False, []
+                for file_path in glob.glob(os.path.join(label_path, '*.*')):
+                    guess = guess_type(os.path.basename(file_path))
+                    if data_type in str(guess):
+                        results.append(file_path)
+                    else:
+                        return False, []
+            
             if label_num >= 2:
                 return True, results
             else:
@@ -61,5 +59,5 @@ def CHK(path=None, data_type=None, learning_way=None, target=None):
 
 
 if __name__ == '__main__':
-    judge = CHK(path='data.csv', data_type='text', learning_way='categorical', target='data')
+    judge = CHK(path='data3', data_type='image', learning_way='categorical', target='data')
     print(judge)
