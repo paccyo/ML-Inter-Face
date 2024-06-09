@@ -192,9 +192,9 @@ if __name__ == '__main__':
             plt.plot(val_acc_hist, label='正解率（検証データ）')
             plt.xlabel('Epoch')
             plt.ylabel(f'{metrics_}')
-            plt.title('Training Accuracy')
+            plt.title('精度評価')
             plt.legend()
-            plt.show()
+            
 
     model.compile(loss=loss_, optimizer=optimizer_, metrics=metrics_)
 
