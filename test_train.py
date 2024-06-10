@@ -6,7 +6,7 @@ from GeneratePreprocessFile import PreprocessInfo
 from GenerateDataset import DatasetInfo
 import matplotlib.pyplot as plt
 import keras
-
+import japanize_matplotlib
 
 
 
@@ -144,13 +144,20 @@ if __name__ == '__main__':
         # }
     }
 
+    # データの分割率
     part_dict = {'train':7, 'validation':3, 'test':0}
+    # エポック指定
+    epochs_ = 10
+
+
+    
+    # インスタンス化
     model_info = ModelInfo()
     compile_info = CompileInfo()
     preprocess_info = PreprocessInfo()
     dataset_info = DatasetInfo()
 
-
+    # データの送信
     dataset_info.send(part_dict, r"C:\Users\yuuki\Documents\GUI_MLearning\GUI_MLearning-main\data3")
     preprocess_info.send(train_preprocess_dict, 'image', 'train', r'C:\Users\yuuki\Documents\GUI_MLearning\GUI_MLearning-main\dataset')
     preprocess_info.send(validation_preprocess_dict, 'image', 'validation', r'C:\Users\yuuki\Documents\GUI_MLearning\GUI_MLearning-main\dataset')
@@ -172,7 +179,6 @@ if __name__ == '__main__':
 
     optimizer_, loss_, metrics_ = compile_info.compile_build()
 
-    epochs_ = 10
 
     model.summary()
 
@@ -182,18 +188,27 @@ if __name__ == '__main__':
     val_loss_hist = []
 
     class PlotCallback(keras.callbacks.Callback):
-        def on_epoch_end(self, logs=None):
+        def on_epoch_end(self, batch, logs=None):
             acc_hist.append(logs['acc'])
             val_acc_hist.append(logs['val_acc'])
             loss_hist.append(logs['loss'])
             val_loss_hist.append(logs['val_loss'])
             plt.figure()
-            plt.plot(acc_hist, label='正解率（学習データ）')
-            plt.plot(val_acc_hist, label='正解率（検証データ）')
+            plt.plot(acc_hist, label='スコア（学習データ）')
+            plt.plot(val_acc_hist, label='スコア（検証データ）')
             plt.xlabel('Epoch')
             plt.ylabel(f'{metrics_}')
-            plt.title('精度評価')
+            plt.title('評価スコア')
             plt.legend()
+            plt.savefig(f'metrics.png')
+            plt.figure()
+            plt.plot(acc_hist, label='スコア（学習データ）')
+            plt.plot(val_acc_hist, label='スコア（検証データ）')
+            plt.xlabel('Epoch')
+            plt.ylabel(f'{loss_}')
+            plt.title('損失スコア')
+            plt.legend()
+            plt.savefig(f'loss.png')
             
 
     model.compile(loss=loss_, optimizer=optimizer_, metrics=metrics_)
@@ -203,3 +218,4 @@ if __name__ == '__main__':
     model.fit(train_generator, validation_data=validation_generator, epochs=epochs_, callbacks=[plot_callback])
 
     
+    print('end')
