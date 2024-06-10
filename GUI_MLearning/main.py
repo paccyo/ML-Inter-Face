@@ -37,8 +37,8 @@ def main(page: ft.Page):
     # ルート変更時のロジック設定
     page.on_route_change = route_change
 
-    page.go("/Page_Project")
-    # page.go("/Page_Home")
+    # page.go("/Page_Project")
+    page.go("/Page_Home")
 
 # Start the app
 ft.app(target=main)

@@ -10,11 +10,11 @@ class Home(ft.View):
         self.page = page
         self.route = "/Page_Home"
         self.controls = [
-            # HomeHeader(page),
+            HomeHeader(page),
             ft.Container(
                 content = ft.Row(
                     controls = [
-                        PastProject(page),
+                        # PastProject(page),
                         ft.Container(
                             content=ft.Column(
                                 controls=[

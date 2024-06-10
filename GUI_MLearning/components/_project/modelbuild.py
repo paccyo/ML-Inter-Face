@@ -1,4 +1,4 @@
-from components.util.Calldict import (dicts, TEXTFIELD, DROPDOWN)
+from components.util.Calldict import (layer_dicts, TEXTFIELD, DROPDOWN, MAIN, DETAIL)
 from packages.GenerateModelFile import ModelInfo
 
 import flet as ft
@@ -21,7 +21,7 @@ class ModelBuild(ft.Tab):
             expand=False,
         )
         self.model_info = ModelInfo()
-        for layer_name in dicts.keys():
+        for layer_name in layer_dicts.keys():
             self.sidebar_layers.controls.append(ft.ElevatedButton(layer_name, on_click=self.add_layer))
 
         self.sidebar_layers_container = ft.Container(
@@ -141,7 +141,13 @@ class ModelBuild(ft.Tab):
         self.update_connect_layer()
 
     def on_tap_layer(self, e):
-        data = dicts
+        
+        layer_type = e.control.content.content.value
+        detail_view = True if e.control.content.content.data["detail_view"] == "True" else False
+        # print(layer_type)
+        # print(layer_params)
+
+
         def on_change_params(e_control):
             # print(e_control.control.text)
             print(e_control.control.data)
@@ -150,71 +156,90 @@ class ModelBuild(ft.Tab):
             e.control.content.content.data[e_control.control.data["param"]][0] = e_control.control.value
             # e.control.content.content.data["Default"]["activate"] = edrop.control.value
             e.control.update()
+        
+        def on_change_detail_checkbox(e_checkbox):
+            # print(e.control.content.content.data["detail_view"])
+            if e_checkbox.control.value == True:
+                e.control.content.content.data["detail_view"] = "True"
+                update_layer_params(layer_type, True)
+            else:
+                e.control.content.content.data["detail_view"] = "False"
+                update_layer_params(layer_type, False)
 
-
-        layer_type = e.control.content.content.value
-        layer_params = data[layer_type]
-        print(layer_type)
-        print(layer_params)
-        params = []
-
-        params.append(ft.Text(layer_type, style="headlineMedium"))
-        for param, value in layer_params.items():
-            print(param,value)
-            rect = []
-            param_value = value[0]
-            control_type = value[1]
-            if control_type == TEXTFIELD:
-                rect = ft.Row(
-                    controls=[
-                        ft.Text(value=param+":", size=20),
-                        ft.TextField(
-                            value=param_value,
-                            border="underline",
-                            text_size=20,
-                            on_change=on_change_params
-                        )
-                    ],
-                    width=200,
-                    # scroll=ft.ScrollMode.HIDDEN,
-                )
-                rect.controls[1].data = {"param":param}
-            elif control_type == DROPDOWN:
-                rect = ft.Row(
-                    controls=[
-                        ft.Text(param+":", size=20),
-                        ft.Dropdown(
-                            width=100,
-                            height=50,
-                            text_size=10,
-                            scale=1,
-                            value=param_value,
-                            on_change=on_change_params,
-                            options=[ft.dropdown.Option(str(x)) for x in value[2]]
-                        )
-                    ],
-                    width=200,
-                    # scroll=ft.ScrollMode.HIDDEN,
-                )
-                rect.controls[1].data = {"param":param}
-            if rect != []:
-                params.append(rect)
+        def update_layer_params(layer_type, detail = False):
+            data = layer_dicts
+            layer_params = data[layer_type]
+            params = []
             
+            params.append(ft.Text(layer_type, style="headlineMedium"))
+            params.append(ft.Checkbox(label="detail option", value=detail, on_change = on_change_detail_checkbox))
+            
+            for param, value in layer_params.items():
+                # print(param,value)
+                if param in ["color", 'detail_view']:
+                    continue
+                rect = []
+                param_value = value[0]
+                control_type = value[1]
+                main_detail = value[3]
+                tips = value[4]
+                if main_detail == MAIN or detail:
+                    if control_type == TEXTFIELD:
+                        rect = ft.Row(
+                            controls=[
+                                ft.Tooltip(
+                                    message = tips,
+                                    content=ft.Text(value=param+':')),
+                                ft.TextField(
+                                    value=param_value,
+                                    border="underline",
+                                    text_size=20,
+                                    on_change=on_change_params
+                                )
+                            ],
+                            width=200,
+                        )
+                        rect.controls[1].data = {"param":param}
+                    elif control_type == DROPDOWN:
+                        rect = ft.Row(
+                            controls=[
+                                ft.Tooltip(
+                                    message = tips,
+                                    content=ft.Text(value=param+':')),
+                                ft.Dropdown(
+                                    width=100,
+                                    height=50,
+                                    text_size=10,
+                                    scale=1,
+                                    value=param_value,
+                                    on_change=on_change_params,
+                                    options=[ft.dropdown.Option(str(x)) for x in value[2]]
+                                )
+                            ],
+                            width=200,
+                        )
+                        rect.controls[1].data = {"param":param}
+                if rect != []:
+                    params.append(rect)
 
-        # print(param)
-        
+            self.sidebar__layerparam_container.content.controls = params
+            
+            self.sidebar__layerparam_container.content.update()
+
+        update_layer_params(layer_type, detail_view)
 
 
-        self.sidebar__layerparam_container.content.controls = params
-        # print(self.sidebar__layerparam_container.content.controls)
-        
-        self.sidebar__layerparam_container.content.update()
+    def on_change_detail_checkbox(self, e):
+        detail = e.control.value
+        if detail == True:
+            detail_view = True
+            self.on_tap_layer()
 
-        
+
 
     # Main design area with drag-and-drop functionality
     def add_layer(self, e):
-        data = dicts
+        data = layer_dicts
         print(e.control.text)
         rect = ft.GestureDetector(
                 content=ft.Container(content=ft.Text(e.control.text),bgcolor=data[e.control.text]["color"], border_radius=15),

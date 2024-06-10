@@ -3,6 +3,7 @@ from components._project.dataselect import DataSelect
 from components._project.preprocessing import Preprocessing
 from components._project.modelbuild import ModelBuild
 from components._project.modelcompile import ModelCompile
+from components._project.modeltrain import ModelTrain
 from components._project.option import Option
 
 import flet as ft
@@ -23,10 +24,12 @@ class Project(ft.View):
         ]
 
         self.controls[0].tabs = [
-            ProjectData(self.controls[0]),
+            ProjectData(page),
             DataSelect(page),
-            Preprocessing(self.controls[0]),
-            ModelBuild(self.controls[0]),
-            ModelCompile(self.controls[0]),
-            Option(self.controls[0])
+            Preprocessing(page),
+            ModelBuild(page),
+            ModelCompile(page),
+            ModelTrain(page),
+            Option(page)
         ]
+

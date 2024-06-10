@@ -1,8 +1,9 @@
 from components.util.Calldict import (dicts, TEXTFIELD, DROPDOWN)
-from package.GenerateModelFile import ModelInfo
+from packages.GenerateModelFile import ModelInfo
 
 import flet as ft
 import flet.canvas as cv 
+
 
 class ModelBuild(ft.Tab):
     def __init__(self, page: ft.Page, text: str | None = None, content: ft.Control | None = None, tab_content: ft.Control | None = None, icon: str | None = None, ref: ft.Ref | None = None, visible: bool | None = None, adaptive: bool | None = None):
@@ -11,7 +12,6 @@ class ModelBuild(ft.Tab):
         self.text="モデル構築"
         self.icon=ft.icons.NUMBERS
         # Sidebar with layer options
-        self.modelinfo = ModelInfo()
         self.sidebar_layers = ft.Column(
             [
                 ft.Text("Layers", style="headlineMedium"),
@@ -20,6 +20,7 @@ class ModelBuild(ft.Tab):
             scroll=ft.ScrollMode.HIDDEN,
             expand=False,
         )
+        self.model_info = ModelInfo()
         for layer_name in dicts.keys():
             self.sidebar_layers.controls.append(ft.ElevatedButton(layer_name, on_click=self.add_layer))
 
@@ -209,6 +210,9 @@ class ModelBuild(ft.Tab):
         
         self.sidebar__layerparam_container.content.update()
 
+    def on_duble_tap_layer(self):
+        pass
+
         
 
     # Main design area with drag-and-drop functionality
@@ -225,6 +229,7 @@ class ModelBuild(ft.Tab):
                 left=50,
                 on_vertical_drag_update=self.on_drag_update,
                 on_tap=self.on_tap_layer,
+                # on_double_tap=,
             )
 
         rect.content.content.data = data[e.control.text]
@@ -240,24 +245,22 @@ class ModelBuild(ft.Tab):
             # lay_format.append()
             layer_type = layer.content.content.value
             layer_data = {param:value[0] for param, value in layer.content.content.data.items() if param != "color"}
-            layer_data_new = {}
-            for key,value in layer_data.items():
-                print(key,type(value),value)
-                if type(value) == 'str':
-                    print(value)
-                    if value == 'True':
-                        layer_data_new[key] = True
-                    elif value == 'False':
-                        layer_data_new[key] = False
-                    elif value == 'None':
-                        layer_data_new[key] = None
-                    else:
-                        layer_data_new[key] = "/'"+value+"/'"
-                else:
-                    layer_data_new[key] = value
             print(layer_type+str(i).zfill(4))
-            print(layer_data_new)
-            lay_format[layer_type+str(i).zfill(4)] = layer_data    
-        print(lay_format)
-        # self.modelinfo.send_model(lay_format)
+            print(layer_data)
+            for key, value in layer_data.items():
+                if type(value) == str:
+                    if value == "True":
+                        layer_data[key] = True
+                    elif value == "False":
+                        layer_data[key] = False
+                    elif value == "None":
+                        layer_data[key] = None
+                    else:
+                        layer_data[key] = "\'" + value + "\'" 
+                else:
+                    pass
+            lay_format[layer_type+str(i).zfill(4)] = layer_data        
+        
+        self.model_info.send_model(lay_format)
+
         
