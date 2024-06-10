@@ -2,6 +2,8 @@ import flet as ft
 
 DROPDOWN = "DropDown"
 TEXTFIELD = "TextField"
+MAIN = "MAIN"
+DETAIL = "DETAIL"
 
 layer_dicts = {
         'Input': {
@@ -12,7 +14,8 @@ layer_dicts = {
             'batch_shape': ['None', 'DropDown', ['None'], 'DETAIL', '入力データの完全な形状（バッチサイズを含む）を指定します。'],
             'name': ['None', 'DropDown', ['None'], 'DETAIL', 'このレイヤーの名前を指定します。'],
             'tensor': ['None', 'DropDown', ['None'], 'DETAIL', 'テンソルを指定します。'],
-            'color':ft.colors.GREY
+            'color':ft.colors.GREY,
+            'detail_view':'False'
         },
         
         'Dense': {
@@ -25,12 +28,14 @@ layer_dicts = {
             'activity_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', '出力に対する正則化を指定します。'],
             'kernel_constraint': ['None', 'DropDown', ['None', 'max_norm(2.)'], 'DETAIL', 'カーネルに対する制約を指定します。'],
             'bias_constraint': ['None', 'DropDown', ['None'], 'DETAIL', 'バイアスに対する制約を指定します。'],
-            'color':ft.colors.AMBER
+            'color':ft.colors.AMBER,
+            'detail_view':'False'
         },
         
         'Activation': {
             'activation': ['None', 'DropDown', ['None', 'relu', 'sigmoid', 'gelu', 'softmax', 'tanh'], 'MAIN', '適用するアクティベーション関数を指定します。'],
-            'color':ft.colors.YELLOW
+            'color':ft.colors.YELLOW,
+            'detail_view':'False'
         },
         # 'Embedding': {
         #     'input_dim': None,
@@ -78,7 +83,8 @@ layer_dicts = {
             'activity_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', '出力に対する正則化を指定します。'],
             'kernel_constraint': ['None', 'DropDown', ['None', 'max_norm(2.)'], 'DETAIL', 'カーネルに対する制約を指定します。'],
             'bias_constraint': ['None', 'DropDown', ['None'], 'DETAIL', 'バイアスに対する制約を指定します。'],
-            'color':ft.colors.GREEN_100
+            'color':ft.colors.GREEN_100,
+            'detail_view':'False'
         },
         # 'Conv3D': {
         #     'filters': None,
@@ -113,7 +119,8 @@ layer_dicts = {
             'padding': ['valid', 'DropDown', ['valid', 'same'], 'MAIN', 'パディングの方法を指定します。'],
             'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
             'name': ['None', 'DropDown', ['None'], 'DETAIL', 'このレイヤーの名前を指定します。'],
-            'color':ft.colors.BLUE_100
+            'color':ft.colors.BLUE_100,
+            'detail_view':'False'
         },
         # 'MaxPooling3D': {
         #     'pool_size': (2, 2, 2),
@@ -137,7 +144,8 @@ layer_dicts = {
             'padding': ['valid', 'DropDown', ['valid', 'same'], 'MAIN', 'パディングの方法を指定します。'],
             'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
             'name': ['None', 'DropDown', ['None'], 'DETAIL', 'このレイヤーの名前を指定します。'],
-            'color':ft.colors.BLUE_GREY_100
+            'color':ft.colors.BLUE_GREY_100,
+            'detail_view':'False'
         },
         # 'AveragePooling3D': {
         #     'pool_size': None,
@@ -155,7 +163,8 @@ layer_dicts = {
         'GlobalMaxPooling2D': {
             'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
             'keepdims': ['False', 'DropDown', ['False', 'True'], 'DETAIL', '次元を保持するかどうかを指定します。'],
-            'color':ft.colors.BLUE_ACCENT_100
+            'color':ft.colors.BLUE_ACCENT_100,
+            'detail_view':'False'
         },
         # 'GlobalMaxPooling3D': {
         #     'data_format': None,
@@ -170,7 +179,8 @@ layer_dicts = {
         'GlobalAveragePooling2D': {
             'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
             'keepdims': ['False', 'DropDown', ['False', 'True'], 'DETAIL', '次元を保持するかどうかを指定します。'],
-            'color':ft.colors.BLUE_600
+            'color':ft.colors.BLUE_600,
+            'detail_view':'False'
         },
         # 'GlobalAveragePooling3D': {
         #     'data_format': None,
@@ -377,7 +387,8 @@ layer_dicts = {
             'beta_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'バイアスの制約を指定します。']],
             'gamma_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'スケーリング係数の制約を指定します。']],
             'synchronized': ['False', 'DropDown', ['False', 'True'], 'DETAIL', 'バッチ正規化の同期を有効にするかどうかを指定します。'],
-            'color':ft.colors.GREY_600
+            'color':ft.colors.GREY_600,
+            'detail_view':'False'
         },
         'LayerNormalization': {
             'axis': [-1, 'TextField', 1, 'DETAIL', '正規化を行う軸を指定します。'],
@@ -391,13 +402,15 @@ layer_dicts = {
             'gamma_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'スケーリング係数に適用する正則化を指定します。'],
             'beta_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'バイアスに適用する制約を指定します。']],
             'gamma_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'スケーリング係数に適用する制約を指定します。']],
-            'color':ft.colors.PURPLE
+            'color':ft.colors.PURPLE,
+            'detail_view':'False'
         },
         'Dropout': {
             'rate': [0, 'TextField', 1, 'MAIN', 'ドロップアウト率を指定します。0から1の間の浮動小数点数。'],
             'noise_shape': ['None', 'DropDown', ['None'], 'DETAIL', '入力のどの要素がドロップアウトされるかを指定します。'],
             'seed': ['None', 'TextField', 1, 'DETAIL', 'ランダムシードを指定します。'],
-            'color':ft.colors.BLACK
+            'color':ft.colors.BLACK,
+            'detail_view':'False'
         },
         # 'SpatialDropout1D': {
         #     'rate': None,
@@ -412,7 +425,8 @@ layer_dicts = {
             'seed': ['None', 'TextField', 1, 'DETAIL', 'ランダムシードを指定します。'],
             'name': ['None', 'DropDown', ['None'], 'DETAIL', 'レイヤーの名前を指定します。'],
             'dtype': ['None', 'DropDown', ['None', 'float32', 'int32'], 'DETAIL', 'レイヤーのデータ型を指定します。'],
-            'color':ft.colors.CYAN
+            'color':ft.colors.CYAN,
+            'detail_view':'False'
         },
         # 'SpatialDropout3D': {
         #     'rate': None,
@@ -452,7 +466,8 @@ layer_dicts = {
         # },
         'Flatten': {
             'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
-            'color':ft.colors.CYAN
+            'color':ft.colors.CYAN,
+            'detail_view':'False'
         },
 
     }
