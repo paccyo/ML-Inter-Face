@@ -9,6 +9,7 @@ class PreprocessInfo:
         self.preps = ''
         self.params = ''
         self.imports = ''
+        self.main_params_list = ['']
         self.load_import_info()
 
     def load_import_info(self):
@@ -39,8 +40,18 @@ class PreprocessInfo:
                 if i == 1:
                     path = os.path.join(dataset_path, dataset_type)
                     self.params += f'r\'{path}\', '
-                for params_name, params_value in params.items():
-                    self.params += f'{params_name}={params_value}, '
+                if dataset_type == 'train':
+                    for params_name, params_value in params.items():
+                        self.params += f'{params_name}={params_value}, '
+                else:
+                    for params_name, params_value in params.items():
+                        if params_name == 'rescale' or \
+                            params_name == 'dtype' or \
+                            params_name == 'target_size' or \
+                            params_name == 'color_mode' or \
+                            params_name == 'class_mode' or \
+                            params_name == 'batch_size':
+                            self.params += f'{params_name}={params_value}, '
                 self.params = self.params[:-2]
                 if i == 0:
                     datagen_name = f'{fanc_name}_{dataset_type}'
@@ -51,12 +62,19 @@ class PreprocessInfo:
         else:
             self.preps += '    return False'
         self.write_Prepfile(dataset_type)
+        self.loop_judge(dicts, dataset_type, dataset_path)
 
     def write_Prepfile(self, dataset_type):
         with open(f'{dataset_type}_preprocess_info.py', 'w') as f:
             f.write(f'{self.imports}\n\ndef preprocess_info():\n{self.preps}')
 
-        
+    def loop_judge(self, dicts, dataset_type, dataset_path):
+        if dataset_type == 'train':
+            self.Prep_image_dataset(dicts, 'validation', dataset_path)
+        elif dataset_type == 'validation':
+            self.Prep_image_dataset(dicts, 'test', dataset_path)
+        else:
+            return
 
 
 if __name__ == '__main__':

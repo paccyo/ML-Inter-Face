@@ -160,8 +160,6 @@ if __name__ == '__main__':
     # データの送信
     dataset_info.send(part_dict, r"C:\Users\yuuki\Documents\GUI_MLearning\GUI_MLearning-main\data3")
     preprocess_info.send(train_preprocess_dict, 'image', 'train', r'C:\Users\yuuki\Documents\GUI_MLearning\GUI_MLearning-main\dataset')
-    preprocess_info.send(validation_preprocess_dict, 'image', 'validation', r'C:\Users\yuuki\Documents\GUI_MLearning\GUI_MLearning-main\dataset')
-    preprocess_info.send(test_preprocess_dict, 'image', 'test', r'C:\Users\yuuki\Documents\GUI_MLearning\GUI_MLearning-main\dataset')
     model_info.send(model_dic)
     compile_info.send(compile_dic)
 
@@ -171,9 +169,12 @@ if __name__ == '__main__':
     import model_info
     import compile_info
 
-    train_generator = train_preprocess_info.preprocess_info()
-    validation_generator = validation_preprocess_info.preprocess_info()
-    test_generator = test_preprocess_info.preprocess_info()
+    if part_dict['train'] != 0:
+        train_generator = train_preprocess_info.preprocess_info()
+    if part_dict['validation'] != 0:
+        validation_generator = validation_preprocess_info.preprocess_info()
+    if part_dict['test'] != 0:
+        test_generator = test_preprocess_info.preprocess_info()
 
     model = model_info.model_build()
 

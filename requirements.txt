@@ -2,4 +2,3 @@ flet==0.22.1
 tensorflow-gpu==2.10.1
 pandas==2.2.2
 scipy==1.13.1
-japanize-matplotlib==1.1.3
