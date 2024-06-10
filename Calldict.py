@@ -380,17 +380,17 @@ layer_dicts = {
             'color':ft.colors.GREY_600
         },
         'LayerNormalization': {
-            'axis': [-1, 'TextField', 1, 'DETAIL', 'UNK'],
-            'epsilon': [0.001, 'TextField', 1, 'DETAIL', 'UNK'],
-            'center': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
-            'scale': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
-            'rms_scaling': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
-            'beta_initializer': ['zeros', 'DropDown', ['zeros'], 'DETAIL', 'UNK'],
-            'gamma_initializer': ['ones', 'DropDown', ['ones'], 'DETAIL', 'UNK'],
-            'beta_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'UNK'],
-            'gamma_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'UNK'],
-            'beta_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'UNK']],
-            'gamma_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'UNK']],
+            'axis': [-1, 'TextField', 1, 'DETAIL', '正規化を行う軸を指定します。'],
+            'epsilon': [0.001, 'TextField', 1, 'DETAIL', '分母に追加される小さな定数を指定します。'],
+            'center': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'バイアス項を追加するかどうかを指定します。'],
+            'scale': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'スケーリングを行うかどうかを指定します。'],
+            'rms_scaling': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'RMSスケーリングを行うかどうかを指定します。'],
+            'beta_initializer': ['zeros', 'DropDown', ['zeros'], 'DETAIL', 'バイアスの初期化方法を指定します。'],
+            'gamma_initializer': ['ones', 'DropDown', ['ones'], 'DETAIL', 'スケーリング係数の初期化方法を指定します。'],
+            'beta_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'バイアスに適用する正則化を指定します。'],
+            'gamma_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'スケーリング係数に適用する正則化を指定します。'],
+            'beta_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'バイアスに適用する制約を指定します。']],
+            'gamma_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'スケーリング係数に適用する制約を指定します。']],
             'color':ft.colors.PURPLE
         },
         'Dropout': {
@@ -407,11 +407,11 @@ layer_dicts = {
         #     'color':ft.colors.CYAN
         # },
         'SpatialDropout2D': {
-            'rate': [0, 'TextField', 1, 'MAIN', 'UNK'],
-            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'UNK'],
-            'seed': ['None', 'TextField', 1, 'DETAIL', 'UNK'],
-            'name': ['None', 'DropDown', ['None'], 'DETAIL', 'UNK'],
-            'dtype': ['None', 'DropDown', ['None', 'float32', 'int32'], 'DETAIL', 'UNK'],
+            'rate': [0, 'TextField', 1, 'MAIN', 'ドロップアウトする率を指定します。'],
+            'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', '入力のデータフォーマットを指定します。'],
+            'seed': ['None', 'TextField', 1, 'DETAIL', 'ランダムシードを指定します。'],
+            'name': ['None', 'DropDown', ['None'], 'DETAIL', 'レイヤーの名前を指定します。'],
+            'dtype': ['None', 'DropDown', ['None', 'float32', 'int32'], 'DETAIL', 'レイヤーのデータ型を指定します。'],
             'color':ft.colors.CYAN
         },
         # 'SpatialDropout3D': {
@@ -459,36 +459,36 @@ layer_dicts = {
 
 preprocess_dicts = {
         'ImageDataGenerator': {
-                'featurewise_center': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
-                'samplewise_center': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
-                'featurewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
-                'samplewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
-                'zca_whitening': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
-                'zca_epsilon': [1e-06, 'TextField', 1, 'DETAIL', 'UNK'],
-                'rotation_range': [0, 'TextField', 1, 'DETAIL', 'UNK'],
-                'width_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'UNK'],
-                'height_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'UNK'],
-                'brightness_range': [['None', [0.0, 1.0]], ['DropDown', 'TextField'], [['None', 'True'], 2], 'DETAIL', 'UNK'],
-                'shear_range': [0.0, 'TextField', 1, 'DETAIL', 'UNK'],
-                'zoom_range': [0.0, 'TextField', 1, 'DETAIL', 'UNK'],
-                'channel_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'UNK'],
-                'fill_mode': ['nearest', 'DropDown', ['reflect', 'nearest'], 'DETAIL', 'UNK'],
-                'cval': [0.0, 'TextField', 1, 'DETAIL', 'UNK'],
-                'horizontal_flip': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
-                'vertical_flip': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'UNK'],
-                'rescale': ['None', 'DropDown', ['None', 1./255], 'MAIN', 'UNK'],
-                'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'UNK'],
-                'interpolation_order': [1, 'DropDown', [0, 1, 2, 3], 'DETAIL', 'UNK'],
-                'dtype': ['None', 'DropDown', ['None', 'float32', 'float64', 'uint8'], 'MAIN', 'UNK']
+                'featurewise_center': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'データセット全体の中心化を行うかどうかを指定します。'],
+                'samplewise_center': ['False', 'DropDown', ['True', 'False'], 'DETAIL', '各サンプルの中心化を行うかどうかを指定します。'],
+                'featurewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'データセット全体の標準偏差で正規化するかどうかを指定します。'],
+                'samplewise_std_normalization': ['False', 'DropDown', ['True', 'False'], 'DETAIL', '各サンプルの標準偏差で正規化するかどうかを指定します。'],
+                'zca_whitening': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'ZCA白色化を適用するかどうかを指定します。'],
+                'zca_epsilon': [1e-06, 'TextField', 1, 'DETAIL', 'ZCA白色化のためのイプシロンを指定します。'],
+                'rotation_range': [0, 'TextField', 1, 'DETAIL', 'ランダム回転の範囲を度単位で指定します。'],
+                'width_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダム水平シフトの範囲を指定します。'],
+                'height_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダム垂直シフトの範囲を指定します。'],
+                'brightness_range': [['None', [0.0, 1.0]], ['DropDown', 'TextField'], [['None', 'True'], 2], 'DETAIL', 'ランダム明度シフトの範囲を指定します。'],
+                'shear_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダムせん断の範囲を指定します。'],
+                'zoom_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダムズームの範囲を指定します。'],
+                'channel_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダムチャネルシフトの範囲を指定します。'],
+                'fill_mode': ['nearest', 'DropDown', ['reflect', 'nearest'], 'DETAIL', '境界の埋め方を指定します。'],
+                'cval': [0.0, 'TextField', 1, 'DETAIL', '境界外のピクセルに使用する値を指定します。'],
+                'horizontal_flip': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'ランダムに水平反転を行うかどうかを指定します。'],
+                'vertical_flip': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'ランダムに垂直反転を行うかどうかを指定します。'],
+                'rescale': ['None', 'DropDown', ['None', 1./255], 'MAIN', '再スケーリング係数を指定します。'],
+                'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
+                'interpolation_order': [1, 'DropDown', [0, 1, 2, 3], 'DETAIL', '補間の順序を指定します。'],
+                'dtype': ['None', 'DropDown', ['None', 'float32', 'float64', 'uint8'], 'MAIN', 'データ型を指定します。']
             },
             'flow_from_directory': {
-                'target_size': [(256, 256), 'TextField', 2, 'MAIN', 'UNK'],
-                'color_mode': ['rgb', 'DropDown', ['rgb', 'grayscale'], 'MAIN', 'UNK'],
-                'class_mode': ['categorical', 'DropDown', ['categorical', 'binary', 'sparse', 'input', 'none'], 'MAIN', 'UNK'],
-                'batch_size': [32, 'TextField', 1, 'MAIN', 'UNK'],
-                'shuffle': ['False', 'DropDown', ['True', 'False'], 'MAIN', 'UNK'],
-                'seed': ['None', 'TextField', 1, 'DETAIL', 'UNK'],
-                'interpolation': ['nearest', 'DropDown', ['nearest', 'bilinear', 'bicubic', 'lanczos', 'box', 'hamming', 'UNK'], 'DETAIL', 'UNK']
+                'target_size': [(256, 256), 'TextField', 2, 'MAIN', 'ターゲットサイズ（高さ、幅）を指定します。'],
+                'color_mode': ['rgb', 'DropDown', ['rgb', 'grayscale'], 'MAIN', 'カラーモードを指定します。'],
+                'class_mode': ['categorical', 'DropDown', ['categorical', 'binary', 'sparse', 'input', 'none'], 'MAIN', 'ラベルの種類を指定します。'],
+                'batch_size': [32, 'TextField', 1, 'MAIN', 'バッチサイズを指定します。'],
+                'shuffle': ['False', 'DropDown', ['True', 'False'], 'MAIN', 'シャッフルするかどうかを指定します。'],
+                'seed': ['None', 'TextField', 1, 'DETAIL', '乱数シードを指定します。'],
+                'interpolation': ['nearest', 'DropDown', ['nearest', 'bilinear', 'bicubic', 'lanczos', 'box', 'hamming', 'UNK'], 'DETAIL', '補間方法を指定します。']
             }
     }
 
@@ -496,16 +496,16 @@ preprocess_dicts = {
 compile_dicts = {
         'optimizer':{
             'Adam':{
-                'learning_rate':[0.001, 'TextField', 1, 'MAIN', 'UNK'],
-                'beta_1':[0.9, 'TextField', 1, 'DETAIL', 'UNK'],
-                'beta_2':[0.999, 'TextField', 1, 'DETAIL', 'UNK'],
-                'epsilon':[1e-07, 'TextField', 1, 'DETAIL', 'UNK'],
-                'decay':['None', 'TextField', 1, 'DETAIL', 'UNK'],
-                'clipnorm':['None', 'TextField', 1, 'DETAIL', 'UNK'],
-                'clipvalue':['None', 'TextField', 1, 'DETAIL', 'UNK'],
-                'global_clipnorm':['None', 'TextField', 1, 'DETAIL', 'UNK']
+                'learning_rate':[0.001, 'TextField', 1, 'MAIN', '学習率を指定します。'],
+                'beta_1':[0.9, 'TextField', 1, 'DETAIL', '1番目のモーメント推定の減衰率を指定します。'],
+                'beta_2':[0.999, 'TextField', 1, 'DETAIL', '2番目のモーメント推定の減衰率を指定します。'],
+                'epsilon':[1e-07, 'TextField', 1, 'DETAIL', '数値安定性のための小さな定数を指定します。'],
+                'decay':['None', 'TextField', 1, 'DETAIL', '学習率の減衰を指定します。'],
+                'clipnorm':['None', 'TextField', 1, 'DETAIL', '勾配ノルムクリッピングを指定します。'],
+                'clipvalue':['None', 'TextField', 1, 'DETAIL', '勾配値クリッピングを指定します。'],
+                'global_clipnorm':['None', 'TextField', 1, 'DETAIL', 'グローバル勾配ノルムクリッピングを指定します。']
             }
         },
-        'loss':['None', 'DropDown', ['None', 'categorical_crossentropy', 'binary_crossentropy'], 'MAIN', 'UNK'],
-        'metrics':['None', 'DropDown', ['None', 'acc'], 'MAIN', 'UNK']
+        'loss':['None', 'DropDown', ['None', 'categorical_crossentropy', 'binary_crossentropy'], 'MAIN', '損失関数を指定します。'],
+        'metrics':['None', 'DropDown', ['None', 'acc'], 'MAIN', '評価指標を指定します。']
     }
