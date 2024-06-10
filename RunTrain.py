@@ -5,6 +5,7 @@ import model_info
 import compile_info
 import matplotlib.pyplot as plt
 import keras
+import japanize_matplotlib
 
 
 def run():
@@ -20,18 +21,33 @@ def run():
 
     model.summary()
 
-    accuracy_history = []
+    acc_hist = []
+    val_acc_hist = []
+    loss_hist = []
+    val_loss_hist = []
 
     class PlotCallback(keras.callbacks.Callback):
-        def on_epoch_end(self, logs=None):
-            accuracy_history.append(logs['acc'])
+        def on_epoch_end(self, batch, logs=None):
+            acc_hist.append(logs['acc'])
+            val_acc_hist.append(logs['val_acc'])
+            loss_hist.append(logs['loss'])
+            val_loss_hist.append(logs['val_loss'])
             plt.figure()
-            plt.plot(accuracy_history, label='Accuracy')
+            plt.plot(acc_hist, label='スコア（学習データ）')
+            plt.plot(val_acc_hist, label='スコア（検証データ）')
             plt.xlabel('Epoch')
-            plt.ylabel('Accuracy')
-            plt.title('Training Accuracy')
+            plt.ylabel(f'{metrics_}')
+            plt.title('評価スコア')
             plt.legend()
-            plt.show()
+            plt.savefig(f'metrics.png')
+            plt.figure()
+            plt.plot(acc_hist, label='スコア（学習データ）')
+            plt.plot(val_acc_hist, label='スコア（検証データ）')
+            plt.xlabel('Epoch')
+            plt.ylabel(f'{loss_}')
+            plt.title('損失スコア')
+            plt.legend()
+            plt.savefig(f'loss.png')
 
     model.compile(loss=loss_, optimizer=optimizer_, metrics=metrics_)
 

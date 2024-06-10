@@ -15,7 +15,7 @@ class CompileInfo:
         """
         モデルファイル読み込み
         """
-        with open('imports_file.txt') as f:
+        with open('compile_imports.txt') as f:
             imports_data = f.read()
         self.imports += imports_data + '\n\n'
 
