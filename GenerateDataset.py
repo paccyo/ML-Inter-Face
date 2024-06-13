@@ -8,12 +8,12 @@ class DatasetInfo:
     """
     データセット作成
     """
-    def send(self, dicts, dataset_path):
+    def send(self, dicts, dataset_path, project_path):
         """
         dicts->str: 辞書
         dataset_path->str: データセットpath
         """
-        self.banana(dicts, dataset_path)
+        self.banana(dicts, dataset_path, project_path)
 
     def delete_dir(self):
         """
@@ -24,18 +24,18 @@ class DatasetInfo:
         except FileNotFoundError:
             pass
 
-    def generate_dir(self, label, part):
+    def generate_dir(self, label, part, project_path):
         """
         ディレクトリ作成
         """
         if part[0] != 0:
-            os.makedirs(f'dataset/train/{label}', exist_ok=True)
+            os.makedirs(f'{project_path}/dataset/train/{label}', exist_ok=True)
         if part[1] != 0:
-            os.makedirs(f'dataset/validation/{label}', exist_ok=True)
+            os.makedirs(f'{project_path}/dataset/validation/{label}', exist_ok=True)
         if part[2] != 0:
-            os.makedirs(f'dataset/test/{label}', exist_ok=True)
+            os.makedirs(f'{project_path}/dataset/test/{label}', exist_ok=True)
 
-    def banana(self, dicts, dataset_path):
+    def banana(self, dicts, dataset_path, project_path):
         self.delete_dir()
         # それぞれの画像割合
         part = [dicts['train'], dicts['validation'], dicts['test']]
@@ -45,7 +45,7 @@ class DatasetInfo:
             # ラベル名
             label = label_path.split('\\')[-1]
             # フォルダ作成
-            self.generate_dir(label, part)
+            self.generate_dir(label, part, project_path)
             # それぞれの画像枚数
             train_n = sum_n*(part[0]/10)
             validation_n = sum_n*(part[1]/10)
@@ -62,11 +62,11 @@ class DatasetInfo:
             for i, image_path in enumerate(glob.glob(os.path.join(label_path, '*.*'))):
                 i += 1
                 if i <= train_n:
-                    shutil.copy(image_path, f'dataset/train/{label}/{os.path.basename(image_path)}')
+                    shutil.copy(image_path, f'{project_path}/dataset/train/{label}/{os.path.basename(image_path)}')
                 elif i <= (train_n+validation_n):
-                    shutil.copy(image_path, f'dataset/validation/{label}/{os.path.basename(image_path)}')
+                    shutil.copy(image_path, f'{project_path}/dataset/validation/{label}/{os.path.basename(image_path)}')
                 else:
-                    shutil.copy(image_path, f'dataset/test/{label}/{os.path.basename(image_path)}')
+                    shutil.copy(image_path, f'{project_path}/dataset/test/{label}/{os.path.basename(image_path)}')
     
 
 # テストケース
