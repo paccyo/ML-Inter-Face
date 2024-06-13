@@ -1,4 +1,5 @@
 from packages.DatasetCHK import CHK
+from packages.GenerateDataset import DatasetInfo
 
 import flet as ft
 
@@ -12,7 +13,7 @@ class DataSelect(ft.Tab):
         self.get_directory_dialog = ft.FilePicker(on_result=self.get_directory_result)
         self.directory_path = ft.Text()
         page.overlay.extend([self.get_directory_dialog])
-        self.learningway = "categorical"
+        self.learning_way = "categorical"
         self.data_type = "image"
         self.folder_pickup=ft.Container(
             content=ft.Row(
@@ -31,8 +32,8 @@ class DataSelect(ft.Tab):
                             height=50,
                             text_size=10,
                             scale=1,
-                            value = self.learningway,
-                            on_change=self.on_chenge_leraning_way,
+                            value = self.learning_way,
+                            on_change=self.on_change_learning_way,
                             options=[ft.dropdown.Option("categorical")],
                         ),
                     ft.ElevatedButton(
@@ -62,20 +63,30 @@ class DataSelect(ft.Tab):
         )
 
     def get_directory_result(self, e: ft.FilePickerResultEvent):
-        # print(e)
+        # # print(e)
         self.directory_path.value = e.path if e.path else None
         self.directory_path.update()
 
 
     def folder_submit(self,e):
         path = self.directory_path.value
+        # print(self.page.client_storage.get("project_path"))
         if path:
-            judge = CHK(path=path, data_type=self.data_type, learning_way=self.learningway)
-            print(judge)
+            judge, data_path = CHK(path=path, data_type=self.data_type, learning_way=self.learning_way)
+            # print(judge)
+            if judge:
+                test_dict = {'train':6, 'validation':4, 'test':0}
+                dataset_info = DatasetInfo()
+                dataset_info.send(test_dict, path, self.page.client_storage.get("project_path")+"/Data")
+                self.page.client_storage.set("part_dict",test_dict)
+                self.page.client_storage.set("dataset_path", path)
+                self.page.client_storage.set("data_type",self.data_type)
+            # # print(judge)
 
     def on_change_data_type(self,e):
         self.data_type = e.control.value
+        self.page.client_storage.set("data_type", self.data_type)
 
-    def on_chenge_leraning_way(self, e):
-        self.learningway =  e.control.value
+    def on_change_learning_way(self, e):
+        self.learning_way =  e.control.value
  

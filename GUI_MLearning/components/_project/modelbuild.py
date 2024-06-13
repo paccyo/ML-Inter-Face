@@ -1,5 +1,6 @@
 from components.util.Calldict import (layer_dicts, TEXTFIELD, DROPDOWN, MAIN, DETAIL)
 from packages.GenerateModelFile import ModelInfo
+from packages import GetShape
 
 import flet as ft
 import flet.canvas as cv 
@@ -112,7 +113,7 @@ class ModelBuild(ft.Tab):
 
 
     def update_connect_layer(self):
-        # print(self.design_area.content.shapes)
+        # # # print(self.design_area.content.shapes)
         layers= sorted(self.design_area.content.content.controls[2:], key = lambda x:x.top)
         self.design_area.content.shapes = []
         draw_line_list = []
@@ -137,28 +138,28 @@ class ModelBuild(ft.Tab):
         e.control.top = max(0, e.control.top + e.delta_y)
         e.control.left = max(0, e.control.left + e.delta_x)
         e.control.update()
-        # print(design_area.content.controls)
+        # # # print(design_area.content.controls)
         self.update_connect_layer()
 
     def on_tap_layer(self, e):
         
         layer_type = e.control.content.content.value
         detail_view = True if e.control.content.content.data["detail_view"] == "True" else False
-        # print(layer_type)
-        # print(layer_params)
+        # # # print(layer_type)
+        # # # print(layer_params)
 
 
         def on_change_params(e_control):
-            # print(e_control.control.text)
-            print(e_control.control.data)
-            print(e_control.control.value)
-            print(e.control.content.content.data)
+            # # # print(e_control.control.text)
+            # # print(e_control.control.data)
+            # # print(e_control.control.value)
+            # # print(e.control.content.content.data)
             e.control.content.content.data[e_control.control.data["param"]][0] = e_control.control.value
             # e.control.content.content.data["Default"]["activate"] = edrop.control.value
             e.control.update()
         
         def on_change_detail_checkbox(e_checkbox):
-            # print(e.control.content.content.data["detail_view"])
+            # # # print(e.control.content.content.data["detail_view"])
             if e_checkbox.control.value == True:
                 e.control.content.content.data["detail_view"] = "True"
                 update_layer_params(layer_type, True)
@@ -175,7 +176,7 @@ class ModelBuild(ft.Tab):
             params.append(ft.Checkbox(label="detail option", value=detail, on_change = on_change_detail_checkbox))
             
             for param, value in layer_params.items():
-                # print(param,value)
+                # # # print(param,value)
                 if param in ["color", 'detail_view']:
                     continue
                 rect = []
@@ -240,7 +241,7 @@ class ModelBuild(ft.Tab):
     # Main design area with drag-and-drop functionality
     def add_layer(self, e):
         data = layer_dicts
-        print(e.control.text)
+        # # print(e.control.text)
         rect = ft.GestureDetector(
                 content=ft.Container(content=ft.Text(e.control.text),bgcolor=data[e.control.text]["color"], border_radius=15),
                 width=100,
@@ -262,12 +263,12 @@ class ModelBuild(ft.Tab):
         layers=sorted(self.design_area.content.content.controls[2:], key = lambda x:x.top)
         lay_format = {}
         for i,layer in enumerate(layers):
-            # print(layer.content.content.data)
+            # # # print(layer.content.content.data)
             # lay_format.append()
             layer_type = layer.content.content.value
             layer_data = {param:value[0] for param, value in layer.content.content.data.items() if param != "color"}
-            print(layer_type+str(i).zfill(4))
-            print(layer_data)
+            # # print(layer_type+str(i).zfill(4))
+            # # print(layer_data)
             for key, value in layer_data.items():
                 if type(value) == str:
                     if value == "True":
@@ -280,8 +281,13 @@ class ModelBuild(ft.Tab):
                         layer_data[key] = "\'" + value + "\'" 
                 else:
                     pass
-            lay_format[layer_type+str(i).zfill(4)] = layer_data        
-        
-        self.model_info.send_model(lay_format)
+            lay_format[layer_type+str(i).zfill(4)] = layer_data     
+
+        self.page.client_storage.set("model",lay_format)
+        self.model_info.send(model_dict=lay_format,
+                             project_path=self.page.client_storage.get("project_path")+"/Scripts",
+                             shape=GetShape.get(image_size=self.page.client_storage.get("target_size"),
+                                                color_mode=self.page.client_storage.get("color_mode"))
+                             )
 
         

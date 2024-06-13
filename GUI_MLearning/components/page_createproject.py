@@ -1,6 +1,7 @@
 from components._createproject.createprojectheader import AppHeader
 
 import flet as ft
+import os
 import datetime
 
 class CreateProject(ft.View):
@@ -9,16 +10,48 @@ class CreateProject(ft.View):
         self.page = page
         self.route = "/Page_CreateProject"
         now_date = datetime.datetime.now()
+        self.project_filename = "new_project"+ now_date.strftime('%Y%m%d%H%M%S')
+
         self.controls = [
             AppHeader(page),
-            ft.TextField(
-                value="new_project"+ now_date.strftime('%Y%m%d%H%M%S'),
-                on_change=self.on_change_project_filename,
+            ft.Container(
+                content=ft.Stack(
+                    controls=[
+                        ft.Container(
+                            content=ft.TextField(
+                                value=self.project_filename,
+                                on_change=self.on_change_project_filename,
+                            ),
+                        ),
+                        ft.ElevatedButton(
+                            text="create",
+                            on_click=self.on_click_create,
+                            top=40,
+                            right=0,
+                        ),
+                    ],
+                    height=500,
+                )
             )
         ]
-        self.project_filename = ""
 
     def on_change_project_filename(self, e):
         self.project_filename = e.control.value
-        print(self.project_filename)
+        # print(self.project_filename)
         # e.con
+
+    def on_click_create(self, e):
+        if self.project_filename != "":
+            path = os.path.abspath('projects/'+self.project_filename)
+            # print(path)
+            os.makedirs(name='projects/'+self.project_filename,exist_ok=True)
+            os.makedirs(name='projects/'+self.project_filename+"/Data",exist_ok=True)
+            os.makedirs(name='projects/'+self.project_filename+"/Scripts",exist_ok=True)
+            os.makedirs(name='projects/'+self.project_filename+"/Logs",exist_ok=True)
+            os.makedirs(name='projects/'+self.project_filename+"/Result",exist_ok=True)
+
+            self.page.client_storage.set('project_path', path)
+            self.page.go("/Page_Project")
+        else:
+            pass
+            

@@ -1,5 +1,8 @@
+from components.util.Calldict import (preprocess_dicts, TEXTFIELD, DROPDOWN, DETAIL, MAIN)
+from packages.GeneratePreprocessFile import PreprocessInfo
+
 import flet as ft
-from components.util.Calldict_Preprosess import (preprocess_dicts, TEXTFIELD, DROPDOWN)
+
 
 class Preprocessing(ft.Tab):
     def __init__(self, page:ft.Page, text: str | None = None, content: ft.Control | None = None, tab_content: ft.Control | None = None, icon: str | None = None, ref: ft.Ref | None = None, visible: bool | None = None, adaptive: bool | None = None):
@@ -9,13 +12,13 @@ class Preprocessing(ft.Tab):
         self.icon=ft.icons.DATASET
 
         preprocess_control = []
-        preprocess = preprocess_dicts["ImageDataGenerator"]
-        for pre, value in preprocess.items():
-            # print(pre,value)
+        self.preprocess_data = preprocess_dicts["ImageDataGenerator"]
+        for pre, value in self.preprocess_data.items():
+            # # print(pre,value)
             default_value = value[0]
             control_type = value[1]
-            tips = value[3]
-            print(tips)
+            tips = value[4]
+            # print(tips)
             rect = []
             if control_type == TEXTFIELD:
                 rect = ft.Row(
@@ -81,30 +84,74 @@ class Preprocessing(ft.Tab):
                 preprocess_control.append(rect)
 
 
-        self.content=ft.Column(
-            controls=preprocess_control,
-            alignment=ft.alignment.top_left,
-            scroll=ft.ScrollMode.HIDDEN,
-            expand=True,
+        self.content=ft.Stack(
+            controls=[
+                ft.Container(
+                    content=ft.Column(
+                        controls=preprocess_control,
+                        alignment=ft.alignment.top_left,
+                        scroll=ft.ScrollMode.HIDDEN,
+                        expand=True,
+                    ),
+                    top=0,
+                    left=0
+                ),
+                ft.ElevatedButton(text='preprocess',on_click=self.preprocess,bottom=0,right=0)
+            ]
         )
+        # ft.Column(
+        #     controls=preprocess_control,
+        #     alignment=ft.alignment.top_left,
+        #     scroll=ft.ScrollMode.HIDDEN,
+        #     expand=True,
+        # )
 
     def on_change_disabled(self, e):
-        print(e.control.value)
+        # print(e.control.value)
         if e.control.value == "True":
             for control in self.content.controls:
-                print(control.controls[0].value[:-1], e.control.data["pre"])
+                # print(control.controls[0].value[:-1], e.control.data["pre"])
                 if control.controls[0].value[:-1] == e.control.data["pre"]:
-                    print(control.controls[1].disabled)
+                    # print(control.controls[1].disabled)
                     control.controls[1].disabled = False
-                    print(control.controls[1].disabled)
+                    # print(control.controls[1].disabled)
                     break
             self.content.update()
         elif e.control.value == "None":
             for control in self.content.controls:
-                print(control.controls[0].value[:-1], e.control.data["pre"])
+                # print(control.controls[0].value[:-1], e.control.data["pre"])
                 if control.controls[0].value[:-1] == e.control.data["pre"]:
-                    print(control.controls[1].disabled)
+                    # print(control.controls[1].disabled)
                     control.controls[1].disabled = True
-                    print(control.controls[1].disabled)
+                    # print(control.controls[1].disabled)
                     break
             self.content.update()
+
+    def preprocess(self, e):
+        # print(self.preprocess_data)
+        preprocess_dicts = {
+            'ImageDataGenerator': {
+                'featurewise_center':False,
+                'samplewise_center': False,
+            },
+            'flow_from_directory': {
+                'target_size': (256, 256),
+                'color_mode': '\'rgb\''
+            }
+        }
+
+        self.page.client_storage.set("color_mode",preprocess_dicts['flow_from_directory']['color_mode'].replace("\'",""))
+        self.page.client_storage.set("target_size",preprocess_dicts['flow_from_directory']['target_size'])
+
+        print(preprocess_dicts)
+        print(self.page.client_storage.get("data_type"))
+        print(self.page.client_storage.get("dataset_path"))
+        print(self.page.client_storage.get("project_path"))
+
+        prep = PreprocessInfo()
+        prep.send(dicts=preprocess_dicts, 
+                  data_type=self.page.client_storage.get("data_type"),
+                  dataset_type="train",
+                  dataset_path=self.page.client_storage.get("dataset_path"),
+                  project_path=self.page.client_storage.get("project_path")+"/Scripts"
+                  )

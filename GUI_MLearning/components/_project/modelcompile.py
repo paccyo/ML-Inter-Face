@@ -11,7 +11,7 @@ class ModelCompile(ft.Tab):
         self.text="モデルコンパイル"
         self.icon=ft.icons.ADJUST
         self.compile_dicts = compile_dicts
-        print(self.compile_dicts)
+        # print(self.compile_dicts)
         self.optimizer_set = []
         self.other_option = []
         self.compile_info = CompileInfo()
@@ -109,7 +109,7 @@ class ModelCompile(ft.Tab):
 
         def on_change_params(e_control):
             self.compile_dicts["optimizer"][optimizer][e_control.control.data["param"]][0] = e_control.control.value
-            print(e_control.control.value)
+            # print(e_control.control.value)
 
         def on_change_detail_checkbox(e_control):
             if e_control.control.value == True:
@@ -228,6 +228,8 @@ class ModelCompile(ft.Tab):
         if compile_state["metrics"] != None:
             compile_state["metrics"] = ["\'"+compile_state["metrics"]+"\'"]
 
-        print(compile_state)
+        # print(compile_state)
         self.page.client_storage.set("compile", compile_state)
-        self.compile_info.send(compile_state)
+        self.compile_info.send(compile_state, 
+                               project_path=self.page.client_storage.get("project_path")+"/Scripts"
+                               )

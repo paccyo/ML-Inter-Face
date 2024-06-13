@@ -19,7 +19,7 @@ class ModelInfo:
             imports_data = f.read()
         self.imports += imports_data + '\n\n'
 
-    def send_model(self, model_dict):
+    def send(self, model_dict, project_path, shape=None):
         """
         辞書からモデルを構築
         """
@@ -38,10 +38,13 @@ class ModelInfo:
 
             # パラメータ引数をセット
             for layer_param_name, layer_param_value in layer_params.items():
-                params += f'{layer_param_name}={layer_param_value},'
+                if i == 0 and shape:
+                    params += f'{layer_param_name}={layer_param_value}, '    
+                else:
+                    params += f'{layer_param_name}={shape}, '
             
             # 不要なコンマを削除
-            params = params[:-1]
+            params = params[:-2]
 
             # 行ごとにレイヤー作成
             if before_unique_layer_name:
@@ -55,14 +58,14 @@ class ModelInfo:
         # 最終層作成
         self.layers += f'    model = Model(inputs={first_unique_layer_name}, outputs={filal_unique_layer_name})\n'
 
-        self.write_modelfile()
+        self.write_modelfile(project_path)
         
-    def write_modelfile(self):
+    def write_modelfile(self, project_path):
         """
         モデルファイル書き出し
         """
         if self.layers:
-            with open('model_info.py', 'w') as f:
+            with open(f'{project_path}/model_info.py', 'w') as f:
                 f.write(self.imports+'def model_build():\n'+self.layers+'    return model')
             
 
@@ -157,4 +160,3 @@ if __name__ == '__main__':
 
     model_info = ModelInfo()
     model_info.send_model(test_dic)
-    # model_info.write_modelfile()

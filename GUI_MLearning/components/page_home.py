@@ -12,21 +12,18 @@ class Home(ft.View):
         self.controls = [
             HomeHeader(page),
             ft.Container(
-                content = ft.Row(
-                    controls = [
-                        # PastProject(page),
-                        ft.Container(
-                            content=ft.Column(
-                                controls=[
-                                    ft.ElevatedButton(text="go_next",on_click=self.next),
-                                    ft.ElevatedButton(text="create_project",on_click=self.go_create_project),
-                                ]
-                            )
-                        )
+                content = ft.Stack(
+                    controls=[
+                        PastProject(self.page),
+                        ft.ElevatedButton(text="create_new_project",on_click=self.go_create_project,top=50,right=20),
                     ],
+                    width=self.page.width,
+                    height=self.page.height
                 )
             )
         ]
+
+
 
     def next(self, e):
         self.page.go("/Page_Project")

@@ -9,7 +9,7 @@ def main(page: ft.Page):
     # Define the UI components
     page.title = "Neural Network Designer"
     page.vertical_alignment = ft.MainAxisAlignment.START
-    page.theme_mode = "dark"
+    page.theme_mode = "light"
 
     def route_change(handler):
         t_route = ft.TemplateRoute(handler.route)
