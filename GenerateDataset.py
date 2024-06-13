@@ -15,12 +15,12 @@ class DatasetInfo:
         """
         self.banana(dicts, dataset_path, project_path)
 
-    def delete_dir(self):
+    def delete_dir(self, project_path):
         """
         ディレクトリ削除
         """
         try:
-            shutil.rmtree('dataset')
+            shutil.rmtree(f'{project_path}/dataset')
         except FileNotFoundError:
             pass
 
@@ -36,7 +36,7 @@ class DatasetInfo:
             os.makedirs(f'{project_path}/dataset/test/{label}', exist_ok=True)
 
     def banana(self, dicts, dataset_path, project_path):
-        self.delete_dir()
+        self.delete_dir(project_path)
         # それぞれの画像割合
         part = [dicts['train'], dicts['validation'], dicts['test']]
         for i, label_path in enumerate(glob.glob(os.path.join(dataset_path, '*'))):
