@@ -509,7 +509,7 @@ preprocess_dicts = {
 
 
 compile_dicts = {
-        "select_optimizer":['None', 'DropDown', ['None','Adam'], 'MAIN', 'UNK'],
+        "select_optimizer":['None', 'DropDown', ['None','Adam'], 'MAIN', '最適化関数を指定します。'],
         'optimizer':{
             'None':{'detail_view':'False'},
             'Adam':{
