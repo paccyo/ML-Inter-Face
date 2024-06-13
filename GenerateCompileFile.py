@@ -19,7 +19,7 @@ class CompileInfo:
             imports_data = f.read()
         self.imports += imports_data + '\n\n'
 
-    def send(self, compile_dict):
+    def send(self, compile_dict, project_path):
         """
         辞書からコンパイルを作成
         """
@@ -42,13 +42,13 @@ class CompileInfo:
                 # 行の作成
                 self.compiles += f'    {compile_option_name} = {compile_option_info[0]}\n'
 
-        self.write_compilefile()
+        self.write_compilefile(project_path)
 
-    def write_compilefile(self):
+    def write_compilefile(self, project_path):
         """
         コンパイルファイルの書き出し
         """
-        with open('compile_info.py', 'w') as f:
+        with open(f'{project_path}/compile_info.py', 'w') as f:
             f.write(self.imports+'def compile_build():\n'+self.compiles+'    return optimizer, loss, metrics')
 
 if __name__ == '__main__':

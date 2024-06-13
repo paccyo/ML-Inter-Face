@@ -20,7 +20,7 @@ class PreprocessInfo:
             imports_data = f.read()
         self.imports += imports_data + '\n\n'
 
-    def send(self, dicts, data_type=None, dataset_type=None, dataset_path=None):
+    def send(self, dicts, data_type=None, dataset_type=None, dataset_path=None, project_path=None):
         """
         dicts->辞書
         data_type->str: image, text, etc....
@@ -28,9 +28,9 @@ class PreprocessInfo:
         dataset_path->str: datasetのpath
         """
         if data_type == 'image':
-            self.Prep_image_dataset(dicts, dataset_type, dataset_path)
+            self.Prep_image_dataset(dicts, dataset_type, dataset_path, project_path)
 
-    def Prep_image_dataset(self, dicts, dataset_type, dataset_path):
+    def Prep_image_dataset(self, dicts, dataset_type, dataset_path, project_path):
         datagen_name = ''
         self.preps = ''
         self.params = ''
@@ -61,11 +61,11 @@ class PreprocessInfo:
             self.preps += f'    return {fanc_name}_{dataset_type}'
         else:
             self.preps += '    return False'
-        self.write_Prepfile(dataset_type)
+        self.write_Prepfile(dataset_type, project_path)
         self.loop_judge(dicts, dataset_type, dataset_path)
 
-    def write_Prepfile(self, dataset_type):
-        with open(f'{dataset_type}_preprocess_info.py', 'w') as f:
+    def write_Prepfile(self, dataset_type, project_path):
+        with open(f'{project_path}/{dataset_type}_preprocess_info.py', 'w') as f:
             f.write(f'{self.imports}\n\ndef preprocess_info():\n{self.preps}')
 
     def loop_judge(self, dicts, dataset_type, dataset_path):

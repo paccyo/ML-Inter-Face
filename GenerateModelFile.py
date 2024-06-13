@@ -19,7 +19,7 @@ class ModelInfo:
             imports_data = f.read()
         self.imports += imports_data + '\n\n'
 
-    def send(self, model_dict):
+    def send(self, model_dict, project_path):
         """
         辞書からモデルを構築
         """
@@ -55,14 +55,14 @@ class ModelInfo:
         # 最終層作成
         self.layers += f'    model = Model(inputs={first_unique_layer_name}, outputs={filal_unique_layer_name})\n'
 
-        self.write_modelfile()
+        self.write_modelfile(project_path)
         
-    def write_modelfile(self):
+    def write_modelfile(self, project_path):
         """
         モデルファイル書き出し
         """
         if self.layers:
-            with open('model_info.py', 'w') as f:
+            with open(f'{project_path}/model_info.py', 'w') as f:
                 f.write(self.imports+'def model_build():\n'+self.layers+'    return model')
             
 
