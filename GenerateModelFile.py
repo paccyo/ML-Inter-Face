@@ -19,7 +19,7 @@ class ModelInfo:
             imports_data = f.read()
         self.imports += imports_data + '\n\n'
 
-    def send(self, model_dict, project_path):
+    def send(self, model_dict, project_path, shape=None):
         """
         辞書からモデルを構築
         """
@@ -38,7 +38,10 @@ class ModelInfo:
 
             # パラメータ引数をセット
             for layer_param_name, layer_param_value in layer_params.items():
-                params += f'{layer_param_name}={layer_param_value}, '
+                if i == 0 and shape:
+                    params += f'{layer_param_name}={layer_param_value}, '    
+                else:
+                    params += f'{layer_param_name}={shape}, '
             
             # 不要なコンマを削除
             params = params[:-2]
