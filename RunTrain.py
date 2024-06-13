@@ -8,7 +8,7 @@ import keras
 import japanize_matplotlib
 
 
-def run(part_dict, data_type, epochs, batchs=None):
+def run(part_dict, data_type, epochs, batchs=None, project_path=None):
 
     if data_type == 'image':
         acc_hist = []
@@ -29,7 +29,7 @@ def run(part_dict, data_type, epochs, batchs=None):
                 plt.ylabel(f'{metrics_}')
                 plt.title('評価スコア')
                 plt.legend()
-                plt.savefig(f'metrics.png')
+                plt.savefig(f'{project_path}/metrics.png')
                 plt.figure()
                 plt.plot(acc_hist, label='スコア（学習データ）')
                 plt.plot(val_acc_hist, label='スコア（検証データ）')
@@ -37,7 +37,7 @@ def run(part_dict, data_type, epochs, batchs=None):
                 plt.ylabel(f'{loss_}')
                 plt.title('損失スコア')
                 plt.legend()
-                plt.savefig(f'loss.png')
+                plt.savefig(f'{project_path}/loss.png')
         
         if part_dict['train'] != 0:
             train_generator = train_preprocess_info.preprocess_info()
