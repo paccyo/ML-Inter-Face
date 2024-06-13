@@ -509,7 +509,9 @@ preprocess_dicts = {
 
 
 compile_dicts = {
+        "select_optimizer":['None', 'DropDown', ['None','Adam'], 'MAIN', 'UNK'],
         'optimizer':{
+            'None':{'detail_view':'False'},
             'Adam':{
                 'learning_rate':[0.001, 'TextField', 1, 'MAIN', '学習率を指定します。'],
                 'beta_1':[0.9, 'TextField', 1, 'DETAIL', '1番目のモーメント推定の減衰率を指定します。'],
@@ -518,9 +520,10 @@ compile_dicts = {
                 'decay':['None', 'TextField', 1, 'DETAIL', '学習率の減衰を指定します。'],
                 'clipnorm':['None', 'TextField', 1, 'DETAIL', '勾配ノルムクリッピングを指定します。'],
                 'clipvalue':['None', 'TextField', 1, 'DETAIL', '勾配値クリッピングを指定します。'],
-                'global_clipnorm':['None', 'TextField', 1, 'DETAIL', 'グローバル勾配ノルムクリッピングを指定します。']
+                'global_clipnorm':['None', 'TextField', 1, 'DETAIL', 'グローバル勾配ノルムクリッピングを指定します。'],
+                'detail_view':'False'
             }
         },
         'loss':['None', 'DropDown', ['None', 'categorical_crossentropy', 'binary_crossentropy'], 'MAIN', '損失関数を指定します。'],
-        'metrics':['None', 'DropDown', ['None', 'acc'], 'MAIN', '評価指標を指定します。']
+        'metrics':['None', 'DropDown', ['None', 'acc'], 'MAIN', '評価指標を指定します。'],
     }
