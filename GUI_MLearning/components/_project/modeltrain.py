@@ -1,4 +1,6 @@
-from packages import RunTrain
+# from packages import RunTrain
+from packages import copy_trainpy
+from packages import GenerateBatfile
 
 import flet as ft
 import flet.canvas as cv
@@ -67,4 +69,8 @@ class ModelTrain(ft.Tab):
         #              epochs=self.epoch,
         #              batchs=self.batch_size,
         #              project_path=self.page.client_storage.get("project_path")+"/Result")
+        copy_trainpy.CopyTrain(self.page.client_storage.get("project_path")+"/Scripts")
+        GenerateBatfile.generate(self.page.client_storage.get("project_path")+"/Scripts","D:/python/env_flet/Scripts/activate.bat")
+        GenerateBatfile.Runbat(self.page.client_storage.get("project_path")+"/Scripts"+"/run.bat")
+
         pass
