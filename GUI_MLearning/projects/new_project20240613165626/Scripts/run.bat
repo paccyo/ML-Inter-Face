@@ -1,2 +1,2 @@
-"D:/python/env_flet/Scripts/activate.bat"
-start D:\python\GUI_MLearning\projects\new_project20240613165626/Scripts/RunTrain.py
+"C:\Users\Yuuki\Documents\GUI_MLearning\Scripts\activate.bat"
+start C:\Users\Yuuki\Documents\GUI_MLearning\GUI_MLearning-main\GUI_MLearning\projects\new_project20240613165626/Scripts/RunTrain.py

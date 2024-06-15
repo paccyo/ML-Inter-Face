@@ -58,10 +58,12 @@ class ModelTrain(ft.Tab):
 
 
     def on_change_batch_size(self, e):
-        self.batch_size = e.control.value
+        self.batch_size = int(e.control.value)
+        print("batch_size",self.batch_size,type(self.batch_size))
 
     def on_change_epoch(self, e):
-        self.epoch = e.control.value
+        self.epoch = int(e.control.value)
+        print("epoch",self.epoch,type(self.epoch))
 
     def on_click_train(self, e):
         # RunTrain.run(part_dict=self.page.client_storage.get("part_dict"),
@@ -70,7 +72,14 @@ class ModelTrain(ft.Tab):
         #              batchs=self.batch_size,
         #              project_path=self.page.client_storage.get("project_path")+"/Result")
         copy_trainpy.CopyTrain(self.page.client_storage.get("project_path")+"/Scripts")
-        GenerateBatfile.generate(self.page.client_storage.get("project_path")+"/Scripts","D:/python/env_flet/Scripts/activate.bat")
+        GenerateBatfile.generate(target_path=self.page.client_storage.get("project_path")+"/Scripts",
+                                 run_path=r"C:\Users\Yuuki\Documents\GUI_MLearning\Scripts\activate.bat",
+                                 part_dict=self.page.client_storage.get("part_dict"),
+                                 data_type=self.page.client_storage.get("data_type"),
+                                 epochs=self.epoch,
+                                 batchs=self.batch_size,
+                                 project_path=self.page.client_storage.get("project_path")+"/Result")
         GenerateBatfile.Runbat(self.page.client_storage.get("project_path")+"/Scripts"+"/run.bat")
-
+        e.control.disabled = True
+        self.page.update()
         pass

@@ -4,7 +4,7 @@ from packages import GetShape
 
 import flet as ft
 import flet.canvas as cv 
-
+import copy
 
 class ModelBuild(ft.Tab):
     def __init__(self, page: ft.Page, text: str | None = None, content: ft.Control | None = None, tab_content: ft.Control | None = None, icon: str | None = None, ref: ft.Ref | None = None, visible: bool | None = None, adaptive: bool | None = None):
@@ -154,7 +154,11 @@ class ModelBuild(ft.Tab):
             # # print(e_control.control.data)
             # # print(e_control.control.value)
             # # print(e.control.content.content.data)
-            e.control.content.content.data[e_control.control.data["param"]][0] = e_control.control.value
+            if e_control.control.value.isdigit():
+                value = int(e_control.control.value)
+            else:
+                value = e_control.control.value
+            e.control.content.content.data[e_control.control.data["param"]][0] = value
             # e.control.content.content.data["Default"]["activate"] = edrop.control.value
             e.control.update()
         
@@ -169,14 +173,15 @@ class ModelBuild(ft.Tab):
 
         def update_layer_params(layer_type, detail = False):
             data = layer_dicts
-            layer_params = data[layer_type]
+            # layer_params = data[layer_type]
+            print(e.control.content.content.data)
+            layer_params = e.control.content.content.data
             params = []
             
             params.append(ft.Text(layer_type, style="headlineMedium"))
             params.append(ft.Checkbox(label="detail option", value=detail, on_change = on_change_detail_checkbox))
             
             for param, value in layer_params.items():
-                # # # print(param,value)
                 if param in ["color", 'detail_view']:
                     continue
                 rect = []
@@ -254,7 +259,10 @@ class ModelBuild(ft.Tab):
                 on_tap=self.on_tap_layer,
             )
 
-        rect.content.content.data = data[e.control.text]
+        print(data[e.control.text])
+        # copy.deepcopy(x)
+        # rect.content.content.data = data[e.control.text]
+        rect.content.content.data = copy.deepcopy(data[e.control.text])
         self.design_area.content.content.controls.append(rect)
         self.update_connect_layer()
         self.design_area.content.content.update()
@@ -266,7 +274,15 @@ class ModelBuild(ft.Tab):
             # # # print(layer.content.content.data)
             # lay_format.append()
             layer_type = layer.content.content.value
-            layer_data = {param:value[0] for param, value in layer.content.content.data.items() if param != "color"}
+            layer_detail = layer.content.content.data["detail_view"]
+            layer_data = {}
+            for param,value in layer.content.content.data.items():
+                val = value[0]
+                detail = value[3]
+                if param not in ["color","detail_view"]:
+                    if detail == MAIN or layer_detail == "True":
+                        layer_data[param] = val
+            # layer_data = {param:value[0] for param, value in layer.content.content.data.items() if param not in ["color","detail_view"]}
             # # print(layer_type+str(i).zfill(4))
             # # print(layer_data)
             for key, value in layer_data.items():
@@ -282,12 +298,10 @@ class ModelBuild(ft.Tab):
                 else:
                     pass
             lay_format[layer_type+str(i).zfill(4)] = layer_data     
-
+        print(lay_format)
         self.page.client_storage.set("model",lay_format)
         self.model_info.send(model_dict=lay_format,
                              project_path=self.page.client_storage.get("project_path")+"/Scripts",
                              shape=GetShape.get(image_size=self.page.client_storage.get("target_size"),
                                                 color_mode=self.page.client_storage.get("color_mode"))
                              )
-
-        

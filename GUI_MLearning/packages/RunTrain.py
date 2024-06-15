@@ -6,11 +6,18 @@ import compile_info
 import matplotlib.pyplot as plt
 import keras
 import japanize_matplotlib
+import sys
 
+print('RunTrainfile')
 
-def run(part_dict, data_type, epochs, batchs=None, project_path=None):
-
-    if data_type == 'image':
+def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, project_path=None):
+    train_part = int(train_part)
+    validation_part = int(validation_part)
+    test_part = int(test_part)
+    epochs = int(epochs)
+    batchs = int(batchs)
+    if data_type == "image":
+        print(data_type)
         acc_hist = []
         val_acc_hist = []
         loss_hist = []
@@ -28,22 +35,22 @@ def run(part_dict, data_type, epochs, batchs=None, project_path=None):
                 plt.xlabel('Epoch')
                 plt.ylabel(f'{metrics_}')
                 plt.title('評価スコア')
-                plt.legend()
-                plt.savefig(f'{project_path}/metrics.png')
+                plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+                plt.savefig(f'{project_path}/metrics.png', bbox_inches='tight')
                 plt.figure()
                 plt.plot(acc_hist, label='スコア（学習データ）')
                 plt.plot(val_acc_hist, label='スコア（検証データ）')
                 plt.xlabel('Epoch')
                 plt.ylabel(f'{loss_}')
                 plt.title('損失スコア')
-                plt.legend()
-                plt.savefig(f'{project_path}/loss.png')
+                plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
+                plt.savefig(f'{project_path}/loss.png', bbox_inches='tight')
         
-        if part_dict['train'] != 0:
+        if train_part != 0:
             train_generator = train_preprocess_info.preprocess_info()
-        if part_dict['validation'] != 0:
+        if validation_part != 0:
             validation_generator = validation_preprocess_info.preprocess_info()
-        if part_dict['test'] != 0:
+        if test_part != 0:
             test_generator = test_preprocess_info.preprocess_info()
 
         model = model_info.model_build()
@@ -61,143 +68,6 @@ def run(part_dict, data_type, epochs, batchs=None, project_path=None):
 
 
 
-if __name__ == '__main__':
-    
-    img_info = (256, 256, 3)
-    
-    model_dic = {
-        'Input0000': {
-            'shape': img_info,
-            'batch_size': None
-        },
-        'Conv2D0001': {
-            'filters': 64,
-            'kernel_size': (3, 3),
-            'strides': (1, 1),
-            'padding': '\'valid\'',
-            'data_format': None,
-            'dilation_rate': (1, 1),
-            'groups': 1,
-            'activation': None,
-            'use_bias': True,
-            'kernel_initializer': '\'glorot_uniform\'',
-            'bias_initializer': '\'zeros\'',
-            'kernel_regularizer': None,
-            'bias_regularizer': None,
-            'activity_regularizer': None,
-            'kernel_constraint': None,
-            'bias_constraint': None
-        },
-        'Activation0002': {
-            'activation':'\'relu\''
-        },
-        'Conv2D0003': {
-            'filters': 128,
-            'kernel_size': (3, 3),
-            'strides': (1, 1),
-            'padding': '\'valid\'',
-            'data_format': None,
-            'dilation_rate': (1, 1),
-            'groups': 1,
-            'activation': None,
-            'use_bias': True,
-            'kernel_initializer': '\'glorot_uniform\'',
-            'bias_initializer': '\'zeros\'',
-            'kernel_regularizer': None,
-            'bias_regularizer': None,
-            'activity_regularizer': None,
-            'kernel_constraint': None,
-            'bias_constraint': None
-        },
-        'Activation0004': {
-            'activation':'\'relu\''
-        },
-        'MaxPooling2D0005': {
-            'pool_size': (2, 2),
-            'strides': None,
-            'padding': '\'valid\'',
-            'data_format': None,
-            'name': None
-        },
-        'GlobalAveragePooling2D0006': {
-            'data_format': None,
-            'keepdims': False
-        },
-        'Dense0007': {
-            'units': 3,
-            'use_bias': True,
-            'kernel_initializer': '\'glorot_uniform\'',
-            'bias_initializer': '\'zeros\'',
-            'kernel_regularizer': None,
-            'bias_regularizer': None,
-            'activity_regularizer': None,
-            'kernel_constraint': None,
-            'bias_constraint': None
-        },
-        'Activation0008': {
-            'activation':'\'softmax\''
-        }
-    }
-    compile_dic = {
-        'optimizer':{
-            'Adam':{
-                'learning_rate':0.001,
-                'beta_1':0.9,
-                'beta_2':0.999,
-                'epsilon':1e-07,
-                'decay':0.01,
-                # 'clipnorm':None,
-                # 'clipvalue':None,
-                # 'global_clipnorm':None
-            }
-        },
-        'loss':['\'categorical_crossentropy\''],
-        'metrics':['\'acc\'']
-    }
-    train_preprocess_dict = {
-        'ImageDataGenerator': {
-            'featurewise_center':False,
-            'samplewise_center': False,
-        },
-        'flow_from_directory': {
-            'target_size': (256, 256),
-            'color_mode': '\'rgb\'',
-            'class_mode': '\'categorical\'',
-            'batch_size' : 32
-        }
-    }
 
-    validation_preprocess_dict = {
-        'ImageDataGenerator': {
-            'featurewise_center':False,
-            'samplewise_center': False,
-        },
-        'flow_from_directory': {
-            'target_size': (256, 256),
-            'color_mode': '\'rgb\'',
-            'class_mode': '\'categorical\'',
-            'batch_size' : 32
-        }
-    }
-
-    test_preprocess_dict = {
-        # 'ImageDataGenerator': {
-        #     'featurewise_center':False,
-        #     'samplewise_center': False,
-        # },
-        # 'flow_from_directory': {
-        #     'target_size': (256, 256),
-        #     'color_mode': '\'rgb\'',
-        #     'class_mode': '\'categorical\'',
-        #     'batch_size' : 32
-        # }
-    }
-    
-    # データの分割率
-    part_dict = {'train':7, 'validation':3, 'test':0}
-
-    # エポック指定
-    epochs = 10
-
-    
-    run()
+_, train_part, validation_part, test_part, data_type, epochs, batchs, project_path = sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7]
+run(train_part, validation_part, test_part, data_type, epochs, batchs, project_path)

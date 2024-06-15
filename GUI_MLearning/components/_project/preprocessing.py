@@ -52,7 +52,10 @@ class Preprocessing(ft.Tab):
             elif control_type == [DROPDOWN, TEXTFIELD]:
                 rect = ft.Row(
                     controls=[
-                        ft.Text(value='use'+pre+':'),
+                        ft.Tooltip(
+                            message = tips,
+                            content=ft.Text(value='use'+pre+':')),
+                        # ft.Text(value='use'+pre+':'),
                         ft.Dropdown(
                             width=100,
                             height=50,
@@ -84,19 +87,24 @@ class Preprocessing(ft.Tab):
                 preprocess_control.append(rect)
 
 
-        self.content=ft.Stack(
+        self.content=ft.Row(
             controls=[
                 ft.Container(
                     content=ft.Column(
                         controls=preprocess_control,
                         alignment=ft.alignment.top_left,
                         scroll=ft.ScrollMode.HIDDEN,
-                        expand=True,
-                    ),
-                    top=0,
-                    left=0
+                        # expand=True,
+                    )
                 ),
-                ft.ElevatedButton(text='preprocess',on_click=self.preprocess,bottom=0,right=0)
+                ft.ElevatedButton(text='preprocess',on_click=self.preprocess)
+                # ft.Container(
+                #     content=ft.Stack(
+                #         controls=[ft.ElevatedButton(text='preprocess',on_click=self.preprocess, top=0, right=0)]
+                #     ),
+                #     # bgcolor=ft.colors.AMBER
+                # )
+                
             ]
         )
         # ft.Column(
@@ -109,9 +117,9 @@ class Preprocessing(ft.Tab):
     def on_change_disabled(self, e):
         # print(e.control.value)
         if e.control.value == "True":
-            for control in self.content.controls:
+            for control in self.content.controls[0].content.controls:
                 # print(control.controls[0].value[:-1], e.control.data["pre"])
-                if control.controls[0].value[:-1] == e.control.data["pre"]:
+                if control.controls[0].content.value[:-1] == e.control.data["pre"]:
                     # print(control.controls[1].disabled)
                     control.controls[1].disabled = False
                     # print(control.controls[1].disabled)
@@ -120,7 +128,7 @@ class Preprocessing(ft.Tab):
         elif e.control.value == "None":
             for control in self.content.controls:
                 # print(control.controls[0].value[:-1], e.control.data["pre"])
-                if control.controls[0].value[:-1] == e.control.data["pre"]:
+                if control.controls[0].content.value[:-1] == e.control.data["pre"]:
                     # print(control.controls[1].disabled)
                     control.controls[1].disabled = True
                     # print(control.controls[1].disabled)
@@ -152,6 +160,6 @@ class Preprocessing(ft.Tab):
         prep.send(dicts=preprocess_dicts, 
                   data_type=self.page.client_storage.get("data_type"),
                   dataset_type="train",
-                  dataset_path=self.page.client_storage.get("dataset_path"),
+                  dataset_path=self.page.client_storage.get("project_path")+"/Data/dataset",
                   project_path=self.page.client_storage.get("project_path")+"/Scripts"
                   )

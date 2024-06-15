@@ -77,7 +77,7 @@ layer_dicts = {
             'groups': [1, 'TextField', 1, 'DETAIL', 'グループ数を指定します。'],
             'use_bias': ['True', 'DropDown', ['True', 'False'], 'DETAIL', 'バイアス項を使用するかどうかを指定します。'],
             'kernel_initializer': ['glorot_uniform', 'DropDown', ['None', 'ones', 'he_normal()', 'truncated_normal()', 'random_normal'], 'DETAIL', 'カーネルの初期化方法を指定します。'],
-            'bias_initializer': ['zeros', 'DropDown', ['None', 'zeros'], 'バイアスの初期化方法を指定します。'],
+            'bias_initializer': ['zeros', 'DropDown', ['None', 'zeros'], 'DETAL', 'バイアスの初期化方法を指定します。'],
             'kernel_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'カーネルに対する正則化を指定します。'],
             'bias_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', 'バイアスに対する正則化を指定します。'],
             'activity_regularizer': ['None', 'DropDown', ['None', 'L1L2(l1=1e-4, l2=1e-4)', 'L1(1e-4)', 'L2(1e-4)'], 'DETAIL', '出力に対する正則化を指定します。'],

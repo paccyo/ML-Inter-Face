@@ -26,6 +26,7 @@ class ModelInfo:
         before_unique_layer_name = ''    # １つ前のレイヤー変数名(layername)
         first_unique_layer_name = ''     # 最初のレイヤー変数名(inputs)
         filal_unique_layer_name = ''     # 最後のレイヤー変数名(outputs)
+        shape_flag = True
         for i, (unique_layer_name, layer_params) in enumerate(model_dict.items()):
             params = ''    # 各レイヤーパラメータの格納用変数
             if i == 0:
@@ -38,10 +39,11 @@ class ModelInfo:
 
             # パラメータ引数をセット
             for layer_param_name, layer_param_value in layer_params.items():
-                if i == 0 and shape:
-                    params += f'{layer_param_name}={layer_param_value}, '    
-                else:
+                if i == 0 and shape and shape_flag:
+                    shape_flag = False
                     params += f'{layer_param_name}={shape}, '
+                else:
+                    params += f'{layer_param_name}={layer_param_value}, '
             
             # 不要なコンマを削除
             params = params[:-2]

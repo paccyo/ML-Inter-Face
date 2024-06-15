@@ -81,7 +81,7 @@ class DataSelect(ft.Tab):
                 self.page.client_storage.set("part_dict",test_dict)
                 self.page.client_storage.set("dataset_path", path)
                 self.page.client_storage.set("data_type",self.data_type)
-            # # print(judge)
+            print(judge)
 
     def on_change_data_type(self,e):
         self.data_type = e.control.value
