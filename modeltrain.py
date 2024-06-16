@@ -110,13 +110,12 @@ class ModelTrain(ft.Tab):
         GenerateBatfile.Runbat(self.page.client_storage.get("project_path")+"/Scripts"+"/run.bat")
         e.control.disabled = True
         self.page.update()
-        self.task = asyncio.create_task(self.async_get_picture())
+        self.task = asyncio.run(self.async_get_picture())
         pass
 
     async def async_get_picture(self):
         while True:
-            print("testes")
-            result_file=glob.glob(self.page.client_storage.get("project_path")+"/Result")
+            result_file=glob.glob(self.page.client_storage.get("project_path")+"/Result/*.*")
             re_loss = None
             re_metrics = None
             for file in result_file:
@@ -124,7 +123,6 @@ class ModelTrain(ft.Tab):
                     re_loss = file
                 elif "metrics" in file:
                     re_metrics = file
-
             if re_loss != None and re_metrics != None:
                 if self.metrics != re_metrics or self.loss != re_loss:
                     self.metrics = re_metrics
