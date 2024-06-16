@@ -151,15 +151,21 @@ class ModelBuild(ft.Tab):
 
 
         def on_change_params(e_control):
-            # # # print(e_control.control.text)
-            # # print(e_control.control.data)
-            # # print(e_control.control.value)
-            # # print(e.control.content.content.data)
             if e_control.control.value.isdigit():
                 value = int(e_control.control.value)
             else:
                 value = e_control.control.value
-            e.control.content.content.data[e_control.control.data["param"]][0] = value
+
+            if e_control.control.data["index"] == None:
+                e.control.content.content.data[e_control.control.data["param"]][0] = value
+            else:
+                # print(e_control.control.data["index"])
+                # print(value,type(value))
+                # print(e.control.content.content.data[e_control.control.data["param"]][0])
+                # print(e.control.content.content.data[e_control.control.data["param"]][0][e_control.control.data["index"]])
+                e.control.content.content.data[e_control.control.data["param"]][0] = list(e.control.content.content.data[e_control.control.data["param"]][0])
+                e.control.content.content.data[e_control.control.data["param"]][0][e_control.control.data["index"]] = value
+                e.control.content.content.data[e_control.control.data["param"]][0] = tuple(e.control.content.content.data[e_control.control.data["param"]][0])
             # e.control.content.content.data["Default"]["activate"] = edrop.control.value
             e.control.update()
         
@@ -175,7 +181,7 @@ class ModelBuild(ft.Tab):
         def update_layer_params(layer_type, detail = False):
             data = layer_dicts
             # layer_params = data[layer_type]
-            print(e.control.content.content.data)
+            # print(e.control.content.content.data)
             layer_params = e.control.content.content.data
             params = []
             
@@ -192,21 +198,51 @@ class ModelBuild(ft.Tab):
                 tips = value[4]
                 if main_detail == MAIN or detail:
                     if control_type == TEXTFIELD:
-                        rect = ft.Row(
-                            controls=[
-                                ft.Tooltip(
-                                    message = tips,
-                                    content=ft.Text(value=param+':')),
-                                ft.TextField(
-                                    value=param_value,
-                                    border="underline",
-                                    text_size=20,
-                                    on_change=on_change_params
-                                )
-                            ],
-                            width=200,
-                        )
-                        rect.controls[1].data = {"param":param}
+                        if value[2] == 1:
+                            rect = ft.Row( 
+                                controls=[
+                                    ft.Tooltip(
+                                        message = tips,
+                                        content=ft.Text(value=param+':')),
+                                    ft.TextField(
+                                        value=param_value,
+                                        border="underline",
+                                        text_size=20,
+                                        on_change=on_change_params,
+                                        data={"index":None,"param":param}
+                                    )
+                                ],
+                                width=200,
+                            )
+                        elif value[2] == 2:
+                            rect = ft.Row( 
+                                controls=[
+                                    ft.Tooltip(
+                                        message = tips,
+                                        content=ft.Text(value=param+':')),
+                                    ft.Text(value='('),
+                                    ft.TextField(
+                                        value=param_value[0],
+                                        border="underline",
+                                        text_size=20,
+                                        width=30,
+                                        on_change=on_change_params,
+                                        data={"index":0,"param":param}
+                                    ),
+                                    ft.Text(value=','),
+                                    ft.TextField(
+                                        value=param_value[1],
+                                        border="underline",
+                                        text_size=20,
+                                        width=30,
+                                        on_change=on_change_params,
+                                        data={"index":0,"param":param}
+                                    ),
+                                    ft.Text(value=')'),
+                                ],
+                                width=200,
+                            )
+
                     elif control_type == DROPDOWN:
                         rect = ft.Row(
                             controls=[
@@ -220,12 +256,12 @@ class ModelBuild(ft.Tab):
                                     scale=1,
                                     value=param_value,
                                     on_change=on_change_params,
-                                    options=[ft.dropdown.Option(str(x)) for x in value[2]]
+                                    options=[ft.dropdown.Option(str(x)) for x in value[2]],
+                                    data={"index":None,"param":param}
                                 )
                             ],
                             width=200,
                         )
-                        rect.controls[1].data = {"param":param}
                 if rect != []:
                     params.append(rect)
 
@@ -268,7 +304,7 @@ class ModelBuild(ft.Tab):
         self.design_area.content.content.controls.append(rect)
         self.update_connect_layer()
         self.design_area.content.content.update()
-
+    
     def on_double_tap_del_layer(self, e):
         # e.control
         for i,control in enumerate(self.design_area.content.content.controls):
@@ -276,7 +312,7 @@ class ModelBuild(ft.Tab):
                 self.design_area.content.content.controls.pop(i)
         self.update_connect_layer()
         self.page.update()
-    
+
     def model_build(self, e):
         layers=sorted(self.design_area.content.content.controls[2:], key = lambda x:x.top)
         lay_format = {}
@@ -325,3 +361,5 @@ class ModelBuild(ft.Tab):
 
         self.preview_area.content.controls[1].src = self.page.client_storage.get("project_path")+"/Result/model.png"
         self.page.update()
+
+        
