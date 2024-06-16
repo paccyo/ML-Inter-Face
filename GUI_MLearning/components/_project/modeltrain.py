@@ -6,6 +6,7 @@ import flet as ft
 import flet.canvas as cv
 import glob
 import asyncio
+import shutil
 
 class ModelTrain(ft.Tab):
     def __init__(self, page:ft.Page, text: str | None = None, content: ft.Control | None = None, tab_content: ft.Control | None = None, icon: str | None = None, ref: ft.Ref | None = None, visible: bool | None = None, adaptive: bool | None = None):
@@ -94,6 +95,10 @@ class ModelTrain(ft.Tab):
         print("epoch",self.epoch,type(self.epoch))
 
     def on_click_train(self, e):
+        shutil.rmtree(self.page.client_storage.get('project_path')+"/Result/")
+        os.makedirs(name=self.page.client_storage.get("project_path")+"/Result",exist_ok=True)
+        shutil.copy("packages/image/metrics_0epoch.png", self.page.client_storage.get('project_path')+"/Result")
+        shutil.copy("packages/image/loss_0epoch.png" ,self.page.client_storage.get('project_path')+"/Result")
         # RunTrain.run(part_dict=self.page.client_storage.get("part_dict"),
         #              data_type=self.page.client_storage.get("data_type"),
         #              epochs=self.epoch,
