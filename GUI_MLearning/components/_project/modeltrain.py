@@ -100,7 +100,11 @@ class ModelTrain(ft.Tab):
         os.makedirs(name=self.page.client_storage.get("project_path")+"/Result",exist_ok=True)
         shutil.copy("packages/image/metrics_0epoch.png", self.page.client_storage.get('project_path')+"/Result")
         shutil.copy("packages/image/loss_0epoch.png" ,self.page.client_storage.get('project_path')+"/Result")
-
+        # RunTrain.run(part_dict=self.page.client_storage.get("part_dict"),
+        #              data_type=self.page.client_storage.get("data_type"),
+        #              epochs=self.epoch,
+        #              batchs=self.batch_size,
+        #              project_path=self.page.client_storage.get("project_path")+"/Result")
         copy_trainpy.CopyTrain(self.page.client_storage.get("project_path")+"/Scripts")
         GenerateBatfile.generate(target_path=self.page.client_storage.get("project_path")+"/Scripts",
                                  run_path=r"C:\Users\Yuuki\Documents\GUI_MLearning\Scripts\activate.bat",

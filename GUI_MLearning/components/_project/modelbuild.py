@@ -61,7 +61,7 @@ class ModelBuild(ft.Tab):
             content=
                 cv.Canvas(
                 content=ft.Stack(
-                    [
+                    controls=[
                         ft.Text("Design", style="headlineMedium" ,text_align=ft.alignment.top_center),
                         ft.ElevatedButton(text="build", on_click=self.model_build, right=0, bottom=0)
                     ],
@@ -257,6 +257,7 @@ class ModelBuild(ft.Tab):
                 left=50,
                 on_vertical_drag_update=self.on_drag_update,
                 on_tap=self.on_tap_layer,
+                on_double_tap=self.on_tap_del_layer,
             )
 
         print(data[e.control.text])
@@ -305,3 +306,13 @@ class ModelBuild(ft.Tab):
                              shape=GetShape.get(image_size=self.page.client_storage.get("target_size"),
                                                 color_mode=self.page.client_storage.get("color_mode"))
                              )
+    def on_tap_del_layer(self,e):
+        for i,control in enumerate(self.design_area.content.content.controls):
+            print("*"*10)
+            print(control,e.control)
+            if control == e.control:
+                self.design_area.content.content.controls.pop(i)
+                print("del",e)
+                break
+        self.update_connect_layer()
+        self.page.update()

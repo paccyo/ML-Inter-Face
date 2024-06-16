@@ -99,3 +99,4 @@ class DataSelect(ft.Tab):
 
     def on_change_learning_way(self, e):
         self.learning_way =  e.control.value
+ 
