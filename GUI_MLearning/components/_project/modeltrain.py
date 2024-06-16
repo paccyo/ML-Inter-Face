@@ -5,6 +5,7 @@ from packages import GenerateBatfile
 import flet as ft
 import flet.canvas as cv
 import glob
+import asyncio
 
 class ModelTrain(ft.Tab):
     def __init__(self, page:ft.Page, text: str | None = None, content: ft.Control | None = None, tab_content: ft.Control | None = None, icon: str | None = None, ref: ft.Ref | None = None, visible: bool | None = None, adaptive: bool | None = None):
@@ -14,6 +15,8 @@ class ModelTrain(ft.Tab):
         self.icon=ft.icons.ADJUST
         self.info_files = glob.glob(self.page.client_storage.get("project_path")+"/Scripts/*")
         print(self.info_files)
+        self.metrics = self.page.client_storage.get("project_path")+"/Result/metrics_0epoch.png"
+        self.loss = self.page.client_storage.get("project_path")+"/Result/loss_0epoch.png"
         self.batch_size = 2
         self.epoch = 1000
         batch = ft.Container(
@@ -41,6 +44,29 @@ class ModelTrain(ft.Tab):
             alignment=ft.alignment.top_center
         )
 
+        self.graph_image = ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Image(
+                        src=self.metrics,
+                        width=int(self.page.width*(50/126)),
+                        height=int(self.page.height*(30/68)),
+                        fit=ft.ImageFit.CONTAIN
+                    ),
+                    ft.Image(
+                        src=self.loss,
+                        width=int(self.page.width*(50/126)),
+                        height=int(self.page.height*(30/68)),
+                        fit=ft.ImageFit.CONTAIN
+                    ),
+                ]
+            ),
+            top=0,
+            left=500,
+            expand=True
+        )
+        print(self.page.width,self.page.height)
+
         self.content = ft.Stack(
             [
                 ft.Container(
@@ -51,10 +77,12 @@ class ModelTrain(ft.Tab):
                     top=0,
                     left=0
                 ),
+                self.graph_image,
                 ft.ElevatedButton(text="train",on_click=self.on_click_train, right=0, bottom=0),
             ],
             expand=True,
         )
+        self.task = None
 
 
     def on_change_batch_size(self, e):
@@ -82,4 +110,29 @@ class ModelTrain(ft.Tab):
         GenerateBatfile.Runbat(self.page.client_storage.get("project_path")+"/Scripts"+"/run.bat")
         e.control.disabled = True
         self.page.update()
+        self.task = asyncio.run(self.async_get_picture())
         pass
+
+    async def async_get_picture(self):
+        while True:
+            result_file=glob.glob(self.page.client_storage.get("project_path")+"/Result/*.*")
+            re_loss = None
+            re_metrics = None
+            for file in result_file:
+                if "loss" in file:
+                    re_loss = file
+                elif "metrics" in file:
+                    re_metrics = file
+            if re_loss != None and re_metrics != None:
+                if self.metrics != re_metrics or self.loss != re_loss:
+                    self.metrics = re_metrics
+                    self.loss = re_loss
+                    self.graph_image.content.controls[0].src=self.metrics
+                    self.graph_image.content.controls[1].src=self.loss
+                    self.graph_image.content.controls[0].width=int(self.page.width*(50/126))
+                    self.graph_image.content.controls[0].height=int(self.page.height*(30/68))
+                    self.graph_image.content.controls[1].width=int(self.page.width*(50/126))
+                    self.graph_image.content.controls[1].height=int(self.page.height*(30/68))
+                    self.page.update()
+                    
+            await asyncio.sleep(0.5)
