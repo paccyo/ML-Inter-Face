@@ -66,6 +66,8 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
 
         model.fit(train_generator, validation_data=validation_generator, epochs=epochs, callbacks=[plot_callback])
 
+        model.save('trained_model.h5')
+
     elif data_type == 'text':
         pass
 
