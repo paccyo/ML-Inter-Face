@@ -15,5 +15,5 @@ if model_img_path == None:
     model_id = 0
 else:
     model_id = int(os.path.splitext(os.path.basename(model_img_path))[0].split('_')[1])
-    os.remove(f'{project_path}/model_{model_id-1}.png')
-plot_model(model, show_shapes=True, expand_nested=True, to_file=f'{project_path}/model_{model_id}.png')
+    os.remove(f'{project_path}/model_{model_id}.png')
+plot_model(model, show_shapes=True, expand_nested=True, to_file=f'{project_path}/model_{model_id+1}.png')
