@@ -50,7 +50,8 @@ class CreateProject(ft.View):
             os.makedirs(name=path+"/Scripts",exist_ok=True)
             os.makedirs(name=path+"/Logs",exist_ok=True)
             os.makedirs(name=path+"/Result",exist_ok=True)
-
+            shutil.copy("packages/image/metrics_0epoch.png", self.page.client_storage.get('project_path')+"/Result")
+            shutil.copy("packages/image/loss_0epoch.png" ,self.page.client_storage.get('project_path')+"/Result") 
 
 
             
