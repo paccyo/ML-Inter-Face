@@ -78,7 +78,9 @@ class ModelTrain(ft.Tab):
             expand=True
         )
         print(self.page.width,self.page.height)
-
+        self.pb_text = ft.Text(value="epoch:  "+"0"+"/"+str(self.epoch),top=480,left=50)
+        self.pb = ft.ProgressBar(width=400,top=500,left=0,value=0)
+        
         self.content = ft.Stack(
             [
                 ft.Container(
@@ -90,11 +92,13 @@ class ModelTrain(ft.Tab):
                     left=0
                 ),
                 self.graph_image,
+                self.pb_text,
+                self.pb,
                 ft.ElevatedButton(text="train",on_click=self.on_click_train, right=0, bottom=0),
             ],
             expand=True,
         )
-        self.task = None
+
 
 
     def on_change_batch_size(self, e):
@@ -141,6 +145,7 @@ class ModelTrain(ft.Tab):
                     re_metrics = file
             if re_loss != None and re_metrics != None:
                 if self.metrics != re_metrics or self.loss != re_loss:
+                    epoch = int(re_metrics.split("_")[1].replace("epoch.png",""))
                     self.metrics = re_metrics
                     self.loss = re_loss
                     self.graph_image.content.controls[0].src=self.metrics
@@ -149,6 +154,9 @@ class ModelTrain(ft.Tab):
                     self.graph_image.content.controls[0].height=int(self.page.height*(30/68))
                     self.graph_image.content.controls[1].width=int(self.page.width*(50/126))
                     self.graph_image.content.controls[1].height=int(self.page.height*(30/68))
+
+                    self.pb_text.value = "epoch:  "+str(epoch)+"/"+str(self.epoch)
+                    self.pb.value = epoch/self.epoch
                     self.page.update()
                     
             await asyncio.sleep(0.5)
