@@ -86,6 +86,8 @@ class DataSelect(ft.Tab):
                 self.page.client_storage.set("dataset_path", path)
                 self.page.client_storage.set("data_type",self.data_type)
                 self.sccess_failed_image.src = "packages/image/success.png"
+                with open(self.page.client_storage.get('project_path')+"/dataset_path.txt", 'w', encoding='utf-8') as file:
+                    file.write(path+"\n"+self.data_type)
             else:
                 self.sccess_failed_image.src = "packages/image/failed.png"
             self.page.update()
@@ -97,4 +99,3 @@ class DataSelect(ft.Tab):
 
     def on_change_learning_way(self, e):
         self.learning_way =  e.control.value
- 
