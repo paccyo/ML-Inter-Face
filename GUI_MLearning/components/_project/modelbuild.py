@@ -236,7 +236,7 @@ class ModelBuild(ft.Tab):
                                         text_size=20,
                                         width=30,
                                         on_change=on_change_params,
-                                        data={"index":0,"param":param}
+                                        data={"index":1,"param":param}
                                     ),
                                     ft.Text(value=')'),
                                 ],
