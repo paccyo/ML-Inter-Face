@@ -23,9 +23,7 @@ def Runbat(batfile_path):
     path = '/'.join(batfile_path.split('/')[:-1])
     with open(f'{path}/output.txt', 'w') as f:
         pass
-    subprocess.run(batfile_path, 
-                   stdout=f'{path}/output.txt', stderr=f'{path}/output.txt'
-                     )
+    subprocess.Popen(batfile_path)
     
 def generate_output_graph_bat(target_path, run_path, project_path):
     """
