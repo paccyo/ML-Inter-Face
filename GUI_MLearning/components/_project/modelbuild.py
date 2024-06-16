@@ -258,6 +258,7 @@ class ModelBuild(ft.Tab):
                 left=50,
                 on_vertical_drag_update=self.on_drag_update,
                 on_tap=self.on_tap_layer,
+                on_double_tap=self.on_double_tap_del_layer,
             )
 
         print(data[e.control.text])
@@ -268,6 +269,14 @@ class ModelBuild(ft.Tab):
         self.update_connect_layer()
         self.design_area.content.content.update()
 
+    def on_double_tap_del_layer(self, e):
+        # e.control
+        for i,control in enumerate(self.design_area.content.content.controls):
+            if e.control == control:
+                self.design_area.content.content.controls.pop(i)
+        self.update_connect_layer()
+        self.page.update()
+    
     def model_build(self, e):
         layers=sorted(self.design_area.content.content.controls[2:], key = lambda x:x.top)
         lay_format = {}
