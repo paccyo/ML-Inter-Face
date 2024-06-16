@@ -17,8 +17,18 @@ class ModelTrain(ft.Tab):
         self.icon=ft.icons.ADJUST
         self.info_files = glob.glob(self.page.client_storage.get("project_path")+"/Scripts/*")
         print(self.info_files)
-        self.metrics = self.page.client_storage.get("project_path")+"/Result/metrics_0epoch.png"
-        self.loss = self.page.client_storage.get("project_path")+"/Result/loss_0epoch.png"
+        self.metrics = None
+        self.loss = None
+        re = glob.glob(self.page.client_storage.get("project_path")+"/Result/*.png")
+        for r in re:
+            if "metrics" in re:
+                self.metrics = re
+            elif "loss" in re:
+                self.loss = re
+        if self.metrics == None:
+            self.metrics = self.page.client_storage.get("project_path")+"/Result/metrics_0epoch.png"
+        if self.loss == None:
+            self.loss = self.page.client_storage.get("project_path")+"/Result/loss_0epoch.png"
         self.batch_size = 2
         self.epoch = 1000
         batch = ft.Container(
