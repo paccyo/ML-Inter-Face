@@ -31,7 +31,7 @@ class ModelTrain(ft.Tab):
             self.loss = self.page.client_storage.get("project_path")+"/Result/loss_0epoch.png"
         self.batch_size = 2
         self.epoch = 1000
-        batch = ft.Container(
+        self.batch_input = ft.Container(
             content=ft.Row(
                 controls=[
                     # ft.Tooltip(
@@ -43,7 +43,7 @@ class ModelTrain(ft.Tab):
             ),
             alignment=ft.alignment.top_center
         )
-        epoch = ft.Container(
+        self.epoch_input = ft.Container(
             content=ft.Row(
                 controls=[
                     # ft.Tooltip(
@@ -85,8 +85,8 @@ class ModelTrain(ft.Tab):
             [
                 ft.Container(
                     content=ft.Column(
-                        controls=[batch,
-                                  epoch]
+                        controls=[self.batch_input,
+                                  self.epoch_input]
                     ),
                     top=0,
                     left=0
@@ -98,6 +98,7 @@ class ModelTrain(ft.Tab):
             ],
             expand=True,
         )
+        self.task = None
 
 
 
@@ -107,6 +108,8 @@ class ModelTrain(ft.Tab):
 
     def on_change_epoch(self, e):
         self.epoch = int(e.control.value)
+        self.pb_text.value = "epoch:  "+"0"+"/"+str(self.epoch)
+        self.page.update()
         print("epoch",self.epoch,type(self.epoch))
 
     def on_click_train(self, e):
@@ -114,11 +117,7 @@ class ModelTrain(ft.Tab):
         os.makedirs(name=self.page.client_storage.get("project_path")+"/Result",exist_ok=True)
         shutil.copy("packages/image/metrics_0epoch.png", self.page.client_storage.get('project_path')+"/Result")
         shutil.copy("packages/image/loss_0epoch.png" ,self.page.client_storage.get('project_path')+"/Result")
-        # RunTrain.run(part_dict=self.page.client_storage.get("part_dict"),
-        #              data_type=self.page.client_storage.get("data_type"),
-        #              epochs=self.epoch,
-        #              batchs=self.batch_size,
-        #              project_path=self.page.client_storage.get("project_path")+"/Result")
+
         copy_trainpy.CopyTrain(self.page.client_storage.get("project_path")+"/Scripts")
         GenerateBatfile.generate(target_path=self.page.client_storage.get("project_path")+"/Scripts",
                                  run_path=r"C:\Users\Yuuki\Documents\GUI_MLearning\Scripts\activate.bat",
@@ -145,7 +144,7 @@ class ModelTrain(ft.Tab):
                     re_metrics = file
             if re_loss != None and re_metrics != None:
                 if self.metrics != re_metrics or self.loss != re_loss:
-                    epoch = int(re_metrics.split("_")[1].replace("epoch.png",""))
+                    epoch = int(re_metrics.split("_")[-1].replace("epoch.png",""))
                     self.metrics = re_metrics
                     self.loss = re_loss
                     self.graph_image.content.controls[0].src=self.metrics
@@ -158,5 +157,5 @@ class ModelTrain(ft.Tab):
                     self.pb_text.value = "epoch:  "+str(epoch)+"/"+str(self.epoch)
                     self.pb.value = epoch/self.epoch
                     self.page.update()
-                    
+
             await asyncio.sleep(0.5)
