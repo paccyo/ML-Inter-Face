@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import keras
 import japanize_matplotlib
 import sys
+import os
 
 print('RunTrainfile')
 
@@ -36,7 +37,8 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
                 plt.ylabel(f'{metrics_}')
                 plt.title('評価スコア')
                 plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
-                plt.savefig(f'{project_path}/metrics.png', bbox_inches='tight')
+                os.remove(f'{project_path}/metrics_{len(acc_hist)-1}epoch.png')
+                plt.savefig(f'{project_path}/metrics_{len(acc_hist)}epoch.png', bbox_inches='tight')
                 plt.figure()
                 plt.plot(acc_hist, label='スコア（学習データ）')
                 plt.plot(val_acc_hist, label='スコア（検証データ）')
@@ -44,7 +46,8 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
                 plt.ylabel(f'{loss_}')
                 plt.title('損失スコア')
                 plt.legend(loc='upper left', bbox_to_anchor=(1, 1))
-                plt.savefig(f'{project_path}/loss.png', bbox_inches='tight')
+                os.remove(f'{project_path}/loss_{len(loss_hist)-1}epoch.png')
+                plt.savefig(f'{project_path}/loss_{len(loss_hist)}epoch.png', bbox_inches='tight')
         
         if train_part != 0:
             train_generator = train_preprocess_info.preprocess_info()
