@@ -44,13 +44,16 @@ class CreateProject(ft.View):
         if self.project_filename != "":
             path = os.path.abspath('projects/'+self.project_filename)
             # print(path)
-            os.makedirs(name='projects/'+self.project_filename,exist_ok=True)
-            os.makedirs(name='projects/'+self.project_filename+"/Data",exist_ok=True)
-            os.makedirs(name='projects/'+self.project_filename+"/Scripts",exist_ok=True)
-            os.makedirs(name='projects/'+self.project_filename+"/Logs",exist_ok=True)
-            os.makedirs(name='projects/'+self.project_filename+"/Result",exist_ok=True)
-
             self.page.client_storage.set('project_path', path)
+            os.makedirs(name=path,exist_ok=True)
+            os.makedirs(name=path+"/Data",exist_ok=True)
+            os.makedirs(name=path+"/Scripts",exist_ok=True)
+            os.makedirs(name=path+"/Logs",exist_ok=True)
+            os.makedirs(name=path+"/Result",exist_ok=True)
+
+
+
+            
             self.page.go("/Page_Project")
         else:
             pass
