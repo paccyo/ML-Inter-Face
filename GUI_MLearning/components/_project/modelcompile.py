@@ -14,7 +14,6 @@ class ModelCompile(ft.Tab):
         # print(self.compile_dicts)
         self.optimizer_set = []
         self.other_option = []
-        self.compile_info = CompileInfo()
 
         self.optimizer_set.append(
             ft.Row(
@@ -183,6 +182,7 @@ class ModelCompile(ft.Tab):
 
 
     def on_click_compile(self, e):
+        compile_info = CompileInfo()
         compile_state = {}
         optimizer = self.compile_dicts["select_optimizer"][0]
         compile_state["optimizer"] = {optimizer:self.compile_dicts["optimizer"][optimizer]}
@@ -230,6 +230,6 @@ class ModelCompile(ft.Tab):
 
         # print(compile_state)
         self.page.client_storage.set("compile", compile_state)
-        self.compile_info.send(compile_state, 
-                               project_path=self.page.client_storage.get("project_path")+"/Scripts"
-                               )
+        compile_info.send(compile_state, 
+                            project_path=self.page.client_storage.get("project_path")+"/Scripts"
+                            )

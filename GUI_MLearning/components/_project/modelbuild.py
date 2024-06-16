@@ -1,6 +1,6 @@
 from components.util.Calldict import (layer_dicts, TEXTFIELD, DROPDOWN, MAIN, DETAIL)
 from packages.GenerateModelFile import ModelInfo
-from packages import GetShape
+from packages import GetShape,GenerateBatfile,copy_output_model_graphpy
 
 import flet as ft
 import flet.canvas as cv 
@@ -21,7 +21,6 @@ class ModelBuild(ft.Tab):
             scroll=ft.ScrollMode.HIDDEN,
             expand=False,
         )
-        self.model_info = ModelInfo()
         for layer_name in layer_dicts.keys():
             self.sidebar_layers.controls.append(ft.ElevatedButton(layer_name, on_click=self.add_layer))
 
@@ -61,7 +60,7 @@ class ModelBuild(ft.Tab):
             content=
                 cv.Canvas(
                 content=ft.Stack(
-                    controls=[
+                    [
                         ft.Text("Design", style="headlineMedium" ,text_align=ft.alignment.top_center),
                         ft.ElevatedButton(text="build", on_click=self.model_build, right=0, bottom=0)
                     ],
@@ -80,12 +79,14 @@ class ModelBuild(ft.Tab):
             content=ft.Column(
                 [
                     ft.Text("Preview", style="headlineMedium"),
-                    ft.Image(src="https://example.com/your_image.png", fit=ft.ImageFit.CONTAIN, height=300, width=300)
-                ]),
+                    ft.Image(src="https://example.com/your_image.png", fit=ft.ImageFit.CONTAIN)
+                ],
+                scroll=ft.ScrollMode.HIDDEN
+                ),
             alignment=ft.alignment.top_center,
             expand=True,
             bgcolor=ft.colors.BLUE,
-            border_radius=15
+            border_radius=15,
         )
 
 
@@ -257,7 +258,6 @@ class ModelBuild(ft.Tab):
                 left=50,
                 on_vertical_drag_update=self.on_drag_update,
                 on_tap=self.on_tap_layer,
-                on_double_tap=self.on_tap_del_layer,
             )
 
         print(data[e.control.text])
@@ -301,18 +301,18 @@ class ModelBuild(ft.Tab):
             lay_format[layer_type+str(i).zfill(4)] = layer_data     
         print(lay_format)
         self.page.client_storage.set("model",lay_format)
-        self.model_info.send(model_dict=lay_format,
+        model_info = ModelInfo()
+        model_info.send(model_dict=lay_format,
                              project_path=self.page.client_storage.get("project_path")+"/Scripts",
                              shape=GetShape.get(image_size=self.page.client_storage.get("target_size"),
                                                 color_mode=self.page.client_storage.get("color_mode"))
                              )
-    def on_tap_del_layer(self,e):
-        for i,control in enumerate(self.design_area.content.content.controls):
-            print("*"*10)
-            print(control,e.control)
-            if control == e.control:
-                self.design_area.content.content.controls.pop(i)
-                print("del",e)
-                break
-        self.update_connect_layer()
+        
+        copy_output_model_graphpy.CopyModelGraph(target_path=self.page.client_storage.get("project_path")+"/Scripts")
+        GenerateBatfile.generate_output_graph_bat(target_path=self.page.client_storage.get("project_path")+"/Scripts",
+                                                  run_path=r"C:\Users\Yuuki\Documents\GUI_MLearning\Scripts\activate.bat",
+                                                  project_path=self.page.client_storage.get("project_path")+"/Result")
+        GenerateBatfile.Runbat(self.page.client_storage.get("project_path")+"/Scripts"+"/output_model_graph_run.bat")
+
+        self.preview_area.content.controls[1].src = self.page.client_storage.get("project_path")+"/Result/model.png"
         self.page.update()
