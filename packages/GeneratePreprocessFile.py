@@ -1,5 +1,6 @@
 
 import os
+import numpy as np
 
 class PreprocessInfo:
     """
@@ -75,7 +76,13 @@ class PreprocessInfo:
             self.Prep_image_dataset(dicts, 'test', dataset_path, project_path)
         else:
             return
-
+    
+    def get_shape(image_size=(None, None), color_mode='rgb'):    
+        if color_mode == 'rgb':
+            color = 3
+        else:
+            color = 1
+        return (image_size[0], image_size[1], color)
 
 if __name__ == '__main__':
     preprocess_dicts = {
@@ -91,6 +98,9 @@ if __name__ == '__main__':
 
     prep = PreprocessInfo(data_type='image')
     prep.Prep_dataset(preprocess_dicts)
+
+    shape_size = PreprocessInfo.get_shape(image_size=(256, 256), color_mode='rgb')
+    print(shape_size)
 
 
     
