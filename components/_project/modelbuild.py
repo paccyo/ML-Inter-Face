@@ -1,6 +1,6 @@
 from components.util.Calldict import (layer_dicts, TEXTFIELD, DROPDOWN, MAIN, DETAIL)
 from packages.GenerateModelFile import ModelInfo
-from packages import GetShape,GenerateBatfile,copy_output_model_graphpy
+from packages import GenerateBatfile, copy_to_userproject
 
 import flet as ft
 import flet.canvas as cv 
@@ -349,11 +349,11 @@ class ModelBuild(ft.Tab):
         model_info = ModelInfo()
         model_info.send(model_dict=lay_format,
                              project_path=self.page.client_storage.get("project_path")+"/Scripts",
-                             shape=GetShape.get(image_size=self.page.client_storage.get("target_size"),
+                             shape=model_info.get_shape(image_size=self.page.client_storage.get("target_size"),
                                                 color_mode=self.page.client_storage.get("color_mode"))
                              )
         
-        copy_output_model_graphpy.CopyModelGraph(target_path=self.page.client_storage.get("project_path")+"/Scripts")
+        copy_to_userproject.CopyModelGraph(target_path=self.page.client_storage.get("project_path")+"/Scripts")
         GenerateBatfile.generate_output_graph_bat(target_path=self.page.client_storage.get("project_path")+"/Scripts",
                                                   run_path=r"C:\Users\Yuuki\Documents\GUI_MLearning\Scripts\activate.bat",
                                                   project_path=self.page.client_storage.get("project_path")+"/Result")
