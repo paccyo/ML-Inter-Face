@@ -69,6 +69,13 @@ class ModelInfo:
         if self.layers:
             with open(f'{project_path}/model_info.py', 'w') as f:
                 f.write(self.imports+'def model_build():\n'+self.layers+'    return model')
+
+    def get_shape(self, image_size=(None, None), color_mode='rgb'):    
+        if color_mode == 'rgb':
+            color = 3
+        else:
+            color = 1
+        return (image_size[0], image_size[1], color)
             
 
 if __name__ == '__main__':
@@ -161,4 +168,8 @@ if __name__ == '__main__':
     # 実行
 
     model_info = ModelInfo()
-    model_info.send_model(test_dic)
+    model_info.send(test_dic)
+
+    shape_size = model_info.get_shape(image_size=(256, 256), color_mode='rgb')
+    print(shape_size)
+

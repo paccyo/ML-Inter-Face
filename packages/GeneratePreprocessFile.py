@@ -1,5 +1,6 @@
 
 import os
+import numpy as np
 
 class PreprocessInfo:
     """
@@ -91,6 +92,7 @@ if __name__ == '__main__':
 
     prep = PreprocessInfo(data_type='image')
     prep.Prep_dataset(preprocess_dicts)
+
 
 
     

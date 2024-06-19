@@ -1,5 +1,5 @@
 # from packages import RunTrain
-from packages import copy_trainpy
+from packages import copy_to_userproject
 from packages import GenerateBatfile
 
 import flet as ft
@@ -118,7 +118,7 @@ class ModelTrain(ft.Tab):
         shutil.copy("packages/image/metrics_0epoch.png", self.page.client_storage.get('project_path')+"/Result")
         shutil.copy("packages/image/loss_0epoch.png" ,self.page.client_storage.get('project_path')+"/Result")
 
-        copy_trainpy.CopyTrain(self.page.client_storage.get("project_path")+"/Scripts")
+        copy_to_userproject.CopyTrain(self.page.client_storage.get("project_path")+"/Scripts")
         GenerateBatfile.generate(target_path=self.page.client_storage.get("project_path")+"/Scripts",
                                  run_path=r"C:\Users\Yuuki\Documents\GUI_MLearning\Scripts\activate.bat",
                                  part_dict=self.page.client_storage.get("part_dict"),
