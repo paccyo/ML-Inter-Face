@@ -8,12 +8,17 @@ class DatasetInfo:
     """
     データセット作成
     """
-    def send(self, dicts, dataset_path, project_path):
+    def send(self, dicts, data_path, project_path, data_type='image'):
         """
         dicts->str: 辞書
-        dataset_path->str: データセットpath
+        data_path->str: データセットpath
+        project_path:str -> "user_project/Data"
+        data_type:str -> 'image' or 'text
         """
-        self.banana(dicts, dataset_path, project_path)
+        if data_type == 'image':
+            self.generate_image_dataset(dicts, data_path, project_path)
+        elif data_type == 'text':
+            self.generate_text_dataset(dicts, data_path, project_path)
 
     def delete_dir(self, project_path):
         """
@@ -35,11 +40,11 @@ class DatasetInfo:
         if part[2] != 0:
             os.makedirs(f'{project_path}/dataset/test/{label}', exist_ok=True)
 
-    def banana(self, dicts, dataset_path, project_path):
+    def generate_image_dataset(self, dicts, data_path, project_path):
         self.delete_dir(project_path)
         # それぞれの画像割合
         part = [dicts['train'], dicts['validation'], dicts['test']]
-        for i, label_path in enumerate(glob.glob(os.path.join(dataset_path, '*'))):
+        for i, label_path in enumerate(glob.glob(os.path.join(data_path, '*'))):
             # ラベルごとの画像枚数
             sum_n = len(glob.glob(os.path.join(label_path, '*.*')))
             # ラベル名
@@ -68,6 +73,8 @@ class DatasetInfo:
                 else:
                     shutil.copy(image_path, f'{project_path}/dataset/test/{label}/{os.path.basename(image_path)}')
     
+    def generate_text_dataset(self):
+        pass
 
 # テストケース
 if __name__ == '__main__':
