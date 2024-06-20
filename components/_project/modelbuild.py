@@ -1,6 +1,7 @@
 from components.util.Calldict import (layer_dicts, TEXTFIELD, DROPDOWN, MAIN, DETAIL)
 from packages.GenerateModelFile import ModelInfo
 from packages import GenerateBatfile, copy_to_userproject
+from packages import read_activate_path
 
 import flet as ft
 import flet.canvas as cv 
@@ -355,11 +356,12 @@ class ModelBuild(ft.Tab):
         
         copy_to_userproject.CopyModelGraph(target_path=self.page.client_storage.get("project_path")+"/Scripts")
         GenerateBatfile.generate_output_graph_bat(target_path=self.page.client_storage.get("project_path")+"/Scripts",
-                                                  run_path=r"C:\Users\Yuuki\Documents\GUI_MLearning\Scripts\activate.bat",
+                                                  run_path=read_activate_path.read_activ_path(),
                                                   project_path=self.page.client_storage.get("project_path")+"/Result")
         GenerateBatfile.Runbat(self.page.client_storage.get("project_path")+"/Scripts"+"/output_model_graph_run.bat")
 
         self.preview_area.content.controls[1].src = self.page.client_storage.get("project_path")+"/Result/model.png"
         self.page.update()
+
 
         

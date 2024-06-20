@@ -1,6 +1,7 @@
 # from packages import RunTrain
 from packages import copy_to_userproject
 from packages import GenerateBatfile
+from packages import read_activate_path
 
 import flet as ft
 import flet.canvas as cv
@@ -120,7 +121,7 @@ class ModelTrain(ft.Tab):
 
         copy_to_userproject.CopyTrain(self.page.client_storage.get("project_path")+"/Scripts")
         GenerateBatfile.generate(target_path=self.page.client_storage.get("project_path")+"/Scripts",
-                                 run_path=r"C:\Users\Yuuki\Documents\GUI_MLearning\Scripts\activate.bat",
+                                 run_path=read_activate_path.read_activ_path(),
                                  part_dict=self.page.client_storage.get("part_dict"),
                                  data_type=self.page.client_storage.get("data_type"),
                                  epochs=self.epoch,
