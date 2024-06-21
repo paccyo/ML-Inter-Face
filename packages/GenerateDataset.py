@@ -19,11 +19,11 @@ class DatasetInfo:
         if data_type == 'image':
             self.generate_image_dataset(part, data_path, project_path, data_type)
 
-    def send_dataframe(self, part, data_path, project_path, data_type='dataframe'):
+    def send_dataframe(self, part, data_path, project_path, data_type='dataframe', shuffle=False):
         """
         project_path:str -> user_project/Data
         """
-        self.generate_dataframe_dataset(part, data_path, project_path, data_type)
+        self.generate_dataframe_dataset(part, data_path, project_path, data_type, shuffle)
 
 
     def delete_dir(self, project_path):
@@ -47,7 +47,7 @@ class DatasetInfo:
             if part[2] != 0:
                 os.makedirs(f'{project_path}/dataset/test/{label}', exist_ok=True)
         elif data_type == 'dataframe':
-            os.makedirs(f'{project_path}/dataset', exist_ok=True)
+            os.makedirs(f'{project_path}', exist_ok=True)
 
     def generate_image_dataset(self, part, data_path, project_path):
         self.delete_dir(project_path)
@@ -60,18 +60,7 @@ class DatasetInfo:
             label = label_path.split('\\')[-1]
             # フォルダ作成
             self.generate_dir(label, part, project_path)
-            # それぞれの画像枚数
-            train_n = sum_n*(part[0]/10)
-            validation_n = sum_n*(part[1]/10)
-            test_n = sum_n*(part[2]/10)
-            # 余った画像を0ではないところへin
-            if train_n != 0:
-                train_n += sum_n-(train_n+validation_n+test_n)
-            elif validation_n != 0:
-                validation_n += sum_n-(train_n+validation_n+test_n)
-            else:
-                test_n += sum_n-(train_n+validation_n+test_n)
-
+            train_n, validation_n, test_n = self.calc_part(part, sum_n)
             # 画像を突っ込む
             for i, image_path in enumerate(glob.glob(os.path.join(label_path, '*.*'))):
                 i += 1
@@ -81,11 +70,42 @@ class DatasetInfo:
                     shutil.copy(image_path, f'{project_path}/dataset/validation/{label}/{os.path.basename(image_path)}')
                 else:
                     shutil.copy(image_path, f'{project_path}/dataset/test/{label}/{os.path.basename(image_path)}')
+
+    def calc_part(self, part, sum_n):
+        # それぞれのデータ数
+        train_n = sum_n*(part[0]/10)
+        validation_n = sum_n*(part[1]/10)
+        test_n = sum_n*(part[2]/10)
+        # 余ったデータを0ではないところへin
+        if train_n != 0:
+            train_n += sum_n-(train_n+validation_n+test_n)
+        elif validation_n != 0:
+            validation_n += sum_n-(train_n+validation_n+test_n)
+        else:
+            test_n += sum_n-(train_n+validation_n+test_n)
+        return train_n, validation_n, test_n
+
     
-    def generate_dataframe_dataset(self, part, data_path, project_path, data_type):
+    def generate_dataframe_dataset(self, part, data_path, project_path, data_type, shuffle):
         self.delete_dir(project_path)
         self.generate_dir(None, None, project_path, data_type)
+        df = pd.read_csv(data_path)
+        sum_n = len(list(df.index))
+        train_n, validation_n, test_n = self.calc_part(part, sum_n)
+        if shuffle:
+            df = df.sample(frac=1)
+        train_df = df.iloc[:train_n]
+        validation_df = df.iloc[train_n:train_n+validation_n]
+        test_df = df.iloc[train_n+validation_n:train_n+validation_n+test_n]
+        if len(train_df.values):
+            train_df.to_csv(os.path.join(project_path, 'train.csv'))
+        if len(validation_df.values):
+            validation_df.to_csv(os.path.join(project_path, 'validation.csv'))
+        if len(test_df.values):
+            test_df.to_csv(os.path.join(project_path, 'test.csv'))
+
         
+
 
 
 
