@@ -1,7 +1,7 @@
 from components.page_home import Home
 from components.page_project import Project
 from components.page_createproject import CreateProject
-# from components.page_getstart import GetStart
+from components.page_userapp import UserApp
 
 
 import flet as ft
@@ -16,10 +16,10 @@ def main(page: ft.Page):
     def route_change(handler):
         t_route = ft.TemplateRoute(handler.route)
         
-        # if t_route.match("/Page_GetStart"):
-        #     page.views.clear()
-        #     page.views.append(GetStart(page))
-        if t_route.match("/Page_Home"):
+        if t_route.match("/Page_UserApp"):
+            page.views.clear()
+            page.views.append(UserApp(page))
+        elif t_route.match("/Page_Home"):
             page.views.clear()
             page.views.append(Home(page))
         elif t_route.match("/Page_Project"):
@@ -39,7 +39,7 @@ def main(page: ft.Page):
     # ルート変更時のロジック設定
     page.on_route_change = route_change
 
-    # page.go("/Page_Project")
+    # page.go("/Page_UserApp")
     page.go("/Page_Home")
 
 # Start the app
