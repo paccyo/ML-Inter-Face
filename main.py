@@ -1,6 +1,8 @@
 from components.page_home import Home
 from components.page_project import Project
 from components.page_createproject import CreateProject
+# from components.page_getstart import GetStart
+
 
 import flet as ft
 
@@ -14,6 +16,9 @@ def main(page: ft.Page):
     def route_change(handler):
         t_route = ft.TemplateRoute(handler.route)
         
+        # if t_route.match("/Page_GetStart"):
+        #     page.views.clear()
+        #     page.views.append(GetStart(page))
         if t_route.match("/Page_Home"):
             page.views.clear()
             page.views.append(Home(page))
