@@ -1,5 +1,6 @@
 import flet as ft
 
+
 class HomeHeader(ft.AppBar):
     def __init__(self, page:ft.Page):
         super().__init__()
