@@ -27,9 +27,6 @@ def main(page: ft.Page):
     def view_pop(handler):
         page.views.pop()  # 1つ前に戻る
         page.go("/back")
-        # page.update()
-        # update() だと route が変更されない。
-        # そうなると1つ戻ってまた進むことができなくなるので go("/back") で回避。不具合？
 
     # 戻る時のロジック設定
     page.on_view_pop = view_pop

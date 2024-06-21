@@ -1,6 +1,5 @@
 import flet as ft
 
-
 class HomeHeader(ft.AppBar):
     def __init__(self, page:ft.Page):
         super().__init__()
@@ -9,7 +8,7 @@ class HomeHeader(ft.AppBar):
         # self.leading_width=100
         self.title=ft.Text(value="GUI_MLearning", size=32, text_align="left")
         self.center_title=False
-        self.toolbar_height=75
+        self.toolbar_height=50
         self.bgcolor=ft.colors.SURFACE_VARIANT,
         self.toggle_dark_light_icon = ft.IconButton(
             icon="light_mode",
