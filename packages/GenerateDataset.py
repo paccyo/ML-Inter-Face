@@ -2,23 +2,29 @@
 import glob
 import os
 import shutil
+import pandas as pd
 
 
 class DatasetInfo:
     """
     データセット作成
     """
-    def send(self, dicts, data_path, project_path, data_type='image'):
+    def send_image(self, part, data_path, project_path, data_type='image'):
         """
-        dicts->str: 辞書
+        part->str: 辞書
         data_path->str: データセットpath
         project_path:str -> "user_project/Data"
         data_type:str -> 'image' or 'text
         """
         if data_type == 'image':
-            self.generate_image_dataset(dicts, data_path, project_path)
-        elif data_type == 'text':
-            self.generate_text_dataset(dicts, data_path, project_path)
+            self.generate_image_dataset(part, data_path, project_path, data_type)
+
+    def send_dataframe(self, part, data_path, project_path, data_type='dataframe'):
+        """
+        project_path:str -> user_project/Data
+        """
+        self.generate_dataframe_dataset(part, data_path, project_path, data_type)
+
 
     def delete_dir(self, project_path):
         """
@@ -29,21 +35,24 @@ class DatasetInfo:
         except FileNotFoundError:
             pass
 
-    def generate_dir(self, label, part, project_path):
+    def generate_dir(self, label, part, project_path, data_type):
         """
         ディレクトリ作成
         """
-        if part[0] != 0:
-            os.makedirs(f'{project_path}/dataset/train/{label}', exist_ok=True)
-        if part[1] != 0:
-            os.makedirs(f'{project_path}/dataset/validation/{label}', exist_ok=True)
-        if part[2] != 0:
-            os.makedirs(f'{project_path}/dataset/test/{label}', exist_ok=True)
+        if data_type == 'image':
+            if part[0] != 0:
+                os.makedirs(f'{project_path}/dataset/train/{label}', exist_ok=True)
+            if part[1] != 0:
+                os.makedirs(f'{project_path}/dataset/validation/{label}', exist_ok=True)
+            if part[2] != 0:
+                os.makedirs(f'{project_path}/dataset/test/{label}', exist_ok=True)
+        elif data_type == 'dataframe':
+            os.makedirs(f'{project_path}/dataset', exist_ok=True)
 
-    def generate_image_dataset(self, dicts, data_path, project_path):
+    def generate_image_dataset(self, part, data_path, project_path):
         self.delete_dir(project_path)
         # それぞれの画像割合
-        part = [dicts['train'], dicts['validation'], dicts['test']]
+        part = [part['train'], part['validation'], part['test']]
         for i, label_path in enumerate(glob.glob(os.path.join(data_path, '*'))):
             # ラベルごとの画像枚数
             sum_n = len(glob.glob(os.path.join(label_path, '*.*')))
@@ -73,9 +82,12 @@ class DatasetInfo:
                 else:
                     shutil.copy(image_path, f'{project_path}/dataset/test/{label}/{os.path.basename(image_path)}')
     
-    def generate_text_dataset(self, dicts, data_path, project_path):
+    def generate_dataframe_dataset(self, part, data_path, project_path, data_type):
         self.delete_dir(project_path)
-        pass
+        self.generate_dir(None, None, project_path, data_type)
+        
+
+
 
 # テストケース
 if __name__ == '__main__':
