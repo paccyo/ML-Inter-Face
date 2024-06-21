@@ -1,1 +1,1 @@
-"D:\MLInterFace\flet_env\Scripts\activate.bat"
+"C:\Users\yuuki\Documents\GUI_MLearning\Scripts\activate.bat"
