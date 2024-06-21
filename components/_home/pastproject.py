@@ -9,8 +9,8 @@ class PastProject(ft.Container):
 
         self.top=self.page.height//5
         self.left=self.page.width//7
-        self.height = (self.page.height//5)*3
-        self.width = (self.page.width//7)*5
+        self.height=(self.page.height//5)*3
+        self.width=(self.page.width//7)*5
 
 
         self.pastproject_list = glob.glob('projects/*')
