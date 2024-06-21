@@ -73,7 +73,8 @@ class DatasetInfo:
                 else:
                     shutil.copy(image_path, f'{project_path}/dataset/test/{label}/{os.path.basename(image_path)}')
     
-    def generate_text_dataset(self):
+    def generate_text_dataset(self, dicts, data_path, project_path):
+        self.delete_dir(project_path)
         pass
 
 # テストケース
