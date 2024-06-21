@@ -2,13 +2,14 @@
 import glob
 import os
 import shutil
+import pandas as pd
 
 
 class DatasetInfo:
     """
     データセット作成
     """
-    def send(self, part, data_path, project_path, data_type='image'):
+    def send_image(self, part, data_path, project_path, data_type='image'):
         """
         part->str: 辞書
         data_path->str: データセットpath
@@ -17,6 +18,13 @@ class DatasetInfo:
         """
         if data_type == 'image':
             self.generate_image_dataset(part, data_path, project_path, data_type)
+
+    def send_dataframe(self, part, data_path, project_path, data_type='dataframe'):
+        """
+        project_path:str -> user_project/Data
+        """
+        self.generate_dataframe_dataset(part, data_path, project_path, data_type)
+
 
     def delete_dir(self, project_path):
         """
@@ -74,6 +82,9 @@ class DatasetInfo:
                 else:
                     shutil.copy(image_path, f'{project_path}/dataset/test/{label}/{os.path.basename(image_path)}')
     
+    def generate_dataframe_dataset(self, part, data_path, project_path, data_type):
+        self.delete_dir(project_path)
+        self.generate_dir(None, None, project_path, data_type)
         
 
 
