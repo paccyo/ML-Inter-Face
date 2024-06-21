@@ -11,11 +11,11 @@ if n == 3:
 
 
 crawler = BingImageCrawler(storage = {'root_dir' : f'data{n}/cat'})
-crawler.crawl(keyword = '猫', max_num = 100)
+crawler.crawl(keyword = '猫', max_num = 20)
 
 crawler = BingImageCrawler(storage = {'root_dir' : f'data{n}/dog'})
-crawler.crawl(keyword = '犬', max_num = 100)
+crawler.crawl(keyword = '犬', max_num = 20)
 
 if n == 3:
     crawler = BingImageCrawler(storage = {'root_dir' : f'data{n}/bear'})
-    crawler.crawl(keyword = '熊', max_num = 100)
+    crawler.crawl(keyword = '熊', max_num = 20)
