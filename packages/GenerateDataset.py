@@ -51,7 +51,6 @@ class DatasetInfo:
 
     def generate_image_dataset(self, part, data_path, project_path):
         self.delete_dir(project_path)
-        # それぞれの画像割合
         part = [part['train'], part['validation'], part['test']]
         for i, label_path in enumerate(glob.glob(os.path.join(data_path, '*'))):
             # ラベルごとの画像枚数
@@ -73,9 +72,9 @@ class DatasetInfo:
 
     def calc_part(self, part, sum_n):
         # それぞれのデータ数
-        train_n = sum_n*(part[0]/10)
-        validation_n = sum_n*(part[1]/10)
-        test_n = sum_n*(part[2]/10)
+        train_n = int(sum_n*(part[0]/10))
+        validation_n = int(sum_n*(part[1]/10))
+        test_n = int(sum_n*(part[2]/10))
         # 余ったデータを0ではないところへin
         if train_n != 0:
             train_n += sum_n-(train_n+validation_n+test_n)
@@ -89,6 +88,7 @@ class DatasetInfo:
     def generate_dataframe_dataset(self, part, data_path, project_path, data_type, shuffle):
         self.delete_dir(project_path)
         self.generate_dir(None, None, project_path, data_type)
+        part = [part['train'], part['validation'], part['test']]
         df = pd.read_csv(data_path)
         sum_n = len(list(df.index))
         train_n, validation_n, test_n = self.calc_part(part, sum_n)
@@ -106,11 +106,8 @@ class DatasetInfo:
 
         
 
-
-
-
 # テストケース
 if __name__ == '__main__':
-    test_dict = {'train':6, 'validation':4, 'test':0}
+    test_dict = {'train':6, 'validation':3, 'test':1}
     dataset_info = DatasetInfo()
-    dataset_info.send(test_dict, r"C:\Users\yuuki\Documents\GUI_MLearning\GUI_MLearning-main\data3")
+    dataset_info.generate_dataframe_dataset(test_dict, r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data\data.csv", r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data", 'dataframe', True)
