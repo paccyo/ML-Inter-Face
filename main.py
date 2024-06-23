@@ -41,9 +41,9 @@ def main(page: ft.Page):
     # ルート変更時のロジック設定
     page.on_route_change = route_change
 
-    # page.go("/Page_UserApp")
-    page.go("/Page_Home")
+    page.go("/Page_UserApp")
+    # page.go("/Page_Home")
 
 # Start the app
-# ft.app(target=main, port=8550)
+ft.app(target=main, port=8550)
 # ft.app(target=main, port=8550, view=ft.WEB_BROWSER)
