@@ -39,9 +39,10 @@ class UserApp(ft.View):
                 ),
                 ft.Container(
                     content=ft.CupertinoFilledButton(
-                        content=ft.Text("CupertinoFilled"),
+                        content=ft.Text("Sign in"),
                         opacity_on_click=0.3,
                         # on_click=lambda e: print("CupertinoFilledButton clicked!"),
+                        on_click=self.on_click_sign_in,
                     ),
                     alignment=ft.alignment.bottom_center,
                 ),
@@ -87,6 +88,9 @@ class UserApp(ft.View):
         self.password = e.control.value
         e.control.value = "*"*len(self.password)
         e.control.update()
+
+    def on_click_sign_in(self, e):
+        self.page.go("/Page_Home")
 
     def on_click_sign_app(self, e):
         self.page.go("/Page_SignApp")
