@@ -11,6 +11,12 @@ class DatasetInfo:
     """
     def send_image(self, part, data_path, project_path, data_type='image'):
         """
+
+        データセット作成
+
+        Parameters
+        ----------
+
         part->str: 辞書
         data_path->str: データセットpath
         project_path:str -> "user_project/Data"
@@ -19,11 +25,22 @@ class DatasetInfo:
         if data_type == 'image':
             self.generate_image_dataset(part, data_path, project_path, data_type)
 
-    def send_dataframe(self, part, data_path, project_path, data_type='dataframe', shuffle=False):
+    def send_dataframe(self, part, dataframe, cols, project_path, data_type='dataframe', shuffle=False):
         """
+
+        データセット作成
+
+        Parameters
+        ----------
+
+        part:dict -> {'train':7, 'validation':2, 'test':1}
+        dataframe:pd.DataFrame -> DataFrame
+        cols:list -> ['AAA', 'BBB', 'CCC']
         project_path:str -> user_project/Data
+        data_type:str ->'dataframe'
+        shuffle:bool -> True or False
         """
-        self.generate_dataframe_dataset(part, data_path, project_path, data_type, shuffle)
+        self.generate_dataframe_dataset(part, dataframe, cols, project_path, data_type, shuffle)
 
 
     def delete_dir(self, project_path):
@@ -85,11 +102,12 @@ class DatasetInfo:
         return train_n, validation_n, test_n
 
     
-    def generate_dataframe_dataset(self, part, data_path, project_path, data_type, shuffle):
+    def generate_dataframe_dataset(self, part, dataframe, cols, project_path, data_type, shuffle):
         self.delete_dir(project_path)
         self.generate_dir(None, None, project_path, data_type)
         part = [part['train'], part['validation'], part['test']]
-        df = pd.read_csv(data_path)
+        df = dataframe
+        df = df[cols]
         sum_n = len(list(df.index))
         train_n, validation_n, test_n = self.calc_part(part, sum_n)
         if shuffle:
@@ -104,10 +122,12 @@ class DatasetInfo:
         if len(test_df.values):
             test_df.to_csv(os.path.join(project_path, 'test.csv'))
 
+
         
 
 # テストケース
 if __name__ == '__main__':
     test_dict = {'train':6, 'validation':3, 'test':1}
     dataset_info = DatasetInfo()
-    dataset_info.generate_dataframe_dataset(test_dict, r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data\data.csv", r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data", 'dataframe', True)
+    df = pd.read_csv(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data\data.csv")
+    dataset_info.generate_dataframe_dataset(test_dict, df, ['Id', 'SepalLengthCm'], r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data", 'dataframe', True)
