@@ -1,7 +1,4 @@
 flet_env/
-__pycache__/
-*/__pycache__/
-*/*/__pycache__/
-*/*/*/__pycache__/ 
+**/__pycache__/
 projects/
 packages/activate_path.txt
