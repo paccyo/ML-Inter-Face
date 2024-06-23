@@ -1,12 +1,12 @@
 import flet as ft
 
-class UserAppHeader(ft.AppBar):
+class SignAppHeader(ft.AppBar):
     def __init__(self, page:ft.Page):
         super().__init__()
         self.page = page
         # self.leading=ft.Icon(ft.icons.TRIP_ORIGIN_ROUNDED)
         # self.leading_width=100
-        self.title=ft.Text(value="ML InterFace", size=32, text_align="left")
+        self.title=ft.Text(value="MLInterFace", size=32, text_align="left")
         self.center_title=False
         self.toolbar_height=50
         # self.bgcolor=ft.colors.SURFACE_VARIANT,

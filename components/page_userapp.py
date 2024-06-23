@@ -1,13 +1,7 @@
 from components._userapp.userappheader import UserAppHeader
 
-import os
 import flet as ft
-# from flet.auth.providers import GitHubOAuthProvider
 
-# GITHUB_CLIENT_ID = os.getenv("Ov23liJzDjKYmusd0wGC")
-# assert GITHUB_CLIENT_ID, "set GITHUB_CLIENT_ID environment variable"
-# GITHUB_CLIENT_SECRET = os.getenv("f1b102d0777b6d58e2b95c2126b5947a019f610a")
-# assert GITHUB_CLIENT_SECRET, "set GITHUB_CLIENT_SECRET environment variable"
 
 class UserApp(ft.View):
     def __init__(self, page:ft.Page):
@@ -15,11 +9,8 @@ class UserApp(ft.View):
         self.page = page
         self.route = "/Page_UserApp"
         
-        # self.provider = GitHubOAuthProvider(
-        #     client_id=GITHUB_CLIENT_ID,
-        #     client_secret=GITHUB_CLIENT_SECRET,
-        #     redirect_url="http://localhost:8550/oauth_callback",
-        # )
+        self.username = ""
+        self.password = ""
 
 
         self.userapp = ft.Column(
@@ -31,25 +22,26 @@ class UserApp(ft.View):
                     bgcolor=ft.colors.AMBER
                 ),
                 ft.Container(
-                    content=ft.TextField(label="user name", border=ft.InputBorder.UNDERLINE, hint_text="enter username" ,width=300),
+                    content=ft.TextField(label="user name", border=ft.InputBorder.UNDERLINE, hint_text="enter username" ,width=300, on_change=self.on_change_usename),
                     height=70,
                     alignment=ft.alignment.bottom_center,
                 ),
                 ft.Container(
-                    content=ft.TextField(label="password", border=ft.InputBorder.UNDERLINE, hint_text="enter password" ,width=300),
+                    content=ft.TextField(label="password", border=ft.InputBorder.UNDERLINE, hint_text="enter password" ,width=300, on_change=self.on_change_password),
                     height=70,
                     alignment=ft.alignment.bottom_center,
                 ),
                 ft.Container(
-                    content=ft.TextButton(text="sign app"),
+                    content=ft.TextButton(text="sign app",
+                                          on_click=self.on_click_sign_app),
                     height=90,
-                    alignment=ft.Alignment(0.8, 1)
+                    alignment=ft.Alignment(0.8, 1),
                 ),
                 ft.Container(
                     content=ft.CupertinoFilledButton(
                         content=ft.Text("CupertinoFilled"),
                         opacity_on_click=0.3,
-                        on_click=lambda e: print("CupertinoFilledButton clicked!"),
+                        # on_click=lambda e: print("CupertinoFilledButton clicked!"),
                     ),
                     alignment=ft.alignment.bottom_center,
                 ),
@@ -57,15 +49,15 @@ class UserApp(ft.View):
                     content=ft.Container(
                         content=ft.Row(
                             controls=[
-                            ft.Text(value="Google"),
-                            ft.Container(content=ft.Image(src="packages\image\google_image.png",fit=ft.ImageFit.CONTAIN),width=30,height=30)
+                            ft.Text(value="  Google",color=ft.colors.BLACK),
+                            ft.Container(content=ft.Image(src="packages\image\google_image.png",fit=ft.ImageFit.CONTAIN),width=30,height=30,border_radius=30)
                             ],
                         ),
                         width=100,
                         height=50,
+                        bgcolor=ft.colors.WHITE,
                         border=ft.border.all(1, ft.colors.BLACK),
                         on_click=lambda e: print("Google Aouth clicked!"),
-                        # on_click=self.login_click
                     ),
                     height=90,
                     alignment=ft.alignment.center,
@@ -88,10 +80,14 @@ class UserApp(ft.View):
             )
         ]
 
-    # def login_click(self, e):
-    #     self.page.login(self.provider)
+    def on_change_usename(self, e):
+        self.username = e.control.value
 
-    # def on_login(self, e):
-    #     print("Login error:", e.error)
-    #     print("Access token:", self.page.auth.token.access_token)
-    #     print("User ID:", self.page.auth.user.id)
+    def on_change_password(self, e):
+        self.password = e.control.value
+        e.control.value = "*"*len(self.password)
+        e.control.update()
+
+    def on_click_sign_app(self, e):
+        self.page.go("/Page_SignApp")
+

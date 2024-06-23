@@ -1,6 +1,5 @@
 # from packages import RunTrain
-from packages import copy_to_userproject
-from packages import GenerateBatfile
+from packages.categorical.image.nn import copy_to_userproject,GenerateBatfile
 from packages import read_activate_path
 
 import flet as ft
