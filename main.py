@@ -2,7 +2,7 @@ from components.page_home import Home
 from components.page_project import Project
 from components.page_createproject import CreateProject
 from components.page_userapp import UserApp
-
+from components.page_signapp import SignApp
 
 import flet as ft
 
@@ -19,6 +19,8 @@ def main(page: ft.Page):
         if t_route.match("/Page_UserApp"):
             page.views.clear()
             page.views.append(UserApp(page))
+        elif t_route.match("/Page_SignApp"):
+            page.views.append(SignApp(page))
         elif t_route.match("/Page_Home"):
             page.views.clear()
             page.views.append(Home(page))
@@ -43,5 +45,5 @@ def main(page: ft.Page):
     page.go("/Page_Home")
 
 # Start the app
-ft.app(target=main)
+# ft.app(target=main, port=8550)
 # ft.app(target=main, port=8550, view=ft.WEB_BROWSER)
