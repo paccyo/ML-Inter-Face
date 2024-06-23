@@ -49,7 +49,8 @@ def CHK(path=None, data_type=None, learning_way=None, target=None):
 
         elif data_type == 'dataframe':
             if '.csv' == os.path.splitext(os.path.basename(datasets_path))[-1]:
-                return True, {}
+                df = pd.read_csv(datasets_path)
+                return True, df
             else:
                 return False, {}
             
