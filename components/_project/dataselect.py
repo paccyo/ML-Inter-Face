@@ -54,7 +54,7 @@ class DataSelect(ft.Tab):
             alignment=ft.alignment.top_left
         )
 
-        self.sccess_failed_image = ft.Image(src="packages/image/failed.png",)
+        self.success_failed_image = ft.Image(src="packages/image/failed.png",)
 
         self.content = ft.Container(
             content=ft.Column(
@@ -85,13 +85,13 @@ class DataSelect(ft.Tab):
                 self.page.client_storage.set("part_dict",test_dict)
                 self.page.client_storage.set("dataset_path", path)
                 self.page.client_storage.set("data_type",self.data_type)
-                self.sccess_failed_image.src = "packages/image/success.png"
+                self.success_failed_image.src = "packages/image/success.png"
                 with open(self.page.client_storage.get('project_path')+"/dataset_path.txt", 'w', encoding='utf-8') as file:
                     file.write(path+"\n"+self.data_type)
             else:
-                self.sccess_failed_image.src = "packages/image/failed.png"
+                self.success_failed_image.src = "packages/image/failed.png"
             self.page.update()
-            
+
             print(judge)
 
     def on_change_data_type(self,e):
