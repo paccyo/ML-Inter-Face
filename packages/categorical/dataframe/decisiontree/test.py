@@ -6,7 +6,10 @@ from sklearn.tree import export_graphviz
 from matplotlib.colors import ListedColormap
 import graphviz
 
-train_df = pd.read_csv('test_data/train.csv')
-validation_df = pd.read_csv('test_data/validation.csv')
-test_df = pd.read_csv('test_data/test.csv')
+train_df_data = pd.read_csv('test_data/train_data.csv')
+validation_df_data = pd.read_csv('test_data/validation_data.csv')
+test_df_data = pd.read_csv('test_data/test_data.csv')
 
+train_df_target = pd.read_csv('test_data/train_target.csv')
+validation_df_target = pd.read_csv('test_data/validation_target.csv')
+test_df_target = pd.read_csv('test_data/test_target.csv')
