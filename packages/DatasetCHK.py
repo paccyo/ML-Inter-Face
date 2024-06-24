@@ -14,12 +14,13 @@ dataset----train------cat---~~.png
 """
 
 
-def CHK(path=None, data_type=None, learning_way=None, target=None):
+def CHK(path=None, data_type=None, learning_way=None, project_path=None):
     """
     データの型が正しいかチェックします。
     path:データのパス
     data_type:データの種類
     learning_way:学習方法
+    project_path:str -> user_project/Data
     """
     datasets_path = path
     results = {}
@@ -50,6 +51,7 @@ def CHK(path=None, data_type=None, learning_way=None, target=None):
         elif data_type == 'dataframe':
             if '.csv' == os.path.splitext(os.path.basename(datasets_path))[-1]:
                 df = pd.read_csv(datasets_path)
+                df.to_csv(os.path.join(project_path, 'original_data.csv'))
                 return True, df
             else:
                 return False, {}
