@@ -61,7 +61,7 @@ class DataSelect(ft.Tab):
                 controls=[
                     self.folder_pickup,
                     ft.Divider(),
-                    self.sccess_failed_image
+                    self.success_failed_image
                 ]
             )
         )
