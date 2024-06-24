@@ -123,18 +123,18 @@ class DatasetInfo:
         test_df_target = df_target.iloc[train_n+validation_n:train_n+validation_n+test_n]
         # 説明変数
         if len(train_df_data.values):
-            train_df_data.to_csv(os.path.join(project_path, 'train_data.csv'))
+            train_df_data.to_csv(os.path.join(project_path, 'train_data.csv'), index=False)
         if len(validation_df_data.values):
-            validation_df_data.to_csv(os.path.join(project_path, 'validation_data.csv'))
+            validation_df_data.to_csv(os.path.join(project_path, 'validation_data.csv'), index=False)
         if len(test_df_data.values):
-            test_df_data.to_csv(os.path.join(project_path, 'test_data.csv'))
+            test_df_data.to_csv(os.path.join(project_path, 'test_data.csv'), index=False)
         # 目的変数
         if len(train_df_target.values):
-            train_df_target.to_csv(os.path.join(project_path, 'train_target.csv'))
+            train_df_target.to_csv(os.path.join(project_path, 'train_target.csv'), index=False)
         if len(validation_df_target.values):
-            validation_df_target.to_csv(os.path.join(project_path, 'validation_target.csv'))
+            validation_df_target.to_csv(os.path.join(project_path, 'validation_target.csv'), index=False)
         if len(test_df_target.values):
-            test_df_target.to_csv(os.path.join(project_path, 'test_target.csv'))
+            test_df_target.to_csv(os.path.join(project_path, 'test_target.csv'), index=False)
 
 
         
@@ -144,4 +144,4 @@ if __name__ == '__main__':
     test_dict = {'train':6, 'validation':3, 'test':1}
     dataset_info = DatasetInfo()
     df = pd.read_csv(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data\data.csv")
-    dataset_info.generate_dataframe_dataset(test_dict, df, ['Id', 'SepalLengthCm'], r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data", 'dataframe', True)
+    dataset_info.generate_dataframe_dataset(test_dict, df, {'data':['SepalLengthCm', 'SepalWidthCm', 'PetalWidthCm'], 'target':['PetalLengthCm']}, r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data", 'dataframe', True)
