@@ -91,6 +91,7 @@ class DataSelect(ft.Tab):
             else:
                 self.sccess_failed_image.src = "packages/image/failed.png"
             self.page.update()
+            
             print(judge)
 
     def on_change_data_type(self,e):

@@ -12,7 +12,6 @@ class UserApp(ft.View):
         self.username = ""
         self.password = ""
 
-
         self.userapp = ft.Column(
             controls=[
                 ft.Container(
