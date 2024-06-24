@@ -25,7 +25,7 @@ class DatasetInfo:
         if data_type == 'image':
             self.generate_image_dataset(part, data_path, project_path, data_type)
 
-    def send_dataframe(self, part, dataframe, cols, project_path, data_type='dataframe', shuffle=False):
+    def send_dataframe(self, part, dataframe, cols_dict, project_path, data_type='dataframe', shuffle=False):
         """
 
         データセット作成
@@ -35,12 +35,12 @@ class DatasetInfo:
 
         part:dict -> {'train':7, 'validation':2, 'test':1}
         dataframe:pd.DataFrame -> DataFrame
-        cols:list -> ['AAA', 'BBB', 'CCC']
+        cols_dict:dict -> {'data':['AAA', 'BBB'], 'target':['CCC', 'DDD']}
         project_path:str -> user_project/Data
         data_type:str ->'dataframe'
         shuffle:bool -> True or False
         """
-        self.generate_dataframe_dataset(part, dataframe, cols, project_path, data_type, shuffle)
+        self.generate_dataframe_dataset(part, dataframe, cols_dict, project_path, data_type, shuffle)
 
 
     def delete_dir(self, project_path):
@@ -102,25 +102,39 @@ class DatasetInfo:
         return train_n, validation_n, test_n
 
     
-    def generate_dataframe_dataset(self, part, dataframe, cols, project_path, data_type, shuffle):
+    def generate_dataframe_dataset(self, part, dataframe, cols_dict, project_path, data_type, shuffle):
         self.delete_dir(project_path)
         self.generate_dir(None, None, project_path, data_type)
         part = [part['train'], part['validation'], part['test']]
         df = dataframe
-        df = df[cols]
-        sum_n = len(list(df.index))
-        train_n, validation_n, test_n = self.calc_part(part, sum_n)
         if shuffle:
             df = df.sample(frac=1)
-        train_df = df.iloc[:train_n]
-        validation_df = df.iloc[train_n:train_n+validation_n]
-        test_df = df.iloc[train_n+validation_n:train_n+validation_n+test_n]
-        if len(train_df.values):
-            train_df.to_csv(os.path.join(project_path, 'train.csv'))
-        if len(validation_df.values):
-            validation_df.to_csv(os.path.join(project_path, 'validation.csv'))
-        if len(test_df.values):
-            test_df.to_csv(os.path.join(project_path, 'test.csv'))
+        df_data = df[cols_dict['data']]
+        df_target = df[cols_dict['target']]
+        sum_n = len(list(df.index))
+        train_n, validation_n, test_n = self.calc_part(part, sum_n)
+        # 説明変数
+        train_df_data = df_data.iloc[:train_n]
+        validation_df_data = df_data.iloc[train_n:train_n+validation_n]
+        test_df_data = df_data.iloc[train_n+validation_n:train_n+validation_n+test_n]
+        # 目的変数
+        train_df_target = df_target.iloc[:train_n]
+        validation_df_target = df_target.iloc[train_n:train_n+validation_n]
+        test_df_target = df_target.iloc[train_n+validation_n:train_n+validation_n+test_n]
+        # 説明変数
+        if len(train_df_data.values):
+            train_df_data.to_csv(os.path.join(project_path, 'train_data.csv'))
+        if len(validation_df_data.values):
+            validation_df_data.to_csv(os.path.join(project_path, 'validation_data.csv'))
+        if len(test_df_data.values):
+            test_df_data.to_csv(os.path.join(project_path, 'test_data.csv'))
+        # 目的変数
+        if len(train_df_target.values):
+            train_df_target.to_csv(os.path.join(project_path, 'train_target.csv'))
+        if len(validation_df_target.values):
+            validation_df_target.to_csv(os.path.join(project_path, 'validation_target.csv'))
+        if len(test_df_target.values):
+            test_df_target.to_csv(os.path.join(project_path, 'test_target.csv'))
 
 
         
