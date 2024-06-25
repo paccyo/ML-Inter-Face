@@ -101,7 +101,10 @@ class UserApp(ft.View):
         self.username = e.control.value
 
     def on_change_password(self, e):
-        self.password = e.control.value
+        if len(self.password) < len(e.control.value):
+            self.password = self.password+e.control.value[-1]
+        elif len(e.control.value) < len(self.password):
+            self.password = self.password[:-1]
         e.control.value = "*"*len(self.password)
         e.control.update()
 
@@ -111,6 +114,7 @@ class UserApp(ft.View):
         if self.username in accounts:
             with open("accounts/"+self.username,"r",encoding="utf-8") as f:
                 password = f.read()
+            print(password,self.password)
             if self.password == password:
                 self.page.go("/Page_Home")
             else:
