@@ -10,7 +10,8 @@ class AppHeader(ft.AppBar):
         self.title=ft.Text(value=title, size=32, text_align="center")
         self.center_title=False
         self.toolbar_height=75
-        self.bgcolor=ft.colors.SURFACE_VARIANT,
+        # self.bgcolor=ft.colors.SURFACE_VARIANT,
+        self.bgcolor=ft.colors.CYAN
         self.toggle_dark_light_icon = ft.IconButton(
             icon="light_mode",
             selected_icon = "dark_mode",
