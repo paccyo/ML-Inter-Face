@@ -1,17 +1,16 @@
 import flet as ft
 
 
-class HomeHeader(ft.AppBar):
-    def __init__(self, page:ft.Page):
+class AppHeader(ft.AppBar):
+    def __init__(self, page:ft.Page,title="MLInterFace"):
         super().__init__()
         self.page = page
         # self.leading=ft.Icon(ft.icons.TRIP_ORIGIN_ROUNDED)
         # self.leading_width=100
-        self.title=ft.Text(value="ML InterFace", size=32, text_align="left")
+        self.title=ft.Text(value=title, size=32, text_align="center")
         self.center_title=False
-        self.toolbar_height=50
-        # self.bgcolor=ft.colors.SURFACE_VARIANT,
-        self.bgcolor=ft.colors.CYAN
+        self.toolbar_height=75
+        self.bgcolor=ft.colors.SURFACE_VARIANT,
         self.toggle_dark_light_icon = ft.IconButton(
             icon="light_mode",
             selected_icon = "dark_mode",

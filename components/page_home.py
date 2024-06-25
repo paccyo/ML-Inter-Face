@@ -1,4 +1,4 @@
-from components._home.homeheader import HomeHeader
+from components._common.appheader import AppHeader
 from components._home.pastproject import PastProject
 
 import flet as ft
@@ -10,7 +10,7 @@ class Home(ft.View):
         self.page = page
         self.route = "/Page_Home"
         self.controls = [
-            HomeHeader(page),
+            AppHeader(page),
             ft.Container(
                 content = ft.Stack(
                     controls=[

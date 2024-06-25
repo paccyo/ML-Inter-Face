@@ -1,5 +1,4 @@
-from components._userapp.userappheader import UserAppHeader
-
+from components._common.appheader import AppHeader
 import flet as ft
 import glob
 
@@ -83,7 +82,7 @@ class UserApp(ft.View):
         )
 
         self.controls = [
-            UserAppHeader(self.page),
+            AppHeader(self.page),
             ft.Container(
                 content=ft.Container(
                     content=self.user_app,
