@@ -116,7 +116,7 @@ class UserApp(ft.View):
                 password = f.read()
             print(password,self.password)
             if self.password == password:
-                self.page.go("/Page_Home")
+                self.page.go("/Page_MainMenu")
             else:
                 self.error_password.value = "Different Pasword"
                 self.error_password.update()

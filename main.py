@@ -1,6 +1,10 @@
-from components.page_home import Home
-from components.page_project import Project
-from components.page_createproject import CreateProject
+from components.ML.page_mlhome import MLHome
+from components.ML.page_mlproject import MLProject
+from components.ML.page_mlcreateproject import MLCreateProject
+# from components.page_dahome import DAHome
+# from components.page_daproject import DAProject
+# from components.page_dacreateproject import DACreateProject
+from components.page_mainmenu import MainMenu
 from components.page_userapp import UserApp
 from components.page_signapp import SignApp
 
@@ -21,14 +25,23 @@ def main(page: ft.Page):
             page.views.append(UserApp(page))
         elif t_route.match("/Page_SignApp"):
             page.views.append(SignApp(page))
-        elif t_route.match("/Page_Home"):
+        elif t_route.match("/Page_MainMenu"):
             page.views.clear()
-            page.views.append(Home(page))
-        elif t_route.match("/Page_Project"):
+            page.views.append(MainMenu(page))
+        elif t_route.match("/Page_DAHome"):
+            pass       
+        elif t_route.match("/Page_MLHome"):
             page.views.clear()
-            page.views.append(Project(page))
-        elif t_route.match("/Page_CreateProject"):
-            page.views.append(CreateProject(page))
+            page.views.append(MLHome(page))
+        elif t_route.match("/Page_MLProject"):
+            page.views.clear()
+            page.views.append(MLProject(page))
+        elif t_route.match("/Page_MLCreateProject"):
+            page.views.append(MLCreateProject(page))
+        elif t_route.match("/Page_DAProject"):
+            pass
+        elif t_route.match("/Page_DACreateProject"):
+            pass
             
         page.update()
 

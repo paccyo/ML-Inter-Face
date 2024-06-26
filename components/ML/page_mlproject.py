@@ -10,11 +10,11 @@ from components._project.option import Option
 import flet as ft
 
 
-class Project(ft.View):
+class MLProject(ft.View):
     def __init__(self, page:ft.Page):
         super().__init__()
         self.page = page
-        self.route = "/Page_Project"
+        self.route = "/Page_MLProject"
         self.controls = [
             ft.Tabs(
                 selected_index=1,

@@ -18,11 +18,18 @@ class AppHeader(ft.AppBar):
             tooltip=f"switch light and dark mode",
             on_click=self.toggle_icon,
         )
+        
+        self.menubutton = ft.IconButton(
+            icon=ft.icons.MENU
+        )
+
+
         self.actions=[
             ft.Container(
                 content=ft.Row(
                     [
                         self.toggle_dark_light_icon,
+                        self.menubutton
                     ],
                     alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 ),
