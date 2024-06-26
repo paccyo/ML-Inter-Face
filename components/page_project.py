@@ -6,6 +6,7 @@ from components._project.modelcompile import ModelCompile
 from components._project.modeltrain import ModelTrain
 from components._project.option import Option
 
+
 import flet as ft
 
 

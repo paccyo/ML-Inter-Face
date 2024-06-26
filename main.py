@@ -29,6 +29,7 @@ def main(page: ft.Page):
             page.views.append(Project(page))
         elif t_route.match("/Page_CreateProject"):
             page.views.append(CreateProject(page))
+            
         page.update()
 
     def view_pop(handler):
