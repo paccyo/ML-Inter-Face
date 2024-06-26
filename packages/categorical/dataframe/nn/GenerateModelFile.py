@@ -1,6 +1,8 @@
 
 # 2024/06/04 BPS-sys ver1.0作成
 
+import os
+import pandas as pd
 
 class ModelInfo:
     """
@@ -81,6 +83,13 @@ class ModelInfo:
         else:
             color = 1
         return (image_size[0], image_size[1], color)
+    
+    def get_dataframe_shape(self, dataset_path):
+        train_data_path = os.path.join(dataset_path, 'train_data.csv')
+        df = pd.read_csv(train_data_path)
+        return (len(df.values[0]),)
+
+        
             
 
 if __name__ == '__main__':
