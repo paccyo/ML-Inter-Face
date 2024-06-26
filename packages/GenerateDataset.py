@@ -64,7 +64,7 @@ class DatasetInfo:
             if part[2] != 0:
                 os.makedirs(f'{project_path}/dataset/test/{label}', exist_ok=True)
         elif data_type == 'dataframe':
-            os.makedirs(f'{project_path}', exist_ok=True)
+            os.makedirs(f'{project_path}/dataset', exist_ok=True)
 
     def generate_image_dataset(self, part, data_path, project_path):
         self.delete_dir(project_path)
@@ -123,18 +123,18 @@ class DatasetInfo:
         test_df_target = df_target.iloc[train_n+validation_n:train_n+validation_n+test_n]
         # 説明変数
         if len(train_df_data.values):
-            train_df_data.to_csv(os.path.join(project_path, 'train_data.csv'), index=False)
+            train_df_data.to_csv(os.path.join(project_path, 'dataset/train_data.csv'), index=False)
         if len(validation_df_data.values):
-            validation_df_data.to_csv(os.path.join(project_path, 'validation_data.csv'), index=False)
+            validation_df_data.to_csv(os.path.join(project_path, 'dataset/validation_data.csv'), index=False)
         if len(test_df_data.values):
-            test_df_data.to_csv(os.path.join(project_path, 'test_data.csv'), index=False)
+            test_df_data.to_csv(os.path.join(project_path, 'dataset/test_data.csv'), index=False)
         # 目的変数
         if len(train_df_target.values):
-            train_df_target.to_csv(os.path.join(project_path, 'train_target.csv'), index=False)
+            train_df_target.to_csv(os.path.join(project_path, 'dataset/train_target.csv'), index=False)
         if len(validation_df_target.values):
-            validation_df_target.to_csv(os.path.join(project_path, 'validation_target.csv'), index=False)
+            validation_df_target.to_csv(os.path.join(project_path, 'dataset/validation_target.csv'), index=False)
         if len(test_df_target.values):
-            test_df_target.to_csv(os.path.join(project_path, 'test_target.csv'), index=False)
+            test_df_target.to_csv(os.path.join(project_path, 'dataset/test_target.csv'), index=False)
 
 
         
