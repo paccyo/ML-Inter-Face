@@ -76,6 +76,7 @@ class UserApp(ft.View):
                         bgcolor=ft.colors.WHITE,
                         border=ft.border.all(1, ft.colors.BLACK),
                         on_click=lambda e: print("Google Aouth clicked!"),
+            
                     ),
                     height=90,
                     alignment=ft.alignment.center,
