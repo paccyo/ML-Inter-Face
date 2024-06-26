@@ -1,9 +1,9 @@
-from components.ML.page_mlhome import MLHome
-from components.ML.page_mlproject import MLProject
-from components.ML.page_mlcreateproject import MLCreateProject
-# from components.page_dahome import DAHome
-# from components.page_daproject import DAProject
-# from components.page_dacreateproject import DACreateProject
+from components.ML.page_ml_home import MLHome
+from components.ML.page_ml_project import MLProject
+from components.ML.page_ml_createproject import MLCreateProject
+# from components.DA.page_da_home import DAHome
+# from components.DA.page_da_project import DAProject
+# from components.DA.page_da_createproject import DACreateProject
 from components.page_mainmenu import MainMenu
 from components.page_userapp import UserApp
 from components.page_signapp import SignApp
