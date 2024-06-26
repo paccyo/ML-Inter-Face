@@ -26,8 +26,8 @@ class MLHome(ft.View):
 
 
     def next(self, e):
-        self.page.go("/Page_Project")
+        self.page.go("/Page_MLProject")
 
     def go_create_project(self, e):
-        self.page.go("/Page_CreateProject")
+        self.page.go("/Page_MLCreateProject")
 

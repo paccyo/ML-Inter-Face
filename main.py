@@ -1,6 +1,10 @@
 from components.ML.page_ml_home import MLHome
 from components.ML.page_ml_project import MLProject
 from components.ML.page_ml_createproject import MLCreateProject
+
+# from components.ML.test_.page_ml_project_test import MLProject
+# from components.ML.test_.page_ml_createproject_test import MLCreateProject
+
 # from components.DA.page_da_home import DAHome
 # from components.DA.page_da_project import DAProject
 # from components.DA.page_da_createproject import DACreateProject
@@ -19,7 +23,7 @@ def main(page: ft.Page):
 
     def route_change(handler):
         t_route = ft.TemplateRoute(handler.route)
-        
+        print(t_route.route)
         if t_route.match("/Page_UserApp"):
             page.views.clear()
             page.views.append(UserApp(page))
@@ -56,7 +60,7 @@ def main(page: ft.Page):
     page.on_route_change = route_change
 
     page.go("/Page_UserApp")
-    # page.go("/Page_Home")
+    # page.go("/Page_MLCreateProject")
 
 # Start the app
 ft.app(target=main, port=8550)
