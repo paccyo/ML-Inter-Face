@@ -1,6 +1,7 @@
 
 import os
 import numpy as np
+import pandas as pd
 
 class PreprocessInfo:
     """
@@ -34,6 +35,8 @@ class PreprocessInfo:
         """
         if self.data_type == 'image':
             self.Prep_image_dataset(dicts, self.dataset_type, self.dataset_path, self.project_path)
+        elif self.data_type == 'dataframe':
+            self.Prep_dataframe_dataset(dicts, self.dataset_type, self.dataset_path, self.project_path)
 
     def Prep_image_dataset(self, dicts, dataset_type, dataset_path, project_path):
         datagen_name = ''
@@ -66,6 +69,10 @@ class PreprocessInfo:
             self.preps += '    return False'
         self.write_Prepfile(dataset_type, project_path)
         self.loop_judge(dicts, dataset_type, dataset_path, project_path)
+
+    def Prep_dataframe_dataset(self, dicts, dataset_type, dataset_path, project_path):
+        pass
+        
 
     def write_Prepfile(self, dataset_type, project_path):
         with open(f'{project_path}/{dataset_type}_preprocess_info.py', 'w') as f:
