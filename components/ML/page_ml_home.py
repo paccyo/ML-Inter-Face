@@ -1,5 +1,5 @@
 from components._common.appheader import AppHeader
-from components._home.pastproject import PastProject
+from components.ML._home.pastproject import PastProject
 
 import flet as ft
 

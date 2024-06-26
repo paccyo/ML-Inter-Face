@@ -1,10 +1,10 @@
-from components._project.projectdata import ProjectData
-from components._project.dataselect import DataSelect
-from components._project.preprocessing import Preprocessing
-from components._project.modelbuild import ModelBuild
-from components._project.modelcompile import ModelCompile
-from components._project.modeltrain import ModelTrain
-from components._project.option import Option
+from components.ML._project.projectdata import ProjectData
+from components.ML._project.dataselect import DataSelect
+from components.ML._project.preprocessing import Preprocessing
+from components.ML._project.modelbuild import ModelBuild
+from components.ML._project.modelcompile import ModelCompile
+from components.ML._project.modeltrain import ModelTrain
+from components.ML._project.option import Option
 
 
 import flet as ft
