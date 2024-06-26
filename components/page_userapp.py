@@ -1,5 +1,4 @@
-from components._userapp.userappheader import UserAppHeader
-
+from components._common.appheader import AppHeader
 import flet as ft
 import glob
 
@@ -12,6 +11,8 @@ class UserApp(ft.View):
         
         self.username = ""
         self.password = ""
+
+        self.accounts = [s.split("\\")[-1][:-7] for s in glob.glob('accounts/*.paccyo')]  
 
         self.input_username = ft.TextField(label="user name", border=ft.InputBorder.UNDERLINE, hint_text="enter username" ,width=300, on_change=self.on_change_username)
         self.input_password = ft.TextField(label="password", border=ft.InputBorder.UNDERLINE, hint_text="enter password" ,width=300, on_change=self.on_change_password)
@@ -83,7 +84,7 @@ class UserApp(ft.View):
         )
 
         self.controls = [
-            UserAppHeader(self.page),
+            AppHeader(self.page),
             ft.Container(
                 content=ft.Container(
                     content=self.user_app,
@@ -109,14 +110,13 @@ class UserApp(ft.View):
         e.control.update()
 
     def on_click_sign_in(self, e):
-        accounts = [s.split("\\")[-1] for s in glob.glob("accounts/*")]
-        print(accounts)
-        if self.username in accounts:
-            with open("accounts/"+self.username,"r",encoding="utf-8") as f:
+        print(self.accounts)
+        if self.username in self.accounts:
+            with open("accounts/"+self.username+".paccyo","r",encoding="utf-8") as f:
                 password = f.read()
             print(password,self.password)
             if self.password == password:
-                self.page.go("/Page_Home")
+                self.page.go("/Page_MainMenu")
             else:
                 self.error_password.value = "Different Pasword"
                 self.error_password.update()

@@ -1,16 +1,16 @@
-from components._home.homeheader import HomeHeader
-from components._home.pastproject import PastProject
+from components._common.appheader import AppHeader
+from components.ML._home.pastproject import PastProject
 
 import flet as ft
 
 
-class Home(ft.View):
+class MLHome(ft.View):
     def __init__(self, page:ft.Page):
         super().__init__()
         self.page = page
-        self.route = "/Page_Home"
+        self.route = "/Page_MLHome"
         self.controls = [
-            HomeHeader(page),
+            AppHeader(page),
             ft.Container(
                 content = ft.Stack(
                     controls=[

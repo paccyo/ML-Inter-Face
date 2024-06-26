@@ -1,11 +1,11 @@
-from components._createproject.createprojectheader import AppHeader
+from components._common.appheader import AppHeader
 
 import flet as ft
 import os
 import datetime
 import shutil
 
-class CreateProject(ft.View):
+class MLCreateProject(ft.View):
     def __init__(self, page:ft.Page):
         super().__init__()
         self.page = page
