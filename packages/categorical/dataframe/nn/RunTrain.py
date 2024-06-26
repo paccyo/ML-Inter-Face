@@ -13,7 +13,7 @@ from keras.utils import to_categorical
 
 print('RunTrainfile')
 
-def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, project_path=None, dataset_path=None, class_nums=None):
+def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, project_path=None, dataset_path=None, class_nums=None, train_type=None):
     if data_type == 'image':
         import train_preprocess_info
         import validation_preprocess_info
@@ -87,13 +87,17 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
                 df_test_data = pd.read_csv(csv_path)
             elif dataset_type == 'test' and data_or_target == 'target':
                 df_test_target = pd.read_csv(csv_path)
-        
-        if train_part != 0:
-            train_target = to_categorical(df_train_target.values, num_classes=class_nums)
-        elif validation_part != 0:
-            validation_target = to_categorical(df_validation_target.values, num_classes=class_nums)
-        elif test_part != 0:
-            test_target = to_categorical(df_test_target.values, num_classes=class_nums)
+
+        if train_type == 'classifier':
+            if train_part != 0:
+                train_target = conv_str_to_int(df_train_target)
+                train_target = to_categorical(train_target, num_classes=class_nums)
+            elif validation_part != 0:
+                validation_target = conv_str_to_int(df_validation_target)
+                validation_target = to_categorical(validation_target, num_classes=class_nums)
+            elif test_part != 0:
+                test_target = conv_str_to_int(df_test_target)
+                test_target = to_categorical(test_target, num_classes=class_nums)
 
         model = model_info.model_build()
 
@@ -103,10 +107,20 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
 
         plot_callback = PlotCallback()
 
-        model.fit(df_train_data.values, train_target, validation_data=(df_valdation_data.values, validation_target), epochs=epochs, batchs=batchs, callbacks=[plot_callback])
+        model.fit(df_train_data.values, train_target, validation_data=(df_valdation_data.values, validation_target),
+                  epochs=epochs, batchs=batchs, callbacks=[plot_callback])
 
         model.save(f'{project_path}/trained_model.h5')
         
+def conv_str_to_int(df_target):
+    labels_str = []
+    labels = []
+    for data in df_target.values:
+        if data not in labels_str:
+            labels_str.append(data)
+    for data in df_target.values:
+        labels.append(labels_str.index(data))
+    return labels
             
 
         
@@ -118,5 +132,5 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
 
 
 
-_, train_part, validation_part, test_part, data_type, epochs, batchs, project_path, dataset_path, class_nums = sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9]
-run(train_part, validation_part, test_part, data_type, epochs, batchs, project_path, dataset_path, class_nums)
+_, train_part, validation_part, test_part, data_type, epochs, batchs, project_path, dataset_path, class_nums, train_type = sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], sys.argv[10]
+run(train_part, validation_part, test_part, data_type, epochs, batchs, project_path, dataset_path, class_nums, train_type)
