@@ -1,0 +1,12 @@
+{
+    "project_name":"",
+    "data_type":"",
+    "data_info":{
+        "image":{
+            "folder_path":""
+        },
+        "table":{
+            "file_paths":[]
+        }
+    }
+}

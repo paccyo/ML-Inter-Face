@@ -2,9 +2,9 @@ from components.ML.page_ml_home import MLHome
 from components.ML.page_ml_project import MLProject
 from components.ML.page_ml_createproject import MLCreateProject
 
-# from components.ML.test_.page_ml_home import MLHome
+
 # from components.ML.test_.page_ml_project import MLProject
-# from components.ML.test_.page_ml_createproject import MLCreateProject
+
 
 # from components.DA.page_da_home import DAHome
 # from components.DA.page_da_project import DAProject

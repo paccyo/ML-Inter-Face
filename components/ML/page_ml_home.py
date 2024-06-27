@@ -12,14 +12,16 @@ class MLHome(ft.View):
         self.controls = [
             AppHeader(page),
             ft.Container(
-                content = ft.Stack(
+                content = ft.Column(
                     controls=[
-                        PastProject(self.page),
-                        ft.ElevatedButton(text="create_new_project",on_click=self.go_create_project,top=50,right=20),
+                        ft.Container(
+                            content=ft.ElevatedButton(text="create_new_project", on_click=self.go_create_project, style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10)), height=40, width=300),
+                            alignment=ft.Alignment(1,-1),
+                        ),
+                        PastProject(self.page,alignment=ft.Alignment(0,0)),
                     ],
-                    width=self.page.width,
-                    height=self.page.height
-                )
+                ),
+                padding=ft.padding.only(top=10,left=50,right=50,bottom=30)
             )
         ]
 

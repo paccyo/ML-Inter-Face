@@ -1,36 +1,38 @@
 import flet as ft
 import glob
 import os
+        
 
-class PastProject(ft.Container):
-    def __init__(self, page:ft.Page):
+class PastProject(ft.Container):  
+    def __init__(self, page:ft.Page,alignment: ft.Alignment | None = None,):
         super().__init__()
         self.page = page
 
-        self.top=self.page.height//5
-        self.left=self.page.width//7
-        self.height=(self.page.height//5)*3
-        self.width=(self.page.width//7)*5
+
         # self.alignment=ft.alignment.center
         self.pastproject_list = glob.glob('projects/*')
         past_project = []
         for project in self.pastproject_list:
             rect = []
-
             
-            rect = ft.ElevatedButton(
-                content=ft.Column(
-                    controls=[
-                        ft.Text(value=project.split("\\")[-1], size=20),
-                        ft.Text(value="path : "+project, size=10)
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER,
-                    # horizontal_alignment=ft.MainAxisAlignment.START,
-                    spacing=5,
+            rect = ft.Container(
+                ft.ElevatedButton(
+                    content=ft.Column(
+                        controls=[
+                            ft.Text(value=project.split("\\")[-1], size=20),
+                            ft.Text(value="path : "+project, size=10)
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        horizontal_alignment=ft.MainAxisAlignment.START,
+                        spacing=5,
+                    ),
+                    style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0)),
+                    on_click=self.on_click_past_project,
+                    width=5000
                 ),
-                style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0)),
-                on_click=self.on_click_past_project,
-                width = self.width,
+                alignment=ft.alignment.center_left,
+                bgcolor=ft.colors.GREY,
+                height=50,
             )
             rect.data=project
 
@@ -43,7 +45,6 @@ class PastProject(ft.Container):
                 controls=past_project,
                 scroll=ft.ScrollMode.HIDDEN,
             ),
-            height = self.height-50,
             alignment=ft.alignment.top_center,
         )
         
@@ -56,11 +57,7 @@ class PastProject(ft.Container):
         )
     
     def on_click_past_project(self, e):
-        path = os.path.abspath(e.control.data)
-        # print(path)
-        self.page.client_storage.set("project_path",path)
-        # print(self.page.client_storage.get("project_path"))
-        self.page.go("/Page_Project")
+        self.page.go("/Page_MLProject")
         pass
 
 
