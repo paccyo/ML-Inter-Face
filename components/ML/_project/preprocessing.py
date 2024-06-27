@@ -1,5 +1,5 @@
 from packages.util.Calldict import (preprocess_dicts, TEXTFIELD, DROPDOWN, DETAIL, MAIN)
-from packages.categorical.image.nn.GeneratePreprocessFile import PreprocessInfo
+from packages.nn.GeneratePreprocessFile import PreprocessInfo
 
 import flet as ft
 

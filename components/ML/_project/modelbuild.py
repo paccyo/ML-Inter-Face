@@ -1,6 +1,6 @@
 from packages.util.Calldict import (layer_dicts, TEXTFIELD, DROPDOWN, MAIN, DETAIL)
-from packages.categorical.image.nn.GenerateModelFile import ModelInfo
-from packages.categorical.image.nn import GenerateBatfile, copy_to_userproject
+from packages.nn.GenerateModelFile import ModelInfo
+from packages.nn import GenerateBatfile, copy_to_userproject
 from packages import read_activate_path
 
 import flet as ft
