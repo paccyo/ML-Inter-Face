@@ -1,16 +1,17 @@
-from components.ML.page_ml_home import MLHome
-from components.ML.page_ml_project import MLProject
-from components.ML.page_ml_createproject import MLCreateProject
+# from components.ML.page_ml_home import MLHome
+# from components.ML.page_ml_project import MLProject
+# from components.ML.page_ml_createproject import MLCreateProject
 
-# from components.ML.test_.page_ml_project_test import MLProject
-# from components.ML.test_.page_ml_createproject_test import MLCreateProject
+from components.ML.test_.page_ml_home import MLHome
+from components.ML.test_.page_ml_project import MLProject
+from components.ML.test_.page_ml_createproject import MLCreateProject
 
 # from components.DA.page_da_home import DAHome
 # from components.DA.page_da_project import DAProject
 # from components.DA.page_da_createproject import DACreateProject
 from components.page_mainmenu import MainMenu
-from components.page_userapp import UserApp
-from components.page_signapp import SignApp
+from components.page_signin import SignIn
+from components.page_signup import SignUp
 
 import flet as ft
 
@@ -24,11 +25,11 @@ def main(page: ft.Page):
     def route_change(handler):
         t_route = ft.TemplateRoute(handler.route)
         print(t_route.route)
-        if t_route.match("/Page_UserApp"):
+        if t_route.match("/Page_SignIn"):
             page.views.clear()
-            page.views.append(UserApp(page))
-        elif t_route.match("/Page_SignApp"):
-            page.views.append(SignApp(page))
+            page.views.append(SignIn(page))
+        elif t_route.match("/Page_SignUp"):
+            page.views.append(SignUp(page))
         elif t_route.match("/Page_MainMenu"):
             page.views.clear()
             page.views.append(MainMenu(page))
@@ -59,7 +60,7 @@ def main(page: ft.Page):
     # ルート変更時のロジック設定
     page.on_route_change = route_change
 
-    page.go("/Page_UserApp")
+    page.go("/Page_SignIn")
     # page.go("/Page_MLCreateProject")
 
 # Start the app

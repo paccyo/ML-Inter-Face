@@ -1,5 +1,5 @@
 from packages.util.Calldict import (compile_dicts,MAIN,DETAIL,DROPDOWN,TEXTFIELD)
-from packages.categorical.image.nn.GenerateCompileFile import CompileInfo
+from packages.nn.GenerateCompileFile import CompileInfo
 
 import flet as ft
 import flet.canvas as cv
