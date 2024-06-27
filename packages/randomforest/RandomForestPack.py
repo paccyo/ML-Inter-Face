@@ -8,15 +8,22 @@ import matplotlib.pyplot as plt
 
 class RandomForestToolKit:
     
+    def __init__(self, dataset_path, project_path):
+        """
+        project_path:str -> user_project/Result
+        """
+        self.dataset_path = dataset_path
+        self.project_path = project_path
+
     def load_dataset(self):
         # 説明変数
-        self.train_df_data = pd.read_csv('test_data/train_data.csv')
-        self.validation_df_data = pd.read_csv('test_data/validation_data.csv')
-        self.test_df_data = pd.read_csv('test_data/test_data.csv')
+        self.train_df_data = pd.read_csv(f'{self.dataset_path}/train_data.csv')
+        self.validation_df_data = pd.read_csv(f'{self.dataset_path}/validation_data.csv')
+        self.test_df_data = pd.read_csv(f'{self.dataset_path}/test_data.csv')
         # 目的変数
-        self.train_df_target = pd.read_csv('test_data/train_target.csv')
-        self.validation_df_target = pd.read_csv('test_data/validation_target.csv')
-        self.test_df_target = pd.read_csv('test_data/test_target.csv')
+        self.train_df_target = pd.read_csv(f'{self.dataset_path}/train_target.csv')
+        self.validation_df_target = pd.read_csv(f'{self.dataset_path}/validation_target.csv')
+        self.test_df_target = pd.read_csv(f'{self.dataset_path}/test_target.csv')
 
     def set_params(self, n_estimators):
         self.rf = RandomForestClassifier(n_estimators=n_estimators)
