@@ -15,7 +15,7 @@ class SignIn(ft.View):
         self.accounts = [s.split("\\")[-1][:-7] for s in glob.glob('accounts/*.paccyo')]  
 
         self.input_username = ft.TextField(label="user name", border=ft.InputBorder.UNDERLINE, hint_text="enter username" ,width=300, on_change=self.on_change_username)
-        self.input_password = ft.TextField(label="password", border=ft.InputBorder.UNDERLINE, hint_text="enter password" ,width=300, on_change=self.on_change_password)
+        self.input_password = ft.TextField(label="password", border=ft.InputBorder.UNDERLINE, hint_text="enter password" ,width=300, on_change=self.on_change_password, password=True)
         self.error_username = ft.Text(value="",size=10,color=ft.colors.RED)
         self.error_password = ft.Text(value="",size=10,color=ft.colors.RED)
 
@@ -68,7 +68,7 @@ class SignIn(ft.View):
                         content=ft.Row(
                             controls=[
                             ft.Text(value="  Google",color=ft.colors.BLACK),
-                            ft.Container(content=ft.Image(src="packages\image\google_image.png",fit=ft.ImageFit.CONTAIN),width=30,height=30,border_radius=30)
+                            ft.Container(content=ft.Image(src="packages\image\google_image.png",fit=ft.ImageFit.CONTAIN),width=30, height=30, border_radius=30)
                             ],
                         ),
                         width=100,
@@ -107,8 +107,7 @@ class SignIn(ft.View):
             self.password = self.password+e.control.value[-1]
         elif len(e.control.value) < len(self.password):
             self.password = self.password[:-1]
-        e.control.value = "*"*len(self.password)
-        e.control.update()
+
 
     def on_click_sign_in(self, e):
         print(self.accounts)
