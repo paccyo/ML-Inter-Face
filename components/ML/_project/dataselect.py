@@ -13,6 +13,7 @@ class DataSelect(ft.Tab):
         self.get_directory_dialog = ft.FilePicker(on_result=self.get_directory_result)
         self.directory_path = ft.Text()
         page.overlay.extend([self.get_directory_dialog])
+
         self.learning_way = "categorical"
         self.data_type = "image"
         self.folder_pickup=ft.Container(
@@ -40,7 +41,7 @@ class DataSelect(ft.Tab):
                         "Open directory",
                         icon=ft.icons.FOLDER_OPEN,
                         on_click=lambda _: self.get_directory_dialog.get_directory_path(),
-                        disabled=page.web,
+                        # disabled=page.web,
                     ),
                     self.directory_path,
                     ft.ElevatedButton(
