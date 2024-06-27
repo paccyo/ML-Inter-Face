@@ -14,7 +14,7 @@ class Pick_file_Container(ft.Container):
         self.button = ft.ElevatedButton(
             text = "Open file",
             icon=ft.icons.FOLDER_OPEN,
-            on_click=lambda _: self.get_directory_dialog.pick_files(file_type=ft.FilePickerFileType.CUSTOM,allowed_extensions=["csv"]),
+            on_click=lambda _: self.get_directory_dialog.pick_files(file_type=ft.FilePickerFileType.CUSTOM,allowed_extensions=["csv"],allow_multiple=True),
             style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10)),
             width=300,
             height=50,
