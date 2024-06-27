@@ -113,24 +113,18 @@ class SignUp(ft.View):
         else:
             self.error_username.value = ""
             self.error_username.update()
-            pass
 
     def on_change_password(self, e):
         if len(self.password) < len(e.control.value):
             self.password = self.password+e.control.value[-1]
         elif len(e.control.value) < len(self.password):
             self.password = self.password[:-1]
-        e.control.value = "*"*len(self.password)
-        e.control.update()
-
 
     def on_change_repassword(self, e):
         if len(self.re_password) < len(e.control.value):
             self.re_password = self.re_password+e.control.value[-1]
         elif len(e.control.value) < len(self.re_password):
             self.re_password = self.re_password[:-1]
-        e.control.value = "*"*len(self.re_password)
-        e.control.update()
 
         if self.re_password == self.password:
             self.error_password.value = ""
@@ -145,7 +139,6 @@ class SignUp(ft.View):
             self.error_password.update()
             self.error_re_password.value = "入力したパスワードと違います"
             self.error_re_password.update()
-
 
     def on_click_sign_up(self, e):
         print(self.accounts)
