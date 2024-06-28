@@ -2,8 +2,8 @@
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score, roc_curve, auc
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import label_binarize
+import matplotlib.pyplot as plt
 import japanize_matplotlib
 
 
