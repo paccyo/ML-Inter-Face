@@ -54,4 +54,3 @@ class ProjectNavigationRail(ft.NavigationRail):
             self.model_compile,
             self.model_train,
         ]
-        # self.on_change=lambda e: print("Selected destination:", e.control.selected_index)

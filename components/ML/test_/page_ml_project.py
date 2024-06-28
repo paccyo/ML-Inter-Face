@@ -36,7 +36,6 @@ class MLProject(ft.View):
         ]
 
     def on_change_navigation_rail(self,e):
-        print(e.control.selected_index)
         if e.control.selected_index == 0:
             self.page_content.controls[2] = self.create_dataset_content
         elif e.control.selected_index == 1:
