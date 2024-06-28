@@ -16,7 +16,7 @@ class PastProject(ft.Container):
             rect = []
             
             rect = ft.Container(
-                ft.ElevatedButton(
+                content=ft.ElevatedButton(
                     content=ft.Column(
                         controls=[
                             ft.Text(value=project.split("\\")[-1], size=20),
@@ -28,13 +28,13 @@ class PastProject(ft.Container):
                     ),
                     style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0)),
                     on_click=self.on_click_past_project,
-                    width=5000
+                    width=5000,
+                    data=project
                 ),
                 alignment=ft.alignment.center_left,
                 bgcolor=ft.colors.GREY,
                 height=50,
             )
-            rect.data=project
 
             if rect != []:
                 past_project.append(rect)
@@ -57,8 +57,8 @@ class PastProject(ft.Container):
         )
     
     def on_click_past_project(self, e):
+        self.page.client_storage.set("project_file_path", os.path.abspath(e.control.data))
         self.page.go("/Page_MLProject")
-        pass
 
 
     def filter_project(self, e):

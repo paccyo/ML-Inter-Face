@@ -4,7 +4,7 @@ class ProjectNavigationRail(ft.NavigationRail):
     def __init__(self, page:ft.Page, on_change=None):
         super().__init__()
         self.page = page
-        # self.on_change = on_change
+        self.on_change = on_change
 
         self.selected_index=0
         self.label_type=ft.NavigationRailLabelType.ALL
@@ -54,4 +54,4 @@ class ProjectNavigationRail(ft.NavigationRail):
             self.model_compile,
             self.model_train,
         ]
-        self.on_change=lambda e: print("Selected destination:", e.control.selected_index)
+        # self.on_change=lambda e: print("Selected destination:", e.control.selected_index)

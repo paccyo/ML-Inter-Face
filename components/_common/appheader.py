@@ -19,7 +19,7 @@ class AppHeader(ft.AppBar):
         )
         
         self.menubutton = ft.IconButton(
-            icon=ft.icons.MENU
+            icon=ft.icons.MENU,
         )
 
 
