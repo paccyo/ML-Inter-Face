@@ -104,11 +104,9 @@ class MLCreateProject(ft.View):
     def on_click_create(self, e):
         with open("packages/util/project_info.json",encoding="utf-8") as f:
             info = json.load(f)
-        # print(info)
-        # print(self.get_pick_container.content.data)
         if self.project_filename != "":
             info["project_name"] = self.project_filename
-            info["data_type"] = "image" if self.segment_button_data_type.selected_index == "1" else "table"
+            info["data_type"] = "image" if self.segment_button_data_type.selected_index == 1 else "table"
             if self.get_pick_container.content.data:
                 if info["data_type"] == "image":
                     info["data_info"][info["data_type"]] = self.get_pick_container.content.data
@@ -117,17 +115,17 @@ class MLCreateProject(ft.View):
 
                 path = os.path.abspath('projects/'+self.project_filename)
                 # print(path)
-                self.page.client_storage.set('project_path', path)
+                self.page.client_storage.set("project_file_path", path)
                 os.makedirs(name=path,exist_ok=True)
                 os.makedirs(name=path+"/Data",exist_ok=True)
                 os.makedirs(name=path+"/Scripts",exist_ok=True)
                 os.makedirs(name=path+"/Logs",exist_ok=True)
                 os.makedirs(name=path+"/Result",exist_ok=True)
-                shutil.copy("packages/image/metrics_0epoch.png", self.page.client_storage.get('project_path')+"/Result")
-                shutil.copy("packages/image/loss_0epoch.png" ,self.page.client_storage.get('project_path')+"/Result")    
+                shutil.copy("packages/image/metrics_0epoch.png", self.page.client_storage.get('project_file_path')+"/Result")
+                shutil.copy("packages/image/loss_0epoch.png" ,self.page.client_storage.get('project_file_path')+"/Result")    
                 with open(path+"/project_info.json","w") as f:
                     json.dump(info, f, indent=2)
-
+                
                 self.page.go("/Page_MLProject")
         else:
             pass

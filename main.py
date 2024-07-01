@@ -1,9 +1,9 @@
 from components.ML.page_ml_home import MLHome
-from components.ML.page_ml_project import MLProject
 from components.ML.page_ml_createproject import MLCreateProject
+# from components.ML.page_ml_project import MLProject
 
 
-# from components.ML.test_.page_ml_project import MLProject
+from components.ML.test_.page_ml_project import MLProject
 
 
 # from components.DA.page_da_home import DAHome
@@ -61,7 +61,8 @@ def main(page: ft.Page):
     page.on_route_change = route_change
 
     page.go("/Page_SignIn")
-    # page.go("/Page_MLCreateProject")
+    # page.go("/Page_MLHome")
+    # page.go("/Page_MLProject")
 
 # Start the app
 ft.app(target=main, port=8550)
