@@ -85,7 +85,7 @@ class SignIn(ft.View):
         )
 
         self.controls = [
-            AppHeader(self.page),
+            AppHeader(self.page,title="ML/DS InterFace",bgcolor=ft.colors.LIME),
             ft.Container(
                 content=ft.Container(
                     content=self.user_app,
