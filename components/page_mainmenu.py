@@ -1,3 +1,4 @@
+from components._common.appheader import AppHeader
 import flet as ft
 
 class MainMenu(ft.View):
@@ -6,6 +7,7 @@ class MainMenu(ft.View):
         self.page = page
         self.route = "/Page_MainMenu"
         self.controls = [
+            AppHeader(self.page,title="ML/DS InterFace",bgcolor=ft.colors.LIME),
             ft.ElevatedButton(text="ML",on_click=self.on_click_ML),
             ft.ElevatedButton(text="DA",on_click=self.on_click_DA)
         ]
