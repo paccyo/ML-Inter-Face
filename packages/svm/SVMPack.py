@@ -39,34 +39,6 @@ class SVMToolKit:
     def train(self):
         self.svm.fit(self.train_data, self.train_target.ravel())
 
-    def evaluate(self, mode='validation'):
-        if mode == 'validation':
-            pred = self.svm.predict(self.validation_data)
-            print('accuracy：', accuracy_score(y_true=self.validation_target, y_pred=pred))
-            print('precision：', precision_score(y_true=self.validation_target, y_pred=pred, average='macro'))
-            print('recall：', recall_score(y_true=self.validation_target, y_pred=pred, average='macro'))
-            print('f1 score：', f1_score(y_true=self.validation_target, y_pred=pred, average='macro'))
-            print('confusion matrix = \n', confusion_matrix(y_true=self.validation_target, y_pred=pred))
-            #ROC曲線の描画、AUCの計算（ROC曲線の下側の面積）の計算
-            n_classes = len(self.svm.classes_)
-            classes = self.svm.classes_
-            y_test_one_hot = label_binarize(self.validation_target, classes=classes)
-            fpr = {}
-            tpr = {}
-            roc_auc = {}
-            pred_proba = self.svm.predict_proba(self.validation_data)
-            for i in range(n_classes):
-                fpr[i], tpr[i], _ = roc_curve(y_test_one_hot[:, i], pred_proba[:, i])
-                roc_auc[i] = auc(fpr[i], tpr[i])
-            for i, class_ in enumerate(classes):
-                plt.plot(fpr[i], tpr[i], label=f'{class_}')
-            plt.legend()   
-            plt.show()
-
-
-    def save_model_fig(self):
-        pass
-
 if __name__ == '__main__':
     lrkit = SVMToolKit(r'test_data', None)
     lrkit.load_dataset()
