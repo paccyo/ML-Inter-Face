@@ -6,9 +6,10 @@ from components.ML.page_ml_createproject import MLCreateProject
 from components.ML.test_.page_ml_project import MLProject
 
 
-# from components.DA.page_da_home import DAHome
-# from components.DA.page_da_project import DAProject
-# from components.DA.page_da_createproject import DACreateProject
+from components.DS.page_ds_home import DSHome
+# from components.DS.page_ds_project import DSProject
+# from components.DS.page_ds_createproject import DSNewFile
+
 from components.page_mainmenu import MainMenu
 from components.page_signin import SignIn
 from components.page_signup import SignUp
@@ -33,19 +34,18 @@ def main(page: ft.Page):
         elif t_route.match("/Page_MainMenu"):
             page.views.clear()
             page.views.append(MainMenu(page))
-        elif t_route.match("/Page_DAHome"):
-            pass       
+        elif t_route.match("/Page_DSHome"):
+            page.views.append(DSHome(page))
         elif t_route.match("/Page_MLHome"):
-            page.views.clear()
             page.views.append(MLHome(page))
         elif t_route.match("/Page_MLProject"):
             page.views.clear()
             page.views.append(MLProject(page))
         elif t_route.match("/Page_MLCreateProject"):
             page.views.append(MLCreateProject(page))
-        elif t_route.match("/Page_DAProject"):
+        elif t_route.match("/Page_DSProject"):
             pass
-        elif t_route.match("/Page_DACreateProject"):
+        elif t_route.match("/Page_DSNewFile"):
             pass
             
         page.update()
@@ -61,6 +61,7 @@ def main(page: ft.Page):
     page.on_route_change = route_change
 
     page.go("/Page_SignIn")
+    # page.go("/Page_MainMenu")
     # page.go("/Page_MLHome")
     # page.go("/Page_MLProject")
 

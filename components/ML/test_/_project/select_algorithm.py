@@ -5,7 +5,7 @@ class SelectAlgorithm(ft.Container):
         super().__init__()
         self.page = page
         self.expand = True
-        # self.bgcolor = ft.colors.BLUE
+        
         self.select_algorithm = ""
         self.check_now_index = None
 
