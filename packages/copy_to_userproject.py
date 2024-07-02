@@ -1,12 +1,19 @@
 
 import shutil
 
-def CopyTrain(target_path):
+def CopyNNTrain(target_path):
     """
     実行ファイルをユーザープロジェクトにコピーします
     target_path->str: "プロジェクトフォルダ/Scripts"を指定
     """
-    shutil.copy('packages/RunTrain.py', f'{target_path}/RunTrain.py')
+    shutil.copy('packages/NNTrain.py', f'{target_path}/NNTrain.py')
+
+def CopyMLTrain(target_path):
+    """
+    実行ファイルをユーザープロジェクトにコピーします
+    target_path->str: "プロジェクトフォルダ/Scripts"を指定
+    """
+    shutil.copy('packages/MLTrain.py', f'{target_path}/MLTrain.py')
 
 def CopyModelGraph(target_path):
     """
@@ -16,5 +23,5 @@ def CopyModelGraph(target_path):
     shutil.copy('packages/output_model_graph.py', f'{target_path}/output_model_graph.py')
 
 if __name__ == '__main__':
-    CopyTrain(r'path')
+    CopyNNTrain(r'path')
     CopyModelGraph(r'path')

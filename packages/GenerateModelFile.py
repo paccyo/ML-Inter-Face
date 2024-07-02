@@ -8,28 +8,42 @@ class ModelInfo:
     """
     モデル構造ファイル作成
     """
-    def __init__(self):
-        self.layers = ''
+    def __init__(self, mode=None):
+        self.model = ''
         self.imports = ''
+        self.mode = mode
         self.load_import_info()
     
     def load_import_info(self):
         """
         importテキスト読み込み
         """
-        with open('packages/model_imports.txt') as f:
-            imports_data = f.read()
+        if self.mode == 'NN':
+            with open('packages/NN/model_imports.txt') as f:
+                imports_data = f.read()
+        elif self.mode == 'ML':
+            with open('packages/ML/MLmodel_imports.txt') as f:
+                imports_data = f.read()
         self.imports += imports_data + '\n\n'
 
     def send(self, model_dict, project_path, shape=None):
         """
         辞書からモデルを構築
         """
-        self.generate_model(model_dict, project_path, shape)
+        if self.mode == 'NN':
+            self.generate_NNmodel(model_dict, project_path, shape)
+        elif self.mode == 'ML':
+            self.generate_NNmodel(model_dict, project_path)
 
+    def generate_MLmodel(self, model_dict, project_path):
+        alg_name = model_dict['alg']
+        self.model += '    model = '+alg_name+'('
+        for param, value in model_dict.items():
+            self.model += f'{param}={value}, '
+        self.model = self.model[:-2] + ')\n'
+        self.write_modelfile(project_path)
 
-
-    def generate_model(self, model_dict, project_path, shape=None):
+    def generate_NNmodel(self, model_dict, project_path, shape=None):
         before_unique_layer_name = ''    # １つ前のレイヤー変数名(layername)
         first_unique_layer_name = ''     # 最初のレイヤー変数名(inputs)
         filal_unique_layer_name = ''     # 最後のレイヤー変数名(outputs)
@@ -57,15 +71,15 @@ class ModelInfo:
 
             # 行ごとにレイヤー作成
             if before_unique_layer_name:
-                self.layers += f'    {unique_layer_name} = {layer_name}({params})({before_unique_layer_name})\n'
+                self.model += f'    {unique_layer_name} = {layer_name}({params})({before_unique_layer_name})\n'
             else:
-                self.layers += f'    {unique_layer_name} = {layer_name}({params})\n'
+                self.model += f'    {unique_layer_name} = {layer_name}({params})\n'
             
             # １つ前のレイヤー名を更新
             before_unique_layer_name = unique_layer_name
             
         # 最終層作成
-        self.layers += f'    model = Model(inputs={first_unique_layer_name}, outputs={filal_unique_layer_name})\n'
+        self.model += f'    model = Model(inputs={first_unique_layer_name}, outputs={filal_unique_layer_name})\n'
 
         self.write_modelfile(project_path)
         
@@ -73,9 +87,9 @@ class ModelInfo:
         """
         モデルファイル書き出し
         """
-        if self.layers:
+        if self.model:
             with open(f'{project_path}/model_info.py', 'w') as f:
-                f.write(self.imports+'def model_build():\n'+self.layers+'    return model')
+                f.write(self.imports+'def model_build():\n'+self.model+'    return model')
 
     def get_image_shape(self, image_size=(None, None), color_mode='rgb'):    
         if color_mode == 'rgb':
@@ -89,8 +103,6 @@ class ModelInfo:
         df = pd.read_csv(train_data_path)
         return (len(df.values[0]),)
 
-        
-            
 
 if __name__ == '__main__':
     # テストケース
