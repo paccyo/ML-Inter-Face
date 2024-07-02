@@ -22,6 +22,7 @@ class ModelBuild(ft.Tab):
             scroll=ft.ScrollMode.HIDDEN,
             expand=False,
         )
+        
         for layer_name in layer_dicts.keys():
             self.sidebar_layers.controls.append(ft.ElevatedButton(layer_name, on_click=self.add_layer))
 
