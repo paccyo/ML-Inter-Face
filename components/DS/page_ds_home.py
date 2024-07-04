@@ -13,15 +13,7 @@ class DSHome(ft.View):
             ft.Container(
                 content=ft.Column(
                     controls=[
-                        ft.IconButton(
-                            style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10)),
-                            icon=ft.icons.FILE_OPEN_OUTLINED,
-                            icon_size=100,
-                            width=100,
-                            height=100,
-                            on_click=self.on_click_new_file,
-                            ),
-                        
+
                     ]
                 ),
                 padding=ft.padding.only(top=50,left=100,right=100,bottom=50)
