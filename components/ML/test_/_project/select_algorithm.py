@@ -1,13 +1,21 @@
+from components.ML.test_._project.nn.nn_modelbuild import ModelBuild_NN
+
 import flet as ft 
 
 class SelectAlgorithm(ft.Container):
-    def __init__(self,page:ft.Page):
+    def __init__(self,page:ft.Page, navigation_rail_update):
         super().__init__()
         self.page = page
-        self.expand = True
+        self.navigation_rail_update = navigation_rail_update
+        self.expand = True 
         
         self.select_algorithm = ""
         self.check_now_index = None
+
+        self.algorithm_list = [
+            ft.Container(),
+            ModelBuild_NN(self.page)
+        ]
 
         self.select_algorithm_button = ft.Container(
             content=ft.Column(
@@ -30,7 +38,7 @@ class SelectAlgorithm(ft.Container):
                             controls=[
                                 ft.Icon(),
                                 ft.VerticalDivider(),
-                                ft.Text(value="TESTGGGG")
+                                ft.Text(value="NN")
                             ]
                         ), 
                         on_click=self.on_click_algorithm, 
@@ -73,4 +81,6 @@ class SelectAlgorithm(ft.Container):
             e.control.content.controls[0].name = None
         else:
             e.control.content.controls[0].name = ft.icons.CHECK
+
+        self.navigation_rail_update()
         e.control.update()

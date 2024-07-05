@@ -3,6 +3,7 @@ from components.ML.test_._project.navigationrail import ProjectNavigationRail
 from components.ML.test_._project.create_dataset import CreateDatasetDataFrame, CreateDatasetImage
 from components.ML.test_._project.select_algorithm import SelectAlgorithm
 
+
 import flet as ft
 import json
 
@@ -17,13 +18,20 @@ class MLProject(ft.View):
             self.info = json.load(f)
 
         self.create_dataset_content = CreateDatasetImage(self.page) if self.info["data_type"] == "image" else CreateDatasetDataFrame(self.page)
-        self.select_algorithm_content = SelectAlgorithm(self.page)
+        self.select_algorithm_content = SelectAlgorithm(self.page,self.navigation_rail_update)
+        
+        self.project_tasks = [
+            self.create_dataset_content,
+            self.select_algorithm_content
+        ]
+
+        self.navigation_rail = ProjectNavigationRail(self.page,on_change=self.on_change_navigation_rail)
 
         self.page_content = ft.Row(
             controls=[
-                ProjectNavigationRail(self.page,on_change=self.on_change_navigation_rail),
+                self.navigation_rail,
                 ft.VerticalDivider(width=1),
-                self.create_dataset_content,
+                self.project_tasks[0],
             ],
             expand=True,
             alignment=ft.alignment.top_left
@@ -35,11 +43,23 @@ class MLProject(ft.View):
             self.page_content,
         ]
 
+    
+    def navigation_rail_update(self):
+        select_index = self.select_algorithm_content.check_now_index
+        if select_index != None:
+            self.project_tasks.append(self.select_algorithm_content.algorithm_list[select_index])
+            self.navigation_rail.destinations[2].disabled = False
+        else:
+            self.project_tasks = self.project_tasks[:2]
+            self.navigation_rail.destinations[2].disabled = True
+        self.navigation_rail.update()
+
+
+
 
     
     def on_change_navigation_rail(self,e):
-        if e.control.selected_index == 0:
-            self.page_content.controls[2] = self.create_dataset_content
-        elif e.control.selected_index == 1:
-            self.page_content.controls[2] = self.select_algorithm_content
+
+        self.page_content.controls[2] = self.project_tasks[e.control.selected_index]
+        
         self.page_content.update()
