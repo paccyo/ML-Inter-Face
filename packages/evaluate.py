@@ -78,3 +78,4 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
         plt.show()
 
     if alg == 'SVM' and data_class_num == 2:
+        pass
