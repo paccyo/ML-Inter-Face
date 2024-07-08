@@ -13,14 +13,18 @@ class DSHome(ft.View):
             ft.Container(
                 content=ft.Column(
                     controls=[
-
+                        ft.Container(
+                            content=ft.ElevatedButton(text="new_file", on_click=self.on_click_new_file, style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10)), height=40, width=300),
+                            alignment=ft.Alignment(1,-1),
+                        ),
+                        
                     ]
                 ),
-                padding=ft.padding.only(top=50,left=100,right=100,bottom=50)
+                padding=ft.padding.only(top=10,left=10,right=10,bottom=50)
             )
 
         ]
 
     def on_click_new_file(self, e):
-        
+        # self.page.go("/Page_DSNewFile")
         pass
