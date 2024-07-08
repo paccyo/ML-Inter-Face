@@ -5,9 +5,34 @@ import japanize_matplotlib
 from pydotplus import graph_from_dot_data
 from sklearn.tree import export_graphviz
 from sklearn.tree import plot_tree
+import numpy as np
+
+def simulate(clf, data, target, x_min=-6, x_max=6, y_min=-4, y_max=8):
+    fig, ax = plt.subplots(1, 2, figsize=(18, 6))
+
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01), np.arange(y_min, y_max, 0.01))
+    z = clf.predict(np.array([xx.ravel(), yy.ravel()]).T)
+    ax[0].contourf(xx, yy, z.reshape(xx.shape), alpha=0.2, cmap=plt.cm.coolwarm)
+    ax[0].scatter(data[:, 0], data[:, 1], c=target, s=10, cmap=plt.cm.coolwarm)
+    plt.show()
 
 
 def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=None, target=None, columns=None, export_path=None):
+    """
+    学習結果を評価/保存
+
+    Parameters
+    ----------
+    model:model -> 学習したモデル
+    data_type:str -> validation or test
+    train_mode:str -> classifier or reg
+    alg:str -> randomforest, decisiontree etc...
+    data:any -> 推測させたいデータ
+    target:any -> ターゲットラベル
+    columns:pd.dataframe.columns -> カラム
+    export_path:str -> 結果グラフ出力先
+    """
+    data_class_num = len(columns)
     if data_type == 'validation' and train_mode == 'classifier':
         pred = model.predict(data)
         print('accuracy：', accuracy_score(y_true=target, y_pred=pred))
@@ -51,3 +76,5 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
         else:
             plot_tree(model, feature_names=columns, filled=True)
         plt.show()
+
+    if alg == 'SVM' and data_class_num == 2:

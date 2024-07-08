@@ -6,6 +6,9 @@ import sys
 
 
 class TrainToolKit:
+    """
+    ML用学習ツールキット
+    """
 
     def __init__(self, dataset_path, export_path, part):
         """
@@ -44,7 +47,7 @@ class TrainToolKit:
         self.model.fit(self.train_data, self.train_target.ravel())
 
 
-_, dataset_path, export_path, train_part, validation_part, test_part, train_mode, alg  = sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]
+_, dataset_path, export_path, train_part, validation_part, test_part, train_mode, alg  = sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7]
 # train_mode = classifier or reg
 # alg = decisiontree, randomforest, SVM
 train_part, validation_part, test_part, int(train_part), int(validation_part), int(test_part)
@@ -52,8 +55,6 @@ kit = TrainToolKit(r'test_data/dataset', None, {'train':train_part, 'validation'
 kit.load_dataset()
 kit.load_model()
 kit.train()
-evaluate.evaluate(kit.model, data_type='validation', train_mode=train_mode, alg=alg, data=kit.validation_data, target=kit.validation_target, columns=kit.validation_df_data.columns)
+evaluate.evaluate(kit.model, data_type='validation', train_mode=train_mode, alg=alg, data=kit.validation_data, target=kit.validation_target, columns=kit.validation_df_data.columns, export_path=export_path)
 if test_part != 0:
-    evaluate.evaluate(kit.model, data_type='test', train_mode=train_mode, alg=alg, data=kit.test_data, target=kit.test_target, columns=kit.test_df_data.columns)
-
-
+    evaluate.evaluate(kit.model, data_type='test', train_mode=train_mode, alg=alg, data=kit.test_data, target=kit.test_target, columns=kit.test_df_data.columns, export_path=export_path)

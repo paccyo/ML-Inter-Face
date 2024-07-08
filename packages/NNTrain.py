@@ -14,6 +14,22 @@ from keras.utils import to_categorical
 print('RunTrainfile')
 
 def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, project_path=None, dataset_path=None, class_nums=None, train_type=None):
+    """
+    NN学習を実行します
+
+    Parameters
+    ----------
+    train_part:str -> 学習データの割合
+    validation_part:str -> 検証データの割合
+    test_part:str -> テストデータの割合
+    data_type:str -> image or dataframe
+    epochs:str -> エポック数
+    batchs:str -> バッチサイズ
+    project_path:str -> 結果を保存したいディレクトリパス
+    dataset_path:str -> データセットのパス
+    class_nums:str -> 分類クラス数
+    train_type:str -> classfier or reg
+    """
     if data_type == 'image':
         import train_preprocess_info
         import validation_preprocess_info
@@ -113,6 +129,9 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
         model.save(f'{project_path}/trained_model.h5')
         
 def conv_str_to_int(df_target):
+    """
+    dataframeの文字を数値化
+    """
     labels_str = []
     labels = []
     for data in df_target.values:
