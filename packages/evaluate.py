@@ -6,14 +6,18 @@ from pydotplus import graph_from_dot_data
 from sklearn.tree import export_graphviz
 from sklearn.tree import plot_tree
 import numpy as np
+from packages import convert_type
+
 
 def simulate(clf, data, target, x_min=-6, x_max=6, y_min=-4, y_max=8):
-    fig, ax = plt.subplots(1, 2, figsize=(18, 6))
+    fig, ax = plt.subplots(figsize=(6, 6))
 
     xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01), np.arange(y_min, y_max, 0.01))
     z = clf.predict(np.array([xx.ravel(), yy.ravel()]).T)
-    ax[0].contourf(xx, yy, z.reshape(xx.shape), alpha=0.2, cmap=plt.cm.coolwarm)
-    ax[0].scatter(data[:, 0], data[:, 1], c=target, s=10, cmap=plt.cm.coolwarm)
+    print(xx.shape)
+    z = np.array(convert_type.conv_str_to_int(z))
+    ax.contourf(xx, yy, z.reshape(xx.shape), cmap=plt.cm.coolwarm)
+    ax.scatter(data[:, 0], data[:, 1], c=target, cmap=plt.cm.coolwarm)
     plt.show()
 
 
@@ -54,7 +58,6 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
         for i, class_ in enumerate(classes):
             plt.plot(fpr[i], tpr[i], label=f'{class_}')
         plt.legend()   
-        plt.show()
 
     if alg == 'randomforest':
         estimators = model.estimators_
@@ -75,7 +78,7 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
             plot_tree(model, feature_names=columns, class_names=model.classes_, filled=True)
         else:
             plot_tree(model, feature_names=columns, filled=True)
-        plt.show()
-
     if alg == 'SVM' and data_class_num == 2:
-        pass
+
+        simulate(model, data, convert_type.conv_str_to_int(target))
+    plt.show()
