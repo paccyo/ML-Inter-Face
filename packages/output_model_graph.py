@@ -2,6 +2,9 @@ import model_info
 from keras.utils import plot_model
 import sys
 
+"""
+NNモデルグラフの出力
+"""
 
 _, project_path = sys.argv[0], sys.argv[1]
 model = model_info.model_build()

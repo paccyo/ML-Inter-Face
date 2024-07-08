@@ -3,6 +3,10 @@ import subprocess
 
 def generateNN(target_path, run_path, part_dict, data_type, epochs, batchs=None, project_path=None):
     """
+    NN用バッチファイル作成
+
+    Parameters
+    ----------
     target_path->str: "プロジェクト名/Scripts"絶対パス
     run_path->str: "仮想環境のactivate.batのパス"
     project_path->str: 
@@ -16,6 +20,10 @@ def generateNN(target_path, run_path, part_dict, data_type, epochs, batchs=None,
 
 def generateML(target_path, run_path, part_dict, dataset_path, export_path, train_mode, alg):
     """
+    ML用バッチファイル作成
+
+    Parameters
+    ----------
     target_path->str: "プロジェクト名/Scripts"絶対パス
     run_path->str: "仮想環境のactivate.batのパス"
     project_path->str: 

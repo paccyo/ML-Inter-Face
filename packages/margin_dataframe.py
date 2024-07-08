@@ -3,6 +3,15 @@ import pandas as pd
 
 
 def MarginFrame(original, edit_part, target_col):
+    """
+    dataframeの更新を行う
+
+    Parameters
+    ----------
+    original:pd.dataframe -> 基となるdataframe
+    edit_part:pd.dataframe -> 更新したいカラムのdataframe
+    target_col:str -> 更新したいカラム名
+    """
     original[target_col] = edit_part
     return original
 

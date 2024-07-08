@@ -36,6 +36,14 @@ class ModelInfo:
             self.generate_NNmodel(model_dict, project_path)
 
     def generate_MLmodel(self, model_dict, project_path):
+        """
+        MLモデルの作成
+
+        Parameters
+        ----------
+        model_dict:dict -> パラメータが格納された辞書
+        project_path:str -> モデルファイルの保存先(maybe user_project/Scripts)
+        """
         alg_name = model_dict['alg']
         self.model += '    model = '+alg_name+'('
         for param, value in model_dict.items():
@@ -44,6 +52,15 @@ class ModelInfo:
         self.write_modelfile(project_path)
 
     def generate_NNmodel(self, model_dict, project_path, shape=None):
+        """
+        NNモデルの作成
+
+        Parameters
+        ----------
+        model_dict:dict -> パラメータが格納された辞書
+        project_path:str -> モデルファイルの保存先(maybe user_project/Scripts)
+        shape:tuple -> 画像のサイズ
+        """
         before_unique_layer_name = ''    # １つ前のレイヤー変数名(layername)
         first_unique_layer_name = ''     # 最初のレイヤー変数名(inputs)
         filal_unique_layer_name = ''     # 最後のレイヤー変数名(outputs)
@@ -86,12 +103,24 @@ class ModelInfo:
     def write_modelfile(self, project_path):
         """
         モデルファイル書き出し
+
+        Parameters
+        ----------
+        project_path:str -> モデルファイル保存先(maybe user_project/Scripts)
         """
         if self.model:
             with open(f'{project_path}/model_info.py', 'w') as f:
                 f.write(self.imports+'def model_build():\n'+self.model+'    return model')
 
-    def get_image_shape(self, image_size=(None, None), color_mode='rgb'):    
+    def get_image_shape(self, image_size=(None, None), color_mode='rgb'): 
+        """
+        画像のshapeを返す
+
+        Parameters
+        ----------
+        image_size:tuple -> (width, height)
+        color_mode:str -> rgb or gray
+        """   
         if color_mode == 'rgb':
             color = 3
         else:
@@ -99,6 +128,13 @@ class ModelInfo:
         return (image_size[0], image_size[1], color)
     
     def get_dataframe_shape(self, dataset_path):
+        """
+        dataframeのshapeを返す
+
+        Parameters
+        ----------
+        dataset_path:str -> データセットのパス
+        """
         train_data_path = os.path.join(dataset_path, 'train_data.csv')
         df = pd.read_csv(train_data_path)
         return (len(df.values[0]),)
