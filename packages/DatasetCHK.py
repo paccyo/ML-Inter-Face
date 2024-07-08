@@ -14,7 +14,7 @@ dataset----train------cat---~~.png
 """
 
 
-def CHK(path=None, data_type=None, learning_way=None, project_path=None):
+def CHK(path=None, data_type=None, learning_way=None):
     """
     データの型が正しいかチェックします。
     path:データのパス
@@ -51,12 +51,22 @@ def CHK(path=None, data_type=None, learning_way=None, project_path=None):
         elif data_type == 'dataframe':
             if '.csv' == os.path.splitext(os.path.basename(datasets_path))[-1]:
                 df = pd.read_csv(datasets_path)
-                df.to_csv(os.path.join(project_path, 'original_data.csv'))
                 return True, df
             else:
                 return False, {}
             
+def COPY(datasets_path, project_path):
+    """
+    dataframeをuser_project/Dataへコピー
 
+    Parameters
+    ----------
+    datasets_path:str -> 
+    project_path:str -> 
+    """
+    df = pd.read_csv(datasets_path)
+    df.to_csv(os.path.join(project_path, 'original_data.csv'))
+    
 
 if __name__ == '__main__':
     judge = CHK(path='data3', data_type='image', learning_way='categorical', target='data')
