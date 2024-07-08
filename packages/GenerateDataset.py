@@ -146,5 +146,6 @@ if __name__ == '__main__':
     print(df)
     # 分類
     # dataset_info.generate_dataframe_dataset(test_dict, df, {'data':['SepalLengthCm', 'SepalWidthCm', 'PetalWidthCm'], 'target':['Species']}, r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data", 'dataframe', True)
+    dataset_info.generate_dataframe_dataset(test_dict, df, {'data':['SepalLengthCm', 'SepalWidthCm'], 'target':['Species']}, r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data", 'dataframe', True)
     # 回帰
-    dataset_info.generate_dataframe_dataset(test_dict, df, {'data':['SepalLengthCm', 'SepalWidthCm', 'PetalWidthCm'], 'target':['PetalLengthCm']}, r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data", 'dataframe', True)
+    # dataset_info.generate_dataframe_dataset(test_dict, df, {'data':['SepalLengthCm', 'SepalWidthCm', 'PetalWidthCm'], 'target':['PetalLengthCm']}, r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data", 'dataframe', True)
