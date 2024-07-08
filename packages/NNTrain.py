@@ -9,6 +9,7 @@ import os
 import glob
 import pandas as pd
 from keras.utils import to_categorical
+from packages import convert_type
 
 
 print('RunTrainfile')
@@ -106,13 +107,13 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
 
         if train_type == 'classifier':
             if train_part != 0:
-                train_target = conv_str_to_int(df_train_target)
+                train_target = convert_type.conv_str_to_int(df_train_target.values)
                 train_target = to_categorical(train_target, num_classes=class_nums)
             elif validation_part != 0:
-                validation_target = conv_str_to_int(df_validation_target)
+                validation_target = convert_type.conv_str_to_int(df_validation_target.values)
                 validation_target = to_categorical(validation_target, num_classes=class_nums)
             elif test_part != 0:
-                test_target = conv_str_to_int(df_test_target)
+                test_target = convert_type.conv_str_to_int(df_test_target.values)
                 test_target = to_categorical(test_target, num_classes=class_nums)
 
         model = model_info.model_build()
@@ -128,19 +129,7 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
 
         model.save(f'{project_path}/trained_model.h5')
         
-def conv_str_to_int(df_target):
-    """
-    dataframeの文字を数値化
-    """
-    labels_str = []
-    labels = []
-    for data in df_target.values:
-        if data not in labels_str:
-            labels_str.append(data)
-    for data in df_target.values:
-        labels.append(labels_str.index(data))
-    return labels
-            
+
 
         
         
