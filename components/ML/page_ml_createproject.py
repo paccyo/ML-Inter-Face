@@ -35,11 +35,12 @@ class MLCreateProject(ft.View):
             selected_index=0,
             controls=[ft.Text("分類",size=30),ft.Text("回帰",size=30)],
             width=500,
+            on_change=self.on_change_learning_way,
         )
         
 
-        self.file_contener = Pick_file_Container(self.page)
-        self.folder_container = Pick_folder_Container(self.page)
+        self.file_contener = Pick_file_Container(self.page, learning_way="categorical")
+        self.folder_container = Pick_folder_Container(self.page, learning_way="categorical")
 
         self.get_pick_container = ft.Container(content=self.file_contener)
 
@@ -85,6 +86,17 @@ class MLCreateProject(ft.View):
             )
         ]
 
+    def on_change_learning_way(self, e):
+        if e.control.controls[int(e.data)].value == "分類":
+            self.ffile_contener.learning_way = "categorical"
+            self.older_container.learning_way = "categorical"
+        elif e.control.controls[int(e.data)].value == "回帰":
+            self.ffile_contener.learning_way = "回帰"
+            self.older_container.learning_way = "回帰"
+
+        self.ffile_contener.update()
+        self.older_container.update()
+
     def on_change_segment_button_data_type(self,e):
         if e.control.controls[int(e.data)].value == "画像":
             self.segment_button_learning.selected_index = 0
@@ -116,6 +128,7 @@ class MLCreateProject(ft.View):
                 path = os.path.abspath('projects/'+self.project_filename)
                 # print(path)
                 self.page.client_storage.set("project_file_path", path)
+                self.page.client_storage.set("project_info",info)
                 os.makedirs(name=path,exist_ok=True)
                 os.makedirs(name=path+"/Data",exist_ok=True)
                 os.makedirs(name=path+"/Scripts",exist_ok=True)

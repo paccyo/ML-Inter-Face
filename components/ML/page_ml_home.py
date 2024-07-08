@@ -15,7 +15,13 @@ class MLHome(ft.View):
                 content = ft.Column(
                     controls=[
                         ft.Container(
-                            content=ft.ElevatedButton(text="create_new_project", on_click=self.go_create_project, style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10)), height=40, width=300),
+                            content=ft.ElevatedButton(
+                                text="create_new_project", 
+                                on_click=self.go_create_project, 
+                                style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10)), 
+                                height=40, 
+                                width=300
+                            ),
                             alignment=ft.Alignment(1,-1),
                         ),
                         PastProject(self.page,alignment=ft.Alignment(0,0)),

@@ -17,8 +17,8 @@ class MLProject(ft.View):
         with open(self.project_file_path+"/project_info.json") as f:
             self.info = json.load(f)
 
-        self.create_dataset_content = CreateDatasetImage(self.page) if self.info["data_type"] == "image" else CreateDatasetDataFrame(self.page)
-        self.select_algorithm_content = SelectAlgorithm(self.page,self.navigation_rail_update)
+        self.create_dataset_content = CreateDatasetImage(page=self.page) if self.info["data_type"] == "image" else CreateDatasetDataFrame(page=self.page)
+        self.select_algorithm_content = SelectAlgorithm(page=self.page, navigation_rail_update=self.navigation_rail_update)
         
         self.project_tasks = [
             self.create_dataset_content,

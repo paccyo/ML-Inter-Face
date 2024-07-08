@@ -1,5 +1,6 @@
 import flet as ft
 import glob
+import json
 import os
         
 
@@ -58,6 +59,9 @@ class PastProject(ft.Container):
     
     def on_click_past_project(self, e):
         self.page.client_storage.set("project_file_path", os.path.abspath(e.control.data))
+        with open(os.path.abspath(e.control.data)+"/project_info.json", encoding="utf-8") as f:
+            info = json.load(f)
+        self.page.client_storage.set("project_info",info)
         self.page.go("/Page_MLProject")
 
 
