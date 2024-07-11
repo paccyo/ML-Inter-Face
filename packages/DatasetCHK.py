@@ -34,24 +34,18 @@ def CHK(path=None, data_type=None, learning_way=None):
                 temp = []
                 if not os.path.isdir(label_path):
                     return False, {}
-
-
                 for file_path in glob.glob(os.path.join(label_path, '*.*')):
                     guess = guess_type(os.path.basename(file_path))
                     if data_type in str(guess):
                         temp.append(file_path)
                     else:
                         return False, {}
-
                 label_name = label_path.replace('\\', '/').split('/')[-1]
                 results[label_name] = temp[:10]
-            
             if label_num >= 2:
                 return True, results
             else:
                 return False, {}
-
-        
         elif data_type == 'dataframe':
             if '.csv' == os.path.splitext(os.path.basename(datasets_path))[-1]:
                 df = pd.read_csv(datasets_path)
