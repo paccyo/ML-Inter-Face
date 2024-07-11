@@ -547,44 +547,52 @@ ML_dicts = {
 }
 
 ML_display_dicts = {
-    'NN':{
+    'ニューラルネットワーク':{
         'regression':'True',
         'classification':'True',
+        'alg':'NN',
         'image':'None',
     },
-    'DecisionTreeClassifier':{
+    '決定木':{
         'regression':'False',
         'classification':'True',
+        'alg':'DecisionTreeClassifier',
         'image':'None',
     },
-    'DecisionTreeRegressor':{
+    '回帰木':{
         'regression':'True',
         'classification':'False',
+        'alg':'DecisionTreeRegressor',
         'image':'None',
     },
-    'LogisticRegression':{
-        'regression':'True',
-        'classification':'False',
-        'image':'None',
-    },
-    'RandomForestClassifier':{
+    'ロジスティック回帰':{
         'regression':'False',
         'classification':'True',
+        'alg':'LogisticRegression',
         'image':'None',
     },
-    'RandomForestRegressor':{
-        'regression':'True',
-        'classification':'False',
-        'image':'None',
-    },
-    'SVC':{
+    'ランダムフォレスト分類':{
         'regression':'False',
         'classification':'True',
+        'alg':'RandomForestClassifier',
         'image':'None',
     },
-    'SVR':{
+    'ランダムフォレスト回帰':{
         'regression':'True',
         'classification':'False',
+        'alg':'RandomForestRegressor',
+        'image':'None',
+    },
+    'サポートベクターマシン分類':{
+        'regression':'False',
+        'classification':'True',
+        'alg':'SVC',
+        'image':'None',
+    },
+    'サポートベクターマシン回帰':{
+        'regression':'True',
+        'classification':'False',
+        'alg':'SVR',
         'image':'None',
     }
 
