@@ -527,3 +527,67 @@ compile_dicts = {
         'loss':['None', 'DropDown', ['None', 'categorical_crossentropy', 'binary_crossentropy'], 'MAIN', '損失関数を指定します。'],
         'metrics':['None', 'DropDown', ['None', 'acc'], 'MAIN', '評価指標を指定します。'],
     }
+
+ML_dicts = {
+    'DecisionTreeClassifier':{'max_depth':['None', 'TextField', 1, 'DETAIL', 'UNK'],
+                              'min_samples_split':[2, 'TextField', 1, 'DETAIL', 'UNK'],
+                              'min_samples_leaf':[1, 'TextField', 1, 'DETAIL', 'UNK'],
+                              },
+    'DecisionTreeRegressor':{'max_depth':['None', 'TextField', 1, 'DETAIL', 'UNK'],
+                             'min_samples_split':[2, 'TextField', 1, 'DETAIL', 'UNK'],
+                             'min_samples_leaf':[1, 'TextField', 1, 'DETAIL', 'UNK'],
+                             },
+    'LogisticRegression':{'penalty':['l2', 'DropDown', ['None', 'l1', 'l2', 'elasticnet'], 'DETAIL', 'UNK']},
+    'RandomForestClassifier':{'n_estimators':[100, 'TextField', 1, 'DETAIL', 'UNK'],
+                              'max_depth':['None', 'TextField', 1, 'DETAIL', 'UNK']},
+    'RandomForestRegressor':{'n_estimators':[100, 'TextField', 1, 'DETAIL', 'UNK'],
+                              'max_depth':['None', 'TextField', 1, 'DETAIL', 'UNK']},
+    'SVC':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK']},
+    'SVR':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK']},
+}
+
+ML_display_dicts = {
+    'NN':{
+        'regression':'True',
+        'classification':'True',
+        'image':'None',
+    },
+    'DecisionTreeClassifier':{
+        'regression':'False',
+        'classification':'True',
+        'image':'None',
+    },
+    'DecisionTreeRegressor':{
+        'regression':'True',
+        'classification':'False',
+        'image':'None',
+    },
+    'LogisticRegression':{
+        'regression':'True',
+        'classification':'False',
+        'image':'None',
+    },
+    'RandomForestClassifier':{
+        'regression':'False',
+        'classification':'True',
+        'image':'None',
+    },
+    'RandomForestRegressor':{
+        'regression':'True',
+        'classification':'False',
+        'image':'None',
+    },
+    'SVC':{
+        'regression':'False',
+        'classification':'True',
+        'image':'None',
+    },
+    'SVR':{
+        'regression':'True',
+        'classification':'False',
+        'image':'None',
+    }
+
+ 
+}
+ 
