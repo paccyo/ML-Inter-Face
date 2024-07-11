@@ -30,20 +30,21 @@ def CHK(path=None, data_type=None, learning_way=None):
         if data_type == 'image':
             label_num = 0
             for label_path in glob.glob(os.path.join(datasets_path, '*')):
-                result_image_c = 0
                 label_num += 1
                 temp = []
                 if not os.path.isdir(label_path):
                     return False, {}
+
+
                 for file_path in glob.glob(os.path.join(label_path, '*.*')):
                     guess = guess_type(os.path.basename(file_path))
-                    if data_type in str(guess) and result_image_c < 10:
-                        result_image_c += 1
+                    if data_type in str(guess):
                         temp.append(file_path)
                     else:
                         return False, {}
+
                 label_name = label_path.replace('\\', '/').split('/')[-1]
-                results[label_name] = temp
+                results[label_name] = temp[:10]
             
             if label_num >= 2:
                 return True, results
