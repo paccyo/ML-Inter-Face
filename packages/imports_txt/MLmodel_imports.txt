@@ -3,3 +3,4 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.svm import SVC
+from sklearn.svm import SVR
