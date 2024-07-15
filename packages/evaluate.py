@@ -19,6 +19,22 @@ def draw_border(clf, data, target, x_min=-6, x_max=6, y_min=-4, y_max=8):
     ax.scatter(data[:, 0], data[:, 1], c=target, cmap=plt.cm.coolwarm)
     plt.show()
 
+def draw_ROC(model, data, target):
+    #ROC曲線の描画、AUCの計算（ROC曲線の下側の面積）の計算
+    n_classes = len(model.classes_)
+    classes = model.classes_
+    y_test_one_hot = label_binarize(target, classes=classes)
+    fpr = {}
+    tpr = {}
+    roc_auc = {}
+    pred_proba = model.predict_proba(data)
+    for i in range(n_classes):
+        fpr[i], tpr[i], _ = roc_curve(y_test_one_hot[:, i], pred_proba[:, i])
+        roc_auc[i] = auc(fpr[i], tpr[i])
+    for i, class_ in enumerate(classes):
+        plt.plot(fpr[i], tpr[i], label=f'{class_}')
+    plt.legend()
+
 def export_score(target, pred, export_path):
     accuracy = str(accuracy_score(y_true=target, y_pred=pred))
     precision = str(precision_score(y_true=target, y_pred=pred, average='macro'))
@@ -28,7 +44,6 @@ def export_score(target, pred, export_path):
     matrix = f'{matrix[0, 0]} {matrix[0, 1]} {matrix[1, 0]} {matrix[1, 1]}'
     with open(f'{export_path}/score_result.txt', 'w', encoding='utf-8') as f:
         f.write(f'{accuracy}\n{precision}\n{recall}\n{f1}\n{matrix}')
-
 
 def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=None, target=None, columns=None, export_path=None):
     """
@@ -49,22 +64,10 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
     if data_type == 'validation' and train_mode == 'classifier':
         pred = model.predict(data)
         export_score(target, pred, export_path)
-        #ROC曲線の描画、AUCの計算（ROC曲線の下側の面積）の計算
-        n_classes = len(model.classes_)
-        classes = model.classes_
-        y_test_one_hot = label_binarize(target, classes=classes)
-        fpr = {}
-        tpr = {}
-        roc_auc = {}
-        pred_proba = model.predict_proba(data)
-        for i in range(n_classes):
-            fpr[i], tpr[i], _ = roc_curve(y_test_one_hot[:, i], pred_proba[:, i])
-            roc_auc[i] = auc(fpr[i], tpr[i])
-        for i, class_ in enumerate(classes):
-            plt.plot(fpr[i], tpr[i], label=f'{class_}')
-        plt.legend()
+        draw_ROC(model, data, target)
         if data_class_num == 2:
             draw_border(model, data, convert_type.conv_str_to_int(target))
+    
     if alg == 'randomforest':
         estimators = model.estimators_
         dot_data = export_graphviz(estimators[0], # 決定木オブジェクト
