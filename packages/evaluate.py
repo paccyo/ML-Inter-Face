@@ -34,7 +34,7 @@ def draw_ROC(model, data, target, export_path):
     for i, class_ in enumerate(classes):
         plt.plot(fpr[i], tpr[i], label=f'{class_}')
     plt.legend()
-    plt.savefig(f'{export_path}/border.png')
+    plt.savefig(f'{export_path}/ROC.png')
 
 def export_score(target, pred, export_path):
     accuracy = str(accuracy_score(y_true=target, y_pred=pred))
@@ -80,7 +80,7 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
                                     special_characters=True # 特殊文字を扱える
                                     )
         graph = graph_from_dot_data(dot_data)
-        file_name = "RandomForest_visualization.png"
+        file_name = "RandomForest.png"
         graph.write_png(f'{export_path}/{file_name}')
 
     if alg == 'decisiontree':
@@ -88,5 +88,6 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
             plot_tree(model, feature_names=columns, class_names=model.classes_, filled=True)
         else:
             plot_tree(model, feature_names=columns, filled=True)
-    plt.show()
+        plt.savefig(f'{export_path}/decisiontree.png')
+        
 
