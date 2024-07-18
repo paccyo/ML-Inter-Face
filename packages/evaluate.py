@@ -9,7 +9,7 @@ import numpy as np
 from packages import convert_type
 
 
-def draw_border(clf, data, target, x_min=-6, x_max=6, y_min=-4, y_max=8):
+def draw_border(clf, data, target, x_min=-6, x_max=6, y_min=-4, y_max=8, export_path=None):
     fig, ax = plt.subplots(figsize=(6, 6))
 
     xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01), np.arange(y_min, y_max, 0.01))
@@ -17,9 +17,9 @@ def draw_border(clf, data, target, x_min=-6, x_max=6, y_min=-4, y_max=8):
     z = np.array(convert_type.conv_str_to_int(z))
     ax.contourf(xx, yy, z.reshape(xx.shape), cmap=plt.cm.coolwarm)
     ax.scatter(data[:, 0], data[:, 1], c=target, cmap=plt.cm.coolwarm)
-    plt.show()
+    plt.savefig(f'{export_path}/border.png')
 
-def draw_ROC(model, data, target):
+def draw_ROC(model, data, target, export_path):
     #ROC曲線の描画、AUCの計算（ROC曲線の下側の面積）の計算
     n_classes = len(model.classes_)
     classes = model.classes_
@@ -34,6 +34,7 @@ def draw_ROC(model, data, target):
     for i, class_ in enumerate(classes):
         plt.plot(fpr[i], tpr[i], label=f'{class_}')
     plt.legend()
+    plt.savefig(f'{export_path}/border.png')
 
 def export_score(target, pred, export_path):
     accuracy = str(accuracy_score(y_true=target, y_pred=pred))
@@ -64,9 +65,9 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
     if data_type == 'validation' and train_mode == 'classifier':
         pred = model.predict(data)
         export_score(target, pred, export_path)
-        draw_ROC(model, data, target)
+        draw_ROC(model, data, target, export_path)
         if data_class_num == 2:
-            draw_border(model, data, convert_type.conv_str_to_int(target))
+            draw_border(model, data, convert_type.conv_str_to_int(target), export_path=export_path)
     
     if alg == 'randomforest':
         estimators = model.estimators_
@@ -80,7 +81,7 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
                                     )
         graph = graph_from_dot_data(dot_data)
         file_name = "RandomForest_visualization.png"
-        graph.write_png(file_name)
+        graph.write_png(f'{export_path}/{file_name}')
 
     if alg == 'decisiontree':
         if train_mode == 'classifier':
@@ -88,3 +89,4 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
         else:
             plot_tree(model, feature_names=columns, filled=True)
     plt.show()
+
