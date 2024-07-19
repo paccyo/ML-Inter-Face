@@ -11,12 +11,12 @@ class MainMenu(ft.View):
             ft.Container(
                 content=ft.Row(
                     controls=[
-                        self.create_image_button("ML", "https://cdn-icons-png.freepik.com/512/8618/8618866.png", self.on_click_ML, ft.colors.LIGHT_BLUE),
-                        self.create_image_button("DS", "https://cdn-icons-png.freepik.com/512/2029/2029249.png", self.on_click_DS, ft.colors.ORANGE),
+                        self.create_image_button("ML", "packages\image\ML_image.png", self.on_click_ML, ft.colors.LIGHT_BLUE),
+                        self.create_image_button("DS", "packages\image\DS_image.png", self.on_click_DS, ft.colors.ORANGE),
                     ],
                     alignment=ft.MainAxisAlignment.CENTER,
                     vertical_alignment=ft.CrossAxisAlignment.CENTER,
-                    spacing=20,
+                    spacing=30,
                 ),
                 alignment=ft.alignment.center,
                 expand=True
@@ -30,10 +30,10 @@ class MainMenu(ft.View):
                     ft.Image(src=img_src, width=400, height=200),
                     ft.Container(
                         bgcolor=ft.colors.BLACK,
-                        opacity=0.5,
+                        opacity=0.1,
                         width=400,
                         height=200,
-                        border_radius=20,
+                        border_radius=15,
                     ),
                     ft.Text(text, size=50, color=text_color, weight=ft.FontWeight.BOLD)
                 ],
