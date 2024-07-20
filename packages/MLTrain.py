@@ -49,8 +49,8 @@ class TrainToolKit:
         self.model.fit(self.train_data, self.train_target.ravel())
 
 
-# _, dataset_path, export_path, train_part, validation_part, test_part, train_mode, alg  = sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7]
-_, dataset_path, export_path, train_part, validation_part, test_part, train_mode, alg  = None, r'test_data/dataset', r"test_data/test_dir", 6, 4, 0, 'classifier', 'decisiontree'
+_, dataset_path, export_path, train_part, validation_part, test_part, train_mode, alg  = sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7]
+# _, dataset_path, export_path, train_part, validation_part, test_part, train_mode, alg  = None, r'test_data/dataset', r"test_data/test_dir", 6, 4, 0, 'classifier', 'decisiontree'
 # train_mode = classifier or reg
 # alg = decisiontree, randomforest, SVM
 train_part, validation_part, test_part, int(train_part), int(validation_part), int(test_part)
