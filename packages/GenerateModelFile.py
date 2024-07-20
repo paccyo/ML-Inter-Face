@@ -33,7 +33,7 @@ class ModelInfo:
         if self.mode == 'NN':
             self.generate_NNmodel(model_dict, project_path, shape)
         elif self.mode == 'ML':
-            self.generate_NNmodel(model_dict, project_path)
+            self.generate_MLmodel(model_dict, project_path)
 
     def generate_MLmodel(self, model_dict, project_path):
         """
@@ -46,6 +46,7 @@ class ModelInfo:
         """
         alg_name = model_dict['alg']
         self.model += '    model = '+alg_name+'('
+        del model_dict['alg']
         for param, value in model_dict.items():
             self.model += f'{param}={value}, '
         self.model = self.model[:-2] + ')\n'
