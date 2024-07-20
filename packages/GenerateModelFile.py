@@ -19,10 +19,10 @@ class ModelInfo:
         importテキスト読み込み
         """
         if self.mode == 'NN':
-            with open('packages/NN/NNmodel_imports.txt') as f:
+            with open('packages/imports_txt/NNmodel_imports.txt') as f:
                 imports_data = f.read()
         elif self.mode == 'ML':
-            with open('packages/ML/MLmodel_imports.txt') as f:
+            with open('packages/imports_txt/MLmodel_imports.txt') as f:
                 imports_data = f.read()
         self.imports += imports_data + '\n\n'
 
