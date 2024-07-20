@@ -1,15 +1,24 @@
-from sklearn.svm import SVC
-import pandas as pd
-from packages import evaluate
+
+from keras import models
+from keras import layers
+from keras.datasets import mnist
+from keras.utils import to_categorical
 
 
-train_data_df = pd.read_csv('test_data/dataset/train_data.csv')
-train_data = pd.read_csv('test_data/dataset/train_data.csv').values
-validation_data = pd.read_csv('test_data/dataset/validation_data.csv').values
+(train_data, train_label), (test_data, test_label) = mnist.load_data()
+train_data = train_data.reshape(60000, 28*28)
+test_data = test_data.reshape(10000, 28*28)
+train_data = train_data.astype('float32') / 255
+test_data = test_data.astype('float32') / 255
+train_label = to_categorical(train_label, 10)
+test_label = to_categorical(test_label, 10)
+model = models.Sequential()
+model.add(layers.Dense(512, activation='relu', input_shape=(28*28,)))
+model.add(layers.Dropout(0.2))
+model.add(layers.Dense(256))
+model.add(layers.Dropout(0.5))
+model.add(layers.Dense(10, activation='softmax'))
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.fit(train_data, train_label, epochs=1, batch_size=64)
+loss, acc = model.evaluate(test_data,test_label)
 
-train_target = pd.read_csv('test_data/dataset/train_target.csv').values
-validation_target = pd.read_csv('test_data/dataset/validation_target.csv').values
-svm = SVC(probability=True,kernel='linear')
-svm.fit(train_data, train_target.ravel())
-
-evaluate.evaluate(svm, data_type='validation', train_mode='classifier', alg='SVM', data=validation_data, target=validation_target, columns=train_data_df.columns)
