@@ -1,8 +1,6 @@
 
 import pandas as pd
 from autoviz.AutoViz_Class import AutoViz_Class
-import matplotlib.pyplot as plt
-from io import StringIO
 
 
 class DS:
