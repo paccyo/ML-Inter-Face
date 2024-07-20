@@ -4,6 +4,10 @@ from components.ML.test_._project.create_dataset import CreateDatasetDataFrame, 
 
 from components.ML.test_._project.select_algorithm import SelectAlgorithm
 
+from components.ML.test_._project.nn.modelcompile import ModelCompile
+from components.ML.test_._project.nn.modeltrain import ModelTrain_NN
+
+from components.ML.test_._project.ml.ml_train import ModelTrain_ML
 
 import flet as ft
 import json
@@ -24,7 +28,6 @@ class MLProject(ft.View):
         self.project_tasks = [
             self.create_dataset_content,
             self.select_algorithm_content,
-
         ]
 
         self.navigation_rail = ProjectNavigationRail(self.page,on_change=self.on_change_navigation_rail)
@@ -47,14 +50,46 @@ class MLProject(ft.View):
 
     
     def navigation_rail_update(self):
+        model_build = ft.NavigationRailDestination(
+            icon_content=ft.Icon(ft.icons.CREATE_NEW_FOLDER_OUTLINED, color=ft.colors.RED),
+            selected_icon_content=ft.Icon(ft.icons.CREATE_NEW_FOLDER, color=ft.colors.RED),
+            label="モデル構築",
+        )
+
+        model_compile = ft.NavigationRailDestination(
+            icon_content=ft.Icon(ft.icons.CREATE_NEW_FOLDER_OUTLINED, color=ft.colors.RED),
+            selected_icon_content=ft.Icon(ft.icons.CREATE_NEW_FOLDER, color=ft.colors.RED),
+            label="コンパイル",
+        )
+
+        model_train = ft.NavigationRailDestination(
+            icon_content=ft.Icon(ft.icons.WORK_OUTLINED, color=ft.colors.RED),
+            selected_icon_content=ft.Icon(ft.icons.WORK, color=ft.colors.RED),
+            label="モデルの学習",
+        )
+
+
         select_index = self.select_algorithm_content.check_now_index
         if select_index != None:
             self.project_tasks = self.project_tasks[:2]
+            self.navigation_rail.destinations = self.navigation_rail.destinations[:2]
+            self.navigation_rail.destinations.append(model_build)
             self.project_tasks.append(self.select_algorithm_content.algorithm_list[select_index])
-            self.navigation_rail.destinations[2].disabled = False
+            if select_index == 0:
+                self.navigation_rail.destinations.append(model_compile)
+                self.project_tasks.append(ModelCompile(self.page))
+                self.navigation_rail.destinations.append(model_train)
+                self.project_tasks.append(ModelTrain_NN(self.page))
+            else:    
+                self.navigation_rail.destinations.append(model_train)
+                self.project_tasks.append(ModelTrain_ML(self.page))
+            
         else:
             self.project_tasks = self.project_tasks[:2]
-            self.navigation_rail.destinations[2].disabled = True
+            self.navigation_rail.destinations = self.navigation_rail.destinations[:2]
+
+
+
         self.navigation_rail.update()
 
 

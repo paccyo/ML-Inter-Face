@@ -1,4 +1,5 @@
 from components.ML.test_._project.nn.nn_modelbuild import ModelBuild_NN
+from components.ML.test_._project.ml.ml_modelbuild import ModelBuild_ML
 
 from packages.util.Calldict import ML_display_dicts
 
@@ -17,13 +18,13 @@ class SelectAlgorithm(ft.Container):
 
         self.algorithm_list = [
             ModelBuild_NN(self.page),
-            ft.Container(),
-            ft.Container(),
-            ft.Container(),
-            ft.Container(),
-            ft.Container(),
-            ft.Container(),
-            ft.Container(),
+            ModelBuild_ML(self.page,'DecisionTreeClassifier'),
+            ModelBuild_ML(self.page,'DecisionTreeRegressor'),
+            ModelBuild_ML(self.page,'LogisticRegression'),
+            ModelBuild_ML(self.page,'RandomForestClassifier'),
+            ModelBuild_ML(self.page,'RandomForestRegressor'),
+            ModelBuild_ML(self.page,'SVC'),
+            ModelBuild_ML(self.page,'SVR'),
         ]
 
         self.select_algorithm_button = ft.Container(
@@ -73,13 +74,17 @@ class SelectAlgorithm(ft.Container):
 
 
     def on_click_algorithm(self, e):
+        
         if self.check_now_index == None:
             self.check_now_index = e.control.data["index"]
+            self.page.client_storage.set("alg",self.select_algorithm_button.content.controls[self.check_now_index].data["alg"])
         elif self.check_now_index != e.control.data["index"]:
+            self.page.client_storage.set("alg",self.select_algorithm_button.content.controls[self.check_now_index].data["alg"])
             self.select_algorithm_button.content.controls[self.check_now_index].content.controls[0].name = None
             self.select_algorithm_button.content.controls[self.check_now_index].update()
             self.check_now_index = e.control.data["index"]
         elif self.check_now_index == e.control.data["index"]:
+            self.page.client_storage.set("alg",None) 
             self.check_now_index = None
 
         if e.control.content.controls[0].name == ft.icons.CHECK:
