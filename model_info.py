@@ -5,5 +5,5 @@ from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.svm import SVC
 
 def model_build():
-    model = DecisionTreeRegressor(alg=DecisionTreeRegressor, max_depth=5)
+    model = DecisionTreeClassifier(max_depth=5)
     return model
