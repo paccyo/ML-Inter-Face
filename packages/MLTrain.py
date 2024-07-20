@@ -6,7 +6,6 @@ import model_info
 import sys
 import numpy as np
 
-
 class TrainToolKit:
     """
     ML用学習ツールキット
