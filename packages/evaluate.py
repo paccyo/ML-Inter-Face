@@ -6,7 +6,10 @@ from pydotplus import graph_from_dot_data
 from sklearn.tree import export_graphviz
 from sklearn.tree import plot_tree
 import numpy as np
+import seaborn as sns
 from packages import convert_type
+import os
+import shutil
 
 
 def draw_border(clf, data, target, x_min=-6, x_max=6, y_min=-4, y_max=8, export_path=None):
@@ -42,9 +45,33 @@ def export_score(target, pred, export_path):
     recall = str(recall_score(y_true=target, y_pred=pred, average='macro'))
     f1 = str(f1_score(y_true=target, y_pred=pred, average='macro'))
     matrix = confusion_matrix(y_true=target, y_pred=pred)
-    matrix = f'{matrix[0, 0]} {matrix[0, 1]} {matrix[1, 0]} {matrix[1, 1]}'
     with open(f'{export_path}/score_result.txt', 'w', encoding='utf-8') as f:
-        f.write(f'{accuracy}\n{precision}\n{recall}\n{f1}\n{matrix}')
+        f.write(f'{accuracy}\n{precision}\n{recall}\n{f1}')
+    return matrix
+
+def plot_confusion_matrix(cm, class_names, export_path):
+    """
+    プロット混同行列
+    
+    Args:
+    cm (list of list of int): 混同行列
+    class_names (list of str): クラス名のリスト
+    """
+    cm_array = np.array(cm)
+    
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm_array, annot=True, fmt="d", cmap="Blues", xticklabels=class_names, yticklabels=class_names)
+    
+    plt.xlabel('予測ラベル')
+    plt.ylabel('正解ラベル')
+    plt.title('混同行列')
+    plt.savefig(f'{export_path}/confusion_matrix.png')
+
+def reset_save_dir(export_path):
+    if os.path.isdir(export_path):
+        shutil.rmtree(export_path)
+    os.makedirs(export_path, exist_ok=True)
+    
 
 def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=None, target=None, columns=None, export_path=None):
     """
@@ -61,11 +88,14 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
     columns:pd.dataframe.columns -> カラム
     export_path:str -> 結果グラフ出力先
     """
+    export_path = os.path.join(export_path, 'ML_result')
+    reset_save_dir(export_path)
     data_class_num = len(columns)
     if data_type == 'validation' and train_mode == 'classifier':
         pred = model.predict(data)
-        export_score(target, pred, export_path)
+        matrix = export_score(target, pred, export_path)
         draw_ROC(model, data, target, export_path)
+        plot_confusion_matrix(matrix, model.classes_, export_path)
         if data_class_num == 2:
             draw_border(model, data, convert_type.conv_str_to_int(target), export_path=export_path)
     
