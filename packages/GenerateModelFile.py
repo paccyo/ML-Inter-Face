@@ -230,9 +230,9 @@ if __name__ == '__main__':
 
     # 実行
 
-    model_info = ModelInfo('NN')
-    model_info.send(test_dic, r"C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
+    model_info = ModelInfo()
+    model_info.send(test_dic)
 
-    shape_size = model_info.get_image_shape(image_size=(256, 256), color_mode='rgb')
+    shape_size = model_info.get_shape(image_size=(256, 256), color_mode='rgb')
     print(shape_size)
 
