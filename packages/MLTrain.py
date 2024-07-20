@@ -16,7 +16,6 @@ import os
 import shutil
 
 
-
 class TrainToolKit:
     """
     ML用学習ツールキット
