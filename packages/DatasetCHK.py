@@ -14,7 +14,7 @@ dataset----train------cat---~~.png
 """
 
 
-def CHK(path=None, data_type=None, learning_way=None):
+def CHK(path=None, data_type=None, learning_way=None, export_path=None):
     """
     データの型が正しいかチェックします。
 
@@ -23,6 +23,7 @@ def CHK(path=None, data_type=None, learning_way=None):
     path:データのパス
     data_type:データの種類
     learning_way:学習方法
+    export_path:dataframeの保存先
     """
     datasets_path = path
     results = {}
@@ -47,25 +48,32 @@ def CHK(path=None, data_type=None, learning_way=None):
             else:
                 return False, {}
         elif data_type == 'dataframe':
-            if '.csv' == os.path.splitext(os.path.basename(datasets_path))[-1]:
+            if type(datasets_path) == list:
+                data_list = []
+                for file in datasets_path:
+                    data_list.append(pd.read_csv(file))
+                df = pd.concat(data_list, axis=0, sort=False)
+                COPY(df, export_path)
+                return True, df
+            elif '.csv' == os.path.splitext(os.path.basename(datasets_path))[-1]:
                 df = pd.read_csv(datasets_path)
+                COPY(df, export_path)
                 return True, df
             else:
                 return False, {}
             
-def COPY(datasets_path, project_path):
+def COPY(df, project_path):
     """
     dataframeをuser_project/Dataへコピー
 
     Parameters
     ----------
-    datasets_path:str -> データセットパス
+    df:pd.DataFrame -> データフレーム
     project_path:str -> データセットコピー先パス(maybe user_project/Data)
     """
-    df = pd.read_csv(datasets_path)
-    df.to_csv(os.path.join(project_path, 'original_data.csv'))
+    df.to_csv(os.path.join(project_path, 'original_data.csv'), index=False)
 
 
 if __name__ == '__main__':
-    judge = CHK(path='data3', data_type='image', learning_way='categorical', target='data')
+    judge = CHK(path=[r"C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data\dataset\train_data.csv", r"C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\test_data\dataset\test_data.csv"], data_type='dataframe', learning_way='categorical', export_path=r"C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
     print(judge)
