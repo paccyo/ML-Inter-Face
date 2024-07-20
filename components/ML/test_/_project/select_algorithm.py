@@ -1,5 +1,7 @@
 from components.ML.test_._project.nn.nn_modelbuild import ModelBuild_NN
 
+from packages.util.Calldict import ML_display_dicts
+
 import flet as ft 
 
 class SelectAlgorithm(ft.Container):
@@ -8,13 +10,20 @@ class SelectAlgorithm(ft.Container):
         self.page = page
         self.navigation_rail_update = navigation_rail_update
         self.expand = True 
-        
+        self.ML_dicts = ML_display_dicts
+
         self.select_algorithm = ""
         self.check_now_index = None
 
         self.algorithm_list = [
+            ModelBuild_NN(self.page),
             ft.Container(),
-            ModelBuild_NN(self.page)
+            ft.Container(),
+            ft.Container(),
+            ft.Container(),
+            ft.Container(),
+            ft.Container(),
+            ft.Container(),
         ]
 
         self.select_algorithm_button = ft.Container(
@@ -25,28 +34,16 @@ class SelectAlgorithm(ft.Container):
                             controls=[
                                 ft.Icon(),
                                 ft.VerticalDivider(),
-                                ft.Text(value="TEST")
+                                ft.Text(value=ML_name),
                             ]
                         ), 
                         on_click=self.on_click_algorithm, 
                         height=100, 
                         style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0)),
-                        data = {"check":False, "index":0}
-                    ),
-                    ft.ElevatedButton(
-                        content=ft.Row(
-                            controls=[
-                                ft.Icon(),
-                                ft.VerticalDivider(),
-                                ft.Text(value="NN")
-                            ]
-                        ), 
-                        on_click=self.on_click_algorithm, 
-                        height=100, 
-                        style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0)),
-                        data = {"check":False, "index":1}
-                    ),
-                ]
+                        data = ML_dict
+                    ) for ML_name ,ML_dict in self.ML_dicts.items()
+                ],
+                scroll=ft.ScrollMode.HIDDEN,
             ),
             expand=True
         )
@@ -58,8 +55,16 @@ class SelectAlgorithm(ft.Container):
                 ft.Divider(),
                 ft.Row(
                     controls=[
-                        ft.Container(content=self.select_algorithm_button, expand=True, bgcolor=ft.colors.RED, padding=ft.padding.only(top=100,bottom=100,left=50,right=50),),
-                        ft.Container(expand=True, bgcolor=ft.colors.BLUE)
+                        ft.Container(
+                            content=self.select_algorithm_button, 
+                            expand=True, 
+                            bgcolor=ft.colors.RED, 
+                            padding=ft.padding.only(top=70,bottom=70,left=50,right=50),
+                        ),
+                        ft.Container(
+                            expand=True, 
+                            bgcolor=ft.colors.BLUE
+                        )
                     ],
                     expand=True
                 )
