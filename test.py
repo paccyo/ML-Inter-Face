@@ -1,24 +1,46 @@
+import tensorflow as tf
+import keras
+import numpy as np
+import matplotlib.pyplot as plt
+import japanize_matplotlib
+from PIL import Image
 
-from keras import models
-from keras import layers
-from keras.datasets import mnist
-from keras.utils import to_categorical
 
 
-(train_data, train_label), (test_data, test_label) = mnist.load_data()
-train_data = train_data.reshape(60000, 28*28)
-test_data = test_data.reshape(10000, 28*28)
-train_data = train_data.astype('float32') / 255
-test_data = test_data.astype('float32') / 255
-train_label = to_categorical(train_label, 10)
-test_label = to_categorical(test_label, 10)
-model = models.Sequential()
-model.add(layers.Dense(512, activation='relu', input_shape=(28*28,)))
-model.add(layers.Dropout(0.2))
-model.add(layers.Dense(256))
-model.add(layers.Dropout(0.5))
-model.add(layers.Dense(10, activation='softmax'))
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-model.fit(train_data, train_label, epochs=1, batch_size=64)
-loss, acc = model.evaluate(test_data,test_label)
+def plot_augmentation_image(train_sample, params):
+
+    # 同じ画像を16個複製する
+    train_samples = np.repeat(train_sample.reshape((1, train_sample.shape[0], train_sample.shape[1], train_sample.shape[2])), 1, axis=0)
+
+    # 16個に対してparamsで与えられた変換を実施
+    data_generator = keras.preprocessing.image.ImageDataGenerator(**params)
+    generator = data_generator.flow(train_samples, batch_size=16)
+
+    # 変換後のデータを取得
+    batch_x = generator.next()
+
+    # 変換後はfloat32となっているため、uint8に変換
+    batch_x = batch_x.astype(np.uint8)
+    img = batch_x[0]
+    img = Image.fromarray(img)
+    img.save(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\test\vertical_flip.jpg")
+    # # 描画処理
+    # # plt.figure(figsize=(10,10))
+    # for i in range(1):
+    #     # plt.subplot(4,4,i+1)
+        
+    #     plt.imshow(batch_x[i])
+    #     plt.tick_params(labelbottom='off')
+    #     plt.tick_params(labelleft='off')
+    # plt.show()
+
+
+
+
+train_sample = np.array(Image.open(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\test\sample.jpg"))
+
+params = {
+    'vertical_flip':True
+}
+plot_augmentation_image(train_sample, params)
 
