@@ -1,5 +1,6 @@
 
 from util import Calldict
+import re
 
 with open(r'C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\model_info_NN.py') as f:
     code_lines = f.readlines()
@@ -33,10 +34,18 @@ for i, code_line in enumerate(code_lines):
                 end_index = -(j+1)
                 first = False
                 break
-    print(code_line[start_index:end_index])
-    # for j, param in enumerate(code_line[start_index:end_index].split('=')):
-    #     if j == 0:
-    #         param_name = param
+    text = code_line[start_index:end_index]
+    pattern = r'\(([^)]+)\)'
+    pattern_list = []
+    # パターンに一致する部分をすべて見つける
+    matches = re.findall(pattern, text)
+    for m in matches:
+        pattern_list.append('(' + m + ')')
+    for j, pat in enumerate(pattern_list):
+        text = text.replace(pat, f'#{j}')
+    text_list = text.split(',')
+    print(text_list)
+    
         
 
 
