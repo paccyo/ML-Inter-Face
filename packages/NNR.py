@@ -17,12 +17,15 @@ def Research(project_path):
         l = model.layers[i]
         if len(l.get_weights()) == 2 and i != len(model.layers)-1:
             weights = l.get_weights()[0][:3]
+            print(weights)
+            break
             bias = l.get_weights()[1]
             deal_flag = True
         if deal_flag:
             plt.figure()
             if len(weights.shape) == 4:
                 # 重みを可視化
+                print(weights)
                 fig, axes = plt.subplots(nrows=weights.shape[0], ncols=weights.shape[1], figsize=(12, 8))
                 for j in range(weights.shape[0]):
                     for k in range(weights.shape[1]):
