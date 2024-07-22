@@ -27,7 +27,8 @@ class CreateDatasetDataFrame(ft.Container):
         self.target = None
         self.target_content = None
 
-        self.part_dict = {"train":7,"validation":2,"test":1}
+        self.part_dict = {"train":8,"validation":2,"test":0}
+        self.page.client_storage.set("part", self.part_dict)
 
         project_info = self.page.client_storage.get("project_info")
         self.data = pd.read_csv(project_info["data_info"]["dataframe"])
