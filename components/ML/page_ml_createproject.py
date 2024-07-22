@@ -1,6 +1,8 @@
 from components.ML._createproject.picker_button_containers import Pick_file_Container,Pick_folder_Container
 from components._common.appheader import AppHeader
 
+from packages import DatasetCHK
+
 import flet as ft
 import os
 import datetime
@@ -88,13 +90,13 @@ class MLCreateProject(ft.View):
 
     def on_change_learning_way(self, e):
         if e.control.controls[int(e.data)].value == "分類":
-            self.ffile_contener.learning_way = "categorical"
+            self.file_contener.learning_way = "categorical"
             self.older_container.learning_way = "categorical"
         elif e.control.controls[int(e.data)].value == "回帰":
-            self.ffile_contener.learning_way = "回帰"
-            self.older_container.learning_way = "回帰"
+            self.file_contener.learning_way = "regression"
+            self.older_container.learning_way = "regression"
 
-        self.ffile_contener.update()
+        self.file_contener.update()
         self.older_container.update()
 
     def on_change_segment_button_data_type(self,e):
@@ -118,12 +120,12 @@ class MLCreateProject(ft.View):
             info = json.load(f)
         if self.project_filename != "":
             info["project_name"] = self.project_filename
-            info["data_type"] = "image" if self.segment_button_data_type.selected_index == 1 else "table"
+            info["data_type"] = "image" if self.segment_button_data_type.selected_index == 1 else "dataframe"
             if self.get_pick_container.content.data:
                 if info["data_type"] == "image":
                     info["data_info"][info["data_type"]] = self.get_pick_container.content.data
-                elif info["data_type"] == "table":
-                    info["data_info"][info["data_type"]] = self.get_pick_container.content.data
+                elif info["data_type"] == "dataframe":
+                    info["data_info"][info["data_type"]] = "projects/"+info["project_name"]+"/Data/original_data.csv"
 
                 path = os.path.abspath('projects/'+self.project_filename)
                 # print(path)
@@ -135,7 +137,19 @@ class MLCreateProject(ft.View):
                 os.makedirs(name=path+"/Logs",exist_ok=True)
                 os.makedirs(name=path+"/Result",exist_ok=True)
                 shutil.copy("packages/image/metrics_0epoch.png", self.page.client_storage.get('project_file_path')+"/Result")
-                shutil.copy("packages/image/loss_0epoch.png" ,self.page.client_storage.get('project_file_path')+"/Result")    
+                shutil.copy("packages/image/loss_0epoch.png" ,self.page.client_storage.get('project_file_path')+"/Result") 
+
+                check = DatasetCHK.CHK(
+                    path=self.get_pick_container.content.data, 
+                    data_type=info["data_type"], 
+                    learning_way=self.file_contener.learning_way,
+                    export_path="projects/"+info["project_name"]+"/Data"
+                )
+                if check[0]:
+                    pass
+                else:
+                    return
+                
                 with open(path+"/project_info.json","w") as f:
                     json.dump(info, f, indent=2)
                 

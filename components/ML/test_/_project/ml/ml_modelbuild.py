@@ -137,8 +137,11 @@ class ModelBuild_ML(ft.Container):
                 v = True
             elif v == "False":
                 v = False
+            if type(v) == str:
+                send_dict[key] = "\'"+v+"\'"
+            else:
+                send_dict[key] = v
 
-            send_dict[key] = v
         
         modelinfo.send(
             model_dict=send_dict, 

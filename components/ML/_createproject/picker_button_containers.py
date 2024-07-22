@@ -37,13 +37,7 @@ class Pick_file_Container(ft.Container):
         self.content.controls = self.content.controls[:1]
         for file in e.files:
             self.content.controls.append(ft.Text(value=file.path if file.path else None))
-            check = DatasetCHK.CHK(path=file.path, data_type='dataframe', learning_way=self.learning_way)
-            print(file.path)
-            print(check)
-            if check[0]:
-                self.bgcolor = None
-            else:
-                self.bgcolor = ft.colors.RED
+        
         self.data = [file.path for file in e.files]
         self.update()
 

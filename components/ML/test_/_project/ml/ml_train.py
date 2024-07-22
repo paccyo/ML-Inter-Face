@@ -21,5 +21,5 @@ class ModelTrain_ML(ft.Container):
 
     def on_click_train(self, e):
         copy_to_userproject.CopyMLTrain(self.project_path+"/Scripts")
-        GenerateBatfile.generateML(target_path=self.project_path+"/Scripts", run_path=self.run, part_dict=self.part_dict, dataset_path=self.project_path+"/Data/datasets" , export_path=self.project_path+"/Result", alg=self.alg, train_mode="categorical")
+        GenerateBatfile.generateML(target_path=self.project_path+"/Scripts", run_path=self.run, part_dict=self.part_dict, dataset_path=self.project_path+"/Data/dataset" , export_path=self.project_path+"/Result", alg=self.alg, train_mode="categorical")
         GenerateBatfile.Runbat(self.project_path+"/Scripts/run.bat")
