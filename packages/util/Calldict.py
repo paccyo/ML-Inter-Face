@@ -15,7 +15,8 @@ layer_dicts = {
             'name': ['None', 'DropDown', ['None'], 'DETAIL', 'このレイヤーの名前を指定します。'],
             'tensor': ['None', 'DropDown', ['None'], 'DETAIL', 'テンソルを指定します。'],
             'color':ft.colors.GREY,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'入力データの形状を定義するためのレイヤーです。'
         },
         
         'Dense': {
@@ -29,13 +30,15 @@ layer_dicts = {
             'kernel_constraint': ['None', 'DropDown', ['None', 'max_norm(2.)'], 'DETAIL', 'カーネルに対する制約を指定します。'],
             'bias_constraint': ['None', 'DropDown', ['None'], 'DETAIL', 'バイアスに対する制約を指定します。'],
             'color':ft.colors.AMBER,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'全結合（フルコネクション）ニューラルネットワークレイヤーで、各入力ノードをすべての出力ノードに接続します。'
         },
         
         'Activation': {
             'activation': ['None', 'DropDown', ['None', 'relu', 'sigmoid', 'gelu', 'softmax', 'tanh'], 'MAIN', '適用するアクティベーション関数を指定します。'],
             'color':ft.colors.YELLOW,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'指定されたアクティベーション関数を適用して、入力に非線形性を導入するためのレイヤーです。'
         },
         # 'Embedding': {
         #     'input_dim': None,
@@ -84,7 +87,9 @@ layer_dicts = {
             'kernel_constraint': ['None', 'DropDown', ['None', 'max_norm(2.)'], 'DETAIL', 'カーネルに対する制約を指定します。'],
             'bias_constraint': ['None', 'DropDown', ['None'], 'DETAIL', 'バイアスに対する制約を指定します。'],
             'color':ft.colors.GREEN_100,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'2次元の畳み込み操作を行い、フィルタを使って入力画像から特徴マップを抽出するためのレイヤーです。'
+
         },
         # 'Conv3D': {
         #     'filters': None,
@@ -120,7 +125,8 @@ layer_dicts = {
             'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
             'name': ['None', 'DropDown', ['None'], 'DETAIL', 'このレイヤーの名前を指定します。'],
             'color':ft.colors.BLUE_100,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'2次元の入力データに対して最大値プーリング操作を行い、空間的なサイズを縮小するためのレイヤーです。'
         },
         # 'MaxPooling3D': {
         #     'pool_size': (2, 2, 2),
@@ -145,7 +151,8 @@ layer_dicts = {
             'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
             'name': ['None', 'DropDown', ['None'], 'DETAIL', 'このレイヤーの名前を指定します。'],
             'color':ft.colors.BLUE_GREY_100,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'2次元の入力データに対して平均値プーリング操作を行い、空間的なサイズを縮小するためのレイヤーです。'
         },
         # 'AveragePooling3D': {
         #     'pool_size': None,
@@ -164,7 +171,8 @@ layer_dicts = {
             'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
             'keepdims': ['False', 'DropDown', ['False', 'True'], 'DETAIL', '次元を保持するかどうかを指定します。'],
             'color':ft.colors.BLUE_ACCENT_100,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'入力の全空間領域で最大値を取ることで、2次元の特徴マップを1次元の特徴ベクトルに変換するためのレイヤーです。'
         },
         # 'GlobalMaxPooling3D': {
         #     'data_format': None,
@@ -180,7 +188,8 @@ layer_dicts = {
             'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
             'keepdims': ['False', 'DropDown', ['False', 'True'], 'DETAIL', '次元を保持するかどうかを指定します。'],
             'color':ft.colors.BLUE_600,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'入力の全空間領域で平均値を取ることで、2次元の特徴マップを1次元の特徴ベクトルに変換するためのレイヤーです。'
         },
         # 'GlobalAveragePooling3D': {
         #     'data_format': None,
@@ -388,7 +397,8 @@ layer_dicts = {
             'gamma_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'スケーリング係数の制約を指定します。']],
             'synchronized': ['False', 'DropDown', ['False', 'True'], 'DETAIL', 'バッチ正規化の同期を有効にするかどうかを指定します。'],
             'color':ft.colors.GREY_600,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'ミニバッチごとに入力データを正規化して、学習の安定化と加速を図るためのレイヤーです。'
         },
         'LayerNormalization': {
             'axis': [-1, 'TextField', 1, 'DETAIL', '正規化を行う軸を指定します。'],
@@ -403,14 +413,16 @@ layer_dicts = {
             'beta_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'バイアスに適用する制約を指定します。']],
             'gamma_constraint': ['None', 'DropDown', ['None', 'MaxNorm(max_value=2, axis=0)', 'NonNeg()', 'UnitNorm(axis=0), MinMaxNorm(min_value=0.5, max_value=2.0, rate=1.0, axis=0)', 'DETAIL', 'スケーリング係数に適用する制約を指定します。']],
             'color':ft.colors.PURPLE,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'各入力サンプルごとに特徴を正規化して、学習の安定化と加速を図るためのレイヤーです。'
         },
         'Dropout': {
             'rate': [0, 'TextField', 1, 'MAIN', 'ドロップアウト率を指定します。0から1の間の浮動小数点数。'],
             'noise_shape': ['None', 'DropDown', ['None'], 'DETAIL', '入力のどの要素がドロップアウトされるかを指定します。'],
             'seed': ['None', 'TextField', 1, 'DETAIL', 'ランダムシードを指定します。'],
             'color':ft.colors.BLACK,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'過学習を防ぐために、学習時にランダムに一部のノードを無効にする正則化手法です。'
         },
         # 'SpatialDropout1D': {
         #     'rate': None,
@@ -426,7 +438,8 @@ layer_dicts = {
             'name': ['None', 'DropDown', ['None'], 'DETAIL', 'レイヤーの名前を指定します。'],
             'dtype': ['None', 'DropDown', ['None', 'float32', 'int32'], 'DETAIL', 'レイヤーのデータ型を指定します。'],
             'color':ft.colors.CYAN,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'2次元の空間データに対して、特定のフィルタ全体をランダムに無効にすることで、畳み込みニューラルネットワークの過学習を防ぐための正則化手法です。'
         },
         # 'SpatialDropout3D': {
         #     'rate': None,
@@ -467,7 +480,8 @@ layer_dicts = {
         'Flatten': {
             'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。'],
             'color':ft.colors.CYAN,
-            'detail_view':'False'
+            'detail_view':'False',
+            'description':'入力の多次元データを1次元のベクトルに変換するためのレイヤーです。'
         },
 
     }
