@@ -135,12 +135,12 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
     columns:pd.dataframe.columns -> カラム
     export_path:str -> 結果グラフ出力先
     """
-    export_path = os.path.join(export_path, 'ML_result')
+    export_path = os.path.join(export_path, 'ML_result').replace('\\', '/')
     if FIRST:
         reset_save_dir(export_path)
         FIRST = False
     data_class_num = len(columns)
-    if data_type == 'validation' and train_mode == 'catagorical':
+    if data_type == 'validation' and train_mode == 'categorical':
         pred = model.predict(data)
         matrix = export_score(target, pred, export_path)
         draw_ROC(model, data, target, export_path)
@@ -187,7 +187,7 @@ _, dataset_path, export_path, train_part, validation_part, test_part, train_mode
 # _, dataset_path, export_path, train_part, validation_part, test_part, train_mode, alg  = None, r'test_data/dataset', r"test_data/test_dir", 6, 4, 0, 'classifier', 'decisiontree'
 # train_mode = classifier or reg
 # alg = decisiontree, randomforest, SVM
-train_part, validation_part, test_part, int(train_part), int(validation_part), int(test_part)
+train_part, validation_part, test_part = int(train_part), int(validation_part), int(test_part)
 kit = TrainToolKit(dataset_path, None, {'train':train_part, 'validation':validation_part, 'test':test_part})
 kit.load_dataset()
 kit.load_model()
