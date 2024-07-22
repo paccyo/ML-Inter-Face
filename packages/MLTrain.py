@@ -128,7 +128,7 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
     ----------
     model:model -> 学習したモデル
     data_type:str -> validation or test
-    train_mode:str -> classifier or reg
+    train_mode:str -> categorical or reg
     alg:str -> randomforest, decisiontree etc...
     data:any -> 推測させたいデータ
     target:any -> ターゲットラベル
@@ -140,7 +140,7 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
         reset_save_dir(export_path)
         FIRST = False
     data_class_num = len(columns)
-    if data_type == 'validation' and train_mode == 'classifier':
+    if data_type == 'validation' and train_mode == 'catagorical':
         pred = model.predict(data)
         matrix = export_score(target, pred, export_path)
         draw_ROC(model, data, target, export_path)
@@ -163,7 +163,7 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
         graph.write_png(f'{export_path}/{file_name}')
 
     if alg == 'decisiontree':
-        if train_mode == 'classifier':
+        if train_mode == 'categorical':
             plot_tree(model, feature_names=columns, class_names=model.classes_, filled=True)
         else:
             plot_tree(model, feature_names=columns, filled=True)
