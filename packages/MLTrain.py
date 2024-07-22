@@ -15,6 +15,7 @@ import seaborn as sns
 import os
 import shutil
 
+FIRST = True
 
 class TrainToolKit:
     """
@@ -119,6 +120,7 @@ def reset_save_dir(export_path):
     
 
 def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=None, target=None, columns=None, export_path=None):
+    global FIRST
     """
     学習結果を評価/保存
 
@@ -134,7 +136,9 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
     export_path:str -> 結果グラフ出力先
     """
     export_path = os.path.join(export_path, 'ML_result')
-    reset_save_dir(export_path)
+    if FIRST:
+        reset_save_dir(export_path)
+        FIRST = False
     data_class_num = len(columns)
     if data_type == 'validation' and train_mode == 'classifier':
         pred = model.predict(data)
