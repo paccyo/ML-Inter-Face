@@ -188,6 +188,6 @@ kit = TrainToolKit(dataset_path, None, {'train':train_part, 'validation':validat
 kit.load_dataset()
 kit.load_model()
 kit.train()
-evaluate.evaluate(kit.model, data_type='validation', train_mode=train_mode, alg=alg, data=kit.validation_data, target=kit.validation_target, columns=kit.validation_df_data.columns, export_path=export_path)
+evaluate(kit.model, data_type='validation', train_mode=train_mode, alg=alg, data=kit.validation_data, target=kit.validation_target, columns=kit.validation_df_data.columns, export_path=export_path)
 if test_part != 0:
-    evaluate.evaluate(kit.model, data_type='test', train_mode=train_mode, alg=alg, data=kit.test_data, target=kit.test_target, columns=kit.test_df_data.columns, export_path=export_path)
+    evaluate(kit.model, data_type='test', train_mode=train_mode, alg=alg, data=kit.test_data, target=kit.test_target, columns=kit.test_df_data.columns, export_path=export_path)
