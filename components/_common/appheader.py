@@ -20,7 +20,8 @@ class AppHeader(ft.AppBar):
         )
         
         self.menubutton = ft.IconButton(
-            icon=ft.icons.MENU,
+            on_click=self.on_click_reset,
+            icon=ft.icons.RESET_TV,
         )
 
 
@@ -41,3 +42,7 @@ class AppHeader(ft.AppBar):
         self.page.theme_mode = "light" if self.page.theme_mode == "dark" else "dark"
         self.toggle_dark_light_icon.selected = not self.toggle_dark_light_icon.selected
         self.page.update()
+
+    def on_click_reset(self,e):
+        self.page.client_storage.clear()
+        self.page.go("/Page_MainMenu")
