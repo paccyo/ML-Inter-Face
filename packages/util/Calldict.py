@@ -556,7 +556,8 @@ ML_dicts = {
                               'max_depth':['None', 'TextField', 1, 'MAIN', 'UNK']},
     'RandomForestRegressor':{'n_estimators':[100, 'TextField', 1, 'DETAIL', 'UNK'],
                               'max_depth':['None', 'TextField', 1, 'MAIN', 'UNK']},
-    'SVC':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK']},
+    'SVC':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK'],
+           'probability':['True', 'DropDown', ['True'], 'MAIN', 'UNK']},
     'SVR':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK']},
 }
 
