@@ -11,15 +11,24 @@ class ModelTrain_ML(ft.Container):
         self.page = page
 
         self.project_path = self.page.client_storage.get("project_file_path")
+        print(self.project_path)
         self.alg = self.page.client_storage.get("alg")
         self.run = read_activate_path.read_activ_path()
 
-        self.part_dict = {"train":8, "validation":2, "test":0}
+        self.part_dict = {"train":7, "validation":2, "test":1}
 
         self.content = ft.ElevatedButton(text="train",on_click=self.on_click_train)
 
 
     def on_click_train(self, e):
         copy_to_userproject.CopyMLTrain(self.project_path+"/Scripts")
-        GenerateBatfile.generateML(target_path=self.project_path+"/Scripts", run_path=self.run, part_dict=self.part_dict, dataset_path=self.project_path+"/Data/dataset" , export_path=self.project_path+"/Result", alg=self.alg, train_mode="categorical")
+        GenerateBatfile.generateML(
+            target_path=self.project_path+"/Scripts", 
+            run_path=self.run, 
+            part_dict=self.part_dict, 
+            dataset_path=self.project_path+"/Data/dataset" , 
+            export_path=self.project_path+"/Result", 
+            alg=self.alg, 
+            train_mode="categorical"
+        )
         GenerateBatfile.Runbat(self.project_path+"/Scripts/run.bat")
