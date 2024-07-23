@@ -17,8 +17,6 @@ def Research(project_path):
         l = model.layers[i]
         if len(l.get_weights()) == 2 and i != len(model.layers)-1:
             weights = l.get_weights()[0][:3]
-            print(weights)
-            break
             bias = l.get_weights()[1]
             deal_flag = True
         if deal_flag:
