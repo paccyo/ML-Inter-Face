@@ -68,4 +68,5 @@ def main(page: ft.Page):
 
 # Start the app
 # ft.app(target=main, port=8550)
+# ft.app(target=main, port=8550, view=ft.WEB_BROWSER)
 ft.app(target=main, port=8550, view=ft.WEB_BROWSER)
