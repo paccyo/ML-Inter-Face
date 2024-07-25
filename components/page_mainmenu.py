@@ -73,4 +73,5 @@ def main(page: ft.Page):
     main_menu = MainMenu(page)
     page.views.append(main_menu)
 
-ft.app(target=main)
+if __name__ == '__main__':
+    ft.app(target=main)
