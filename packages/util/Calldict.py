@@ -569,6 +569,7 @@ ML_display_dicts = {
         'image':'None',
         "check":False, 
         "index":0,
+        'path':'packages/alg_image/NN.png'
     },
     '決定木':{
         'regression':'False',
@@ -577,6 +578,7 @@ ML_display_dicts = {
         'image':'None',
         "check":False, 
         "index":1,
+        'path':'packages/alg_image/tree.png'
     },
     '回帰木':{
         'regression':'True',
@@ -585,6 +587,7 @@ ML_display_dicts = {
         'image':'None',
         "check":False, 
         "index":2,
+        'path':'packages/alg_image/tree.png'
     },
     'ロジスティック回帰':{
         'regression':'False',
@@ -593,6 +596,7 @@ ML_display_dicts = {
         'image':'None',
         "check":False, 
         "index":3,
+        'path':'packages/alg_image/logistic.png'
     },
     'ランダムフォレスト分類':{
         'regression':'False',
@@ -601,6 +605,7 @@ ML_display_dicts = {
         'image':'None',
         "check":False, 
         "index":4,
+        'path':'packages/alg_image/randomforest.png'
     },
     'ランダムフォレスト回帰':{
         'regression':'True',
@@ -609,6 +614,7 @@ ML_display_dicts = {
         'image':'None',
         "check":False, 
         "index":5,
+        'path':'packages/alg_image/randomforest.png'
     },
     'サポートベクターマシン分類':{
         'regression':'False',
@@ -617,6 +623,7 @@ ML_display_dicts = {
         'image':'None',
         "check":False, 
         "index":6,
+        'path':'packages/alg_image/SVM.png'
     },
     'サポートベクターマシン回帰':{
         'regression':'True',
@@ -625,6 +632,7 @@ ML_display_dicts = {
         'image':'None',
         "check":False, 
         "index":7,
+        'path':'packages/alg_image/SVM.png'
     }
 
  
