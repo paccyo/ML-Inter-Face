@@ -497,7 +497,7 @@ preprocess_dicts = {
                 'rotation_range': [0, 'TextField', 1, 'DETAIL', 'ランダム回転の範囲を度単位で指定します。', 'packages/data_expansion_video/rotation_range.mp4'],
                 'width_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダム水平シフトの範囲を指定します。', 'packages/data_expansion_video/width_shift_range.mp4'],
                 'height_shift_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダム垂直シフトの範囲を指定します。', 'packages/data_expansion_video/height_shift_range.mp4'],
-                'brightness_range': [['None', [0.0, 10.0]], ['DropDown', 'TextField'], [['None', 'True'], 2], 'DETAIL', 'ランダム明度シフトの範囲を指定します。', 'packages/data_expansion_video/brightness_range.mp4'],
+                'brightness_range': [(0.0, 10.0), 'TextField', 2, 'DETAIL', 'ランダム明度シフトの範囲を指定します。', 'packages/data_expansion_video/brightness_range.mp4'],
                 'shear_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダムせん断の範囲を指定します。', 'packages/data_expansion_video/shear_range.mp4'],
                 'zoom_range': [0.0, 'TextField', 1, 'DETAIL', 'ランダムズームの範囲を指定します。', 'packages/data_expansion_video/zoom_range.mp4'],
                 'channel_shift_range': [0, 'TextField', 1, 'DETAIL', 'ランダムチャネルシフトの範囲を指定します。', 'packages/data_expansion_video/channel_shift_range.mp4'],
