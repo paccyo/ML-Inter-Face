@@ -511,13 +511,13 @@ preprocess_dicts = {
                 'dtype': ['None', 'DropDown', ['None', 'float32', 'float64', 'uint8'], 'MAIN', 'データ型を指定します。', 'None']
             },
             'flow_from_directory': {
-                'target_size': [(256, 256), 'TextField', 2, 'MAIN', 'ターゲットサイズ（高さ、幅）を指定します。'],
-                'color_mode': ['rgb', 'DropDown', ['rgb', 'grayscale'], 'MAIN', 'カラーモードを指定します。'],
-                'class_mode': ['categorical', 'DropDown', ['categorical', 'binary', 'sparse', 'input', 'none'], 'MAIN', 'ラベルの種類を指定します。'],
-                'batch_size': [32, 'TextField', 1, 'MAIN', 'バッチサイズを指定します。'],
-                'shuffle': ['False', 'DropDown', ['True', 'False'], 'MAIN', 'シャッフルするかどうかを指定します。'],
-                'seed': ['None', 'TextField', 1, 'DETAIL', '乱数シードを指定します。'],
-                'interpolation': ['nearest', 'DropDown', ['nearest', 'bilinear', 'bicubic', 'lanczos', 'box', 'hamming', 'UNK'], 'DETAIL', '補間方法を指定します。']
+                'target_size': [(256, 256), 'TextField', 2, 'MAIN', 'ターゲットサイズ（高さ、幅）を指定します。', 'None'],
+                'color_mode': ['rgb', 'DropDown', ['rgb', 'grayscale'], 'MAIN', 'カラーモードを指定します。', 'None'],
+                'class_mode': ['categorical', 'DropDown', ['categorical', 'binary', 'sparse', 'input', 'none'], 'MAIN', 'ラベルの種類を指定します。', 'None'],
+                'batch_size': [32, 'TextField', 1, 'MAIN', 'バッチサイズを指定します。', 'None'],
+                'shuffle': ['False', 'DropDown', ['True', 'False'], 'MAIN', 'シャッフルするかどうかを指定します。', 'None'],
+                'seed': ['None', 'TextField', 1, 'DETAIL', '乱数シードを指定します。', 'None'],
+                'interpolation': ['nearest', 'DropDown', ['nearest', 'bilinear', 'bicubic', 'lanczos', 'box', 'hamming', 'UNK'], 'DETAIL', '補間方法を指定します。', 'None']
             }
     }
 

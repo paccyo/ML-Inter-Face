@@ -123,14 +123,16 @@ class MLCreateProject(ft.View):
             info["data_type"] = "image" if self.segment_button_data_type.selected_index == 1 else "dataframe"
             if self.get_pick_container.content.data:
                 if info["data_type"] == "image":
-                    info["data_info"][info["data_type"]] = self.get_pick_container.content.data
+                    info["data_info"][info["data_type"]]["data_path"] = self.get_pick_container.content.data
+                    
                 elif info["data_type"] == "dataframe":
                     info["data_info"][info["data_type"]] = "projects/"+info["project_name"]+"/Data/original_data.csv"
+                
 
                 path = os.path.abspath('projects/'+self.project_filename)
                 # print(path)
                 self.page.client_storage.set("project_file_path", path)
-                self.page.client_storage.set("project_info",info)
+                
                 os.makedirs(name=path,exist_ok=True)
                 os.makedirs(name=path+"/Data",exist_ok=True)
                 os.makedirs(name=path+"/Scripts",exist_ok=True)
@@ -146,13 +148,15 @@ class MLCreateProject(ft.View):
                     export_path="projects/"+info["project_name"]+"/Data"
                 )
                 if check[0]:
+                    if info["data_type"] == "image":
+                        info["data_info"][info["data_type"]]["sample_paths"] = check[1]
                     pass
                 else:
                     return
                 
                 with open(path+"/project_info.json","w") as f:
                     json.dump(info, f, indent=2)
-                
+                self.page.client_storage.set("project_info",info)
                 self.page.go("/Page_MLProject")
         else:
             pass
