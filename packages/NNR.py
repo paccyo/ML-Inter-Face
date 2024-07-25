@@ -4,6 +4,8 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 import japanize_matplotlib
+import pandas as pd
+import csv
 
 
 def Research(project_path):
@@ -16,6 +18,10 @@ def Research(project_path):
         deal_flag = False
         l = model.layers[i]
         if len(l.get_weights()) == 2 and i != len(model.layers)-1:
+            raw_weights = l.get_weights()[0]
+            print(raw_weights)
+            save_csv(raw_weights)
+            break
             weights = l.get_weights()[0][:3]
             bias = l.get_weights()[1]
             deal_flag = True
@@ -44,6 +50,19 @@ def Research(project_path):
                     fig.colorbar(im, ax=ax)
             plt.tight_layout()
             plt.savefig(f'{project_path}/weights{i}.png')
+
+
+
+
+def save_csv(weights):
+    dim = len(weights.shape)
+    for i in range(dim-2):
+        
+    with open('output.csv', 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+    print(weights.shape)
+    
+
 
 
 if __name__ == '__main__':
