@@ -23,7 +23,7 @@ def plot_augmentation_image(train_sample, params):
     batch_x = batch_x.astype(np.uint8)
     img = batch_x[0]
     img = Image.fromarray(img)
-    img.save(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\test\vertical_flip.jpg")
+    img.save(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\asdf.jpg")
     # # 描画処理
     # # plt.figure(figsize=(10,10))
     # for i in range(1):
@@ -37,10 +37,10 @@ def plot_augmentation_image(train_sample, params):
 
 
 
-train_sample = np.array(Image.open(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\test\sample.jpg"))
+train_sample = np.array(Image.open(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\sample.jpg"))
 
 params = {
-    'vertical_flip':True
+    'brightness_range':(0, 10)
 }
 plot_augmentation_image(train_sample, params)
 
