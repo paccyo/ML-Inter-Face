@@ -1,4 +1,5 @@
 from packages.GenerateDataset import DatasetInfo
+from packages.util.Calldict import preprocess_dicts, DROPDOWN, DETAIL, TEXTFIELD, MAIN
 # from components.ML.test_._project._common.data_split import DataSplit
 import flet as ft
 import pandas as pd
@@ -9,12 +10,97 @@ class CreateDatasetImage(ft.Container):
         self.page = page
         self.expand = True
 
+        project_info = self.page.client_storage.get("project_info")
+        self.sample_data = project_info["data_info"]["image"]["sample_paths"][list(project_info["data_info"]["image"]["sample_paths"].keys())[0]]
+
+        self.data_sample_content = ft.Container(
+            content=ft.Container(
+                content=ft.Image(src=self.sample_data[0],fit=ft.ImageFit.CONTAIN),
+                padding=ft.padding.only(left=50, top=50, right=50),
+            )
+        )
+
+        self.preprocess_dicts = preprocess_dicts
+
+        self.pre_dict = dict(**self.preprocess_dicts['ImageDataGenerator'], **self.preprocess_dicts["flow_from_directory"])
+
+
+        self.preprocess = ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.Container(
+                        content=ft.Row(
+                            controls=[
+                                ft.VerticalDivider(),
+                                ft.Text(value=pre_name),
+                                ft.Dropdown(
+                                    value=value[0],
+                                    options=[ft.dropdown.Option(str(x)) for x in value[2]],
+                                    on_change = self.on_change_value,
+                                ) if value[2] == DROPDOWN else ft.TextField(value=value[0],on_change=self.on_change_value)
+                            ]
+                        ), 
+                        on_click=self.on_click_preprocess, 
+                        height=100, 
+    data = {"hint":value[4],"video":ft.VideoMedia(value[5]) if value[5]!="None" else None}
+                    ) for pre_name ,value in self.pre_dict.items()
+                ],
+                scroll=ft.ScrollMode.HIDDEN,
+            ),
+            expand=True,
+        )
+
+        self.video_content = ft.Container(
+            content=ft.Video(
+                playlist=None,
+                fit=ft.ImageFit.CONTAIN,
+                playlist_mode=ft.PlaylistMode.LOOP,
+                autoplay=True,
+            ),
+            width=500,
+        )
+
+        self.preprocess_content = ft.Container(
+            content=ft.Row(
+                controls=[
+                    self.preprocess,
+                    self.video_content,
+                ],
+                expand=True,
+                
+            ),
+            padding=ft.padding.all(50),
+            expand=True, 
+            # bgcolor=ft.colors.BLUE
+        )
+
         self.content = ft.Tabs(
             tabs=[
                 ft.Tab(text="データプレビュー", content=self.data_sample_content),
-                ft.Tab(text="前処理", content=ft.Container(expand=True, bgcolor=ft.colors.BLUE)),
+                ft.Tab(text="前処理", content=ft.Container(
+                    content=self.preprocess_content,
+                    expand=True, 
+                    )
+                ),
             ]
         )
+
+    def on_change_value(self,e):
+        pass
+
+    def on_click_preprocess(self,e):
+        print(e.control.data["video"])
+        if e.control.data["video"] != None:
+            if 0<len(self.video_content.content.playlist):
+                self.video_content.content.playlist_remove(0)
+            self.video_content.content.playlist_add(e.control.data["video"])
+        else:
+            if 0<len(self.video_content.content.playlist):
+                self.video_content.content.playlist_remove(0)
+            pass
+        print(self.video_content.content.playlist)
+            # self.video_content.content.playlist_remove()
+        self.video_content.content.update()
 
 class CreateDatasetDataFrame(ft.Container):
     def __init__(self, page:ft.Page):
