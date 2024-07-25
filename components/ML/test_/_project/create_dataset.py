@@ -43,7 +43,7 @@ class CreateDatasetImage(ft.Container):
                         on_click=self.on_click_preprocess, 
                         height=100, 
     data = {"hint":value[4],"video":ft.VideoMedia(value[5]) if value[5]!="None" else None}
-                    ) for pre_name ,value in self.pre_dict.items()
+                    ) for pre_name, value in self.pre_dict.items()
                 ],
                 scroll=ft.ScrollMode.HIDDEN,
             ),
