@@ -100,6 +100,6 @@ if __name__ == '__main__':
                 'color':'AAA',
                 'detail_view':'False'
             }}]
-    
-result = convert_model_to_dict(r'C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\model_info_NN.py')
-print(result)
+        
+    result = convert_model_to_dict(r'C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\model_info_NN.py')
+    print(result)
