@@ -11,8 +11,8 @@ class MainMenu(ft.View):
             ft.Container(
                 content=ft.Row(
                     controls=[
-                        self.create_image_button("ML", "packages\image\ML_image.png", self.on_click_ML, ft.colors.LIGHT_BLUE),
-                        self.create_image_button("DS", "packages\image\DS_image.png", self.on_click_DS, ft.colors.ORANGE),
+                        self.create_image_button(text="ML", img_src="packages/image/ML_image.png", on_click=self.on_click_ML, text_color=ft.colors.LIGHT_BLUE),
+                        self.create_image_button(text="DS", img_src="packages/image/DS_image.png", on_click=self.on_click_DS, text_color=ft.colors.ORANGE),
                     ],
                     alignment=ft.MainAxisAlignment.CENTER,
                     vertical_alignment=ft.CrossAxisAlignment.CENTER,
@@ -24,6 +24,7 @@ class MainMenu(ft.View):
         ]
 
     def create_image_button(self, text, img_src, on_click, text_color):
+        print(ft.Image(src=img_src, width=400, height=200))
         container = ft.Container(
             content=ft.Stack(
                 [
