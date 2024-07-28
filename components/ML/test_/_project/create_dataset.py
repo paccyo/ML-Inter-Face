@@ -2,7 +2,9 @@ from packages.GenerateDataset import DatasetInfo
 from packages.util.Calldict import preprocess_dicts, DROPDOWN, DETAIL, TEXTFIELD, MAIN
 
 from packages.preprocessing_dataframe import Preprocess
-# from components.ML.test_._project._common.data_split import DataSplit
+
+from components.ML.test_._project._common.split_data import SplitData
+
 import flet as ft
 import pandas as pd
 
@@ -22,8 +24,23 @@ class CreateDatasetImage(ft.Container):
             )
         )
 
-        self.preprocess_dicts = preprocess_dicts
+        self.data_sample_content = ft.Container(
+            content=ft.Column(
+                controls=[
+                    SplitData(self.page),
+                    ft.Divider(),
+                    ft.Container(
+                        content=ft.Image(src=self.sample_data[0],fit=ft.ImageFit.CONTAIN),
+                        padding=ft.padding.only(left=50, top=50, right=50),
+                    )
+                ],
+                
+            ),
+            expand=True
+        )
 
+
+        self.preprocess_dicts = preprocess_dicts
         self.pre_dict = dict(**self.preprocess_dicts['ImageDataGenerator'], **self.preprocess_dicts["flow_from_directory"])
 
 
@@ -39,6 +56,7 @@ class CreateDatasetImage(ft.Container):
                                     value=value[0],
                                     options=[ft.dropdown.Option(str(x)) for x in value[2]],
                                     on_change = self.on_change_value,
+                                    data={"name":pre_name}
                                 ) if value[2] == DROPDOWN else ft.TextField(value=value[0],on_change=self.on_change_value)
                             ]
                         ), 
@@ -52,6 +70,7 @@ class CreateDatasetImage(ft.Container):
             expand=True,
         )
 
+
         self.video_content = ft.Container(
             content=ft.Video(
                 playlist=None,
@@ -61,6 +80,7 @@ class CreateDatasetImage(ft.Container):
             ),
             width=500,
         )
+
 
         self.preprocess_content = ft.Container(
             content=ft.Row(
@@ -116,9 +136,6 @@ class CreateDatasetDataFrame(ft.Container):
         self.target = None
         self.target_content = None
 
-        self.part_dict = {"train":8,"validation":2,"test":0}
-        self.page.client_storage.set("part", self.part_dict)
-
         self.project_info = self.page.client_storage.get("project_info")
         self.data = pd.read_csv(self.project_info["data_info"]["dataframe"])
         self.data_table = ft.Container(
@@ -135,6 +152,7 @@ class CreateDatasetDataFrame(ft.Container):
                 # show_checkbox_column=True,
                 # divider_thickness=0,
                 # column_spacing=200,
+                
                 columns=[
                     ft.DataColumn(
                         ft.TextButton(content=ft.Container(content=ft.Text(value=column)), on_click=self.on_click_columns_button, data={"now":None,"index":i}),
@@ -144,10 +162,31 @@ class CreateDatasetDataFrame(ft.Container):
                 rows=[
                     ft.DataRow(
                         [ft.DataCell(ft.Text(self.data[column][num])) for column in self.data.columns],
-                    ) for num in range(10)
+                    ) for num in range(8)
                 ],
                 expand=True
             ),
+            expand=True
+        )
+
+        self.data_table = ft.Container(
+            content=ft.Row(
+                controls=[
+                    ft.Container(
+                        content=ft.Column(
+                            controls=[ft.Container(ft.TextButton(content=ft.Container(content=ft.Text(value=column)), on_click=self.on_click_columns_button, data={"now":None,"index":i}),alignment=ft.alignment.center)]+[
+                            ft.Container(content=ft.Text(self.data[column][n]), height=50, alignment=ft.alignment.center, border=ft.border.only(top=ft.BorderSide(width=1))) for n in range(10)
+                            ],
+                            width=200,
+                        ),
+                        border=ft.border.only(left=ft.BorderSide(width=1))
+                    )
+                    for i, column in enumerate(self.data.columns)
+                ],
+                scroll=ft.ScrollMode.ALWAYS,
+                expand=True
+            ),
+            border=ft.border.all(),
             expand=True
         )
 
@@ -160,13 +199,15 @@ class CreateDatasetDataFrame(ft.Container):
         self.data_sample_content = ft.Container(
             content = ft.Column(
                 controls=[
-                    # DataSplit(self.page),
+                    SplitData(self.page),
+                    ft.Divider(),
                     self.data_table,
                     self.create_button,
                 ]
             ),
             # expand=True,
-            padding=ft.padding.only(top=50,right=50,left=50)
+            padding=ft.padding.only(top=10,right=50,left=50),
+            expand=True
         )  
 
         self.fill_option = {}
@@ -268,8 +309,10 @@ class CreateDatasetDataFrame(ft.Container):
         self.update()
             
 
+
     def on_change_fill_option(self,e):
         self.fill_option[e.control.data["column"]] = e.control.value
+
 
     def on_click_fill_nan(self,e):
         preprocess = Preprocess(self.project_info["data_info"]["dataframe"])
@@ -296,6 +339,6 @@ class CreateDatasetDataFrame(ft.Container):
             cols_dict=cols_dict,
             project_path=project_path+"/Data", 
             data_type="dataframe", 
-            shuffle=True
+            shuffle=True,
         )
 
