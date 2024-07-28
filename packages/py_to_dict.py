@@ -1,5 +1,5 @@
 
-from packages.util import Calldict
+from util import Calldict
 import re
 
 
@@ -104,3 +104,4 @@ if __name__ == '__main__':
         
     result = convert_model_to_dict(r'C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\model_info_NN.py')
     print(result)
+    print(len(result))

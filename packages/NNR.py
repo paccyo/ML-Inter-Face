@@ -5,7 +5,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import japanize_matplotlib
 import math
+from keras.models import load_model
 import csv
+import os
 
 
 def Research(project_path):
@@ -70,9 +72,11 @@ def generate_dimensions_list(data):
             else:
                 r = np.array([[j]*inner_iter_num for j in list(range(1, dim+1))]*outer_iter_num).reshape(-1,)
             result.append(r)
+        result = result[::-1]
         result.append([data.shape[-2]]*len(result[0]))
         result.append([data.shape[-1]]*len(result[0]))
         result = list(np.array(result).T)
+        print(result)
     else:
         result = list([np.array(data.shape)])
     return result
@@ -99,26 +103,55 @@ def save_csv(layer_name, weights, project_path):
         writer = csv.writer(csvfile)
         for weight_line in weights:
             if type(weight_line) == tuple:
-                print(str(weight_line).split(','))
-                weight_line = ','.join(str(weight_line).split(','))
+                weight_line = str(weight_line).replace(' ', '')
             writer.writerow(weight_line)
 
 def save_blank_csv(layer_name, project_path):
     with open(f'{project_path}/{layer_name}.csv', 'w', newline='') as csvfile:
         pass
 
-def read_csv(file_path):
-    with open(f'{file_path}/.csv', 'r') as file:
-        csv_reader = csv.reader(file)
-    return csv_reader
-        
+class ReModel:
 
-def csv_to_model(file_path):
-    csv_file = read_csv(file_path)
-    for row in csv_file:
-        print(row)
+    def __init__(self, model_path):
+        self.model = load_model(model_path)
+
+    def csv_to_weights(self, file_path):
+        read_weights = []
+        shape_size = None
+        with open(f'{file_path}', 'r') as file:
+            csv_reader = csv.reader(file)
+            for row in csv_reader:
+                if '(' in row:
+                    row.remove('(')
+                    row.remove(')')
+                    row = ''.join(row).split(',')
+                    shape_size = tuple(map(int, row))
+                else:
+                    read_weights.append(row)
+            read_weights = np.array(read_weights)
+            read_weights = read_weights.reshape(shape_size)
+        return read_weights
+
+    def rewrite_model(self, file_name, weights):
+        bias = self.model.get_layer(file_name).get_weights()[1]
+        param = [weights, bias]
+        self.model.get_layer(file_name).set_weights(param)
+                
+    def csv_to_model(self, csv_file_path, export_path):
+        if csv_file_path == list:
+            for path in csv:
+                weights = self.csv_to_weights(path)
+                file_name = os.path.splitext(os.path.basename(csv_file_path))[0]
+                self.rewrite_model(file_name, weights)
+        else:
+            weights = self.csv_to_weights(csv_file_path)
+            file_name = os.path.splitext(os.path.basename(csv_file_path))[0]
+            self.rewrite_model(file_name, weights)
+        self.model.save(f'{export_path}/edited_model.h5')
 
 
 if __name__ == '__main__':
     Research(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
-    # csv_to_model(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
+    # remodel = ReModel(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\trained_model.h5")
+    # remodel.csv_to_model(r"C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\conv2d_12.csv", export_path=r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
+    
