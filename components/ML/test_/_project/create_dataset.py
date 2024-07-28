@@ -1,5 +1,8 @@
 from packages.GenerateDataset import DatasetInfo
 from packages.util.Calldict import preprocess_dicts, DROPDOWN, DETAIL, TEXTFIELD, MAIN
+
+from packages.preprocessing_dataframe import Preprocess
+from packages.margin_dataframe import MarginFrame
 # from components.ML.test_._project._common.data_split import DataSplit
 import flet as ft
 import pandas as pd
@@ -42,8 +45,8 @@ class CreateDatasetImage(ft.Container):
                         ), 
                         on_click=self.on_click_preprocess, 
                         height=100, 
-    data = {"hint":value[4],"video":ft.VideoMedia(value[5]) if value[5]!="None" else None}
-                    ) for pre_name, value in self.pre_dict.items()
+                        data = {"hint":value[4],"video":ft.VideoMedia(value[5]) if value[5]!="None" else None}
+                    ) for pre_name ,value in self.pre_dict.items()
                 ],
                 scroll=ft.ScrollMode.HIDDEN,
             ),
@@ -102,6 +105,7 @@ class CreateDatasetImage(ft.Container):
             # self.video_content.content.playlist_remove()
         self.video_content.content.update()
 
+
 class CreateDatasetDataFrame(ft.Container):
     def __init__(self, page:ft.Page):
         super().__init__()
@@ -116,8 +120,8 @@ class CreateDatasetDataFrame(ft.Container):
         self.part_dict = {"train":8,"validation":2,"test":0}
         self.page.client_storage.set("part", self.part_dict)
 
-        project_info = self.page.client_storage.get("project_info")
-        self.data = pd.read_csv(project_info["data_info"]["dataframe"])
+        self.project_info = self.page.client_storage.get("project_info")
+        self.data = pd.read_csv(self.project_info["data_info"]["dataframe"])
         self.data_table = ft.Container(
             content=ft.DataTable(
                 border=ft.border.all(2, "black"),
@@ -166,13 +170,75 @@ class CreateDatasetDataFrame(ft.Container):
             padding=ft.padding.only(top=50,right=50,left=50)
         )  
 
+        self.fill_option = {}
+
+        self.preprocess_content_app = ft.Container(
+            content=ft.Row(
+                controls=[
+                    ft.VerticalDivider(),
+                    ft.Text(value="カラム名",width=450),
+                    ft.VerticalDivider(),
+                    ft.Text(value="欠損値数", expand=True),
+                    ft.VerticalDivider(),
+                    ft.Text(value="欠損値補完の値",width=300),
+                    ft.VerticalDivider(),
+                    ft.Text(value="実行ボタン",width=80)
+                ]
+            ),
+            height=100,
+        )
+
+        self.preprocess_content = ft.Container(
+            content=ft.Column(
+                controls=[]
+            ),
+            expand=True,
+        )
+        self.preprocess_content.content.controls = self.preprocess_content_update()
+
+        self.preprocess = ft.Container(
+            content=ft.Column(
+                controls=[
+                    self.preprocess_content_app,
+                    ft.Divider(),
+                    self.preprocess_content,
+                ]
+            ),
+        )
 
         self.content = ft.Tabs(
             tabs=[
                 ft.Tab(text="データプレビュー",content=self.data_sample_content),
-                ft.Tab(text="前処理",content=ft.Container(expand=True, bgcolor=ft.colors.AMBER_300)),
+                ft.Tab(text="前処理",content=self.preprocess),
             ]
         )
+    
+    def preprocess_content_update(self):
+        name_width = 450
+        option_width = 300
+        button_width = 80
+        return [ft.Container(
+                    content=ft.Row(
+                        controls=[
+                            ft.VerticalDivider(),
+                            ft.Text(value=name,width=name_width),
+                            ft.VerticalDivider(),
+                            ft.Text(value="欠損値数："+str(value), expand=True),
+                            ft.VerticalDivider(),
+                            ft.Dropdown(
+                                value=self.fill_option[name] if name in self.fill_option else None,
+                                options=[ft.dropdown.Option("average"),ft.dropdown.Option("median"),],
+                                on_change = self.on_change_fill_option,
+                                width=option_width,
+                                data={"column":name},
+                            ) if _isnum else ft.Dropdown(value=self.fill_option[name] if name in self.fill_option else None, options=[], on_change = self.on_change_fill_option, width=option_width,data={"column":name}),
+                            ft.VerticalDivider(),
+                            ft.ElevatedButton(text="fill",on_click=self.on_click_fill_nan,data={"column":name},width=button_width)
+                        ]
+                    ), 
+                    height=100, 
+                ) for (name ,value),_isnum in zip(self.data.isnull().sum().items(), [type(x)!=str for x in [self.data[column][0] for column in self.data.columns]])
+            ]
 
 
     def on_click_columns_button(self, e):
@@ -203,6 +269,19 @@ class CreateDatasetDataFrame(ft.Container):
         self.update()
             
 
+    def on_change_fill_option(self,e):
+        self.fill_option[e.control.data["column"]] = e.control.value
+
+    def on_click_fill_nan(self,e):
+        preprocess = Preprocess(self.project_info["data_info"]["dataframe"])
+        if self.fill_option[e.control.data["column"]]:
+            result = preprocess.deal_null(col_name=e.control.data["column"], deal_type=self.fill_option[e.control.data["column"]])
+            self.data = MarginFrame(original=self.data,target_col=e.control.data["column"],edit_part=result)
+            self.preprocess_content.content.controls = self.preprocess_content_update()
+            self.preprocess_content.update()
+
+
+
     def on_click_create_dataset(self,e):
         info = DatasetInfo()
 
@@ -220,3 +299,4 @@ class CreateDatasetDataFrame(ft.Container):
             data_type="dataframe", 
             shuffle=True
         )
+

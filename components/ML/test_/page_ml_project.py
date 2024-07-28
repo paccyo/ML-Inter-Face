@@ -92,14 +92,11 @@ class MLProject(ft.View):
             self.project_tasks = self.project_tasks[:2]
             self.navigation_rail.destinations = self.navigation_rail.destinations[:2]
 
-
-
         self.navigation_rail.update()
 
 
     
     def on_change_navigation_rail(self,e):
-        print(self.project_tasks)
+        print(self.project_tasks,e.control.selected_index)
         self.page_content.controls[2] = self.project_tasks[e.control.selected_index]
-
         self.page_content.update()
