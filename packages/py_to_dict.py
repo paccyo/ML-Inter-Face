@@ -27,7 +27,7 @@ def convert_model_to_dict(path):
         code_line = code_line.replace(' ', '').replace('\n', '')
         # レイヤ名
         layer_name = code_line.split('=')[1].split('(')[0]
-
+        
         start_index = None
         end_index = None
         c = 0
