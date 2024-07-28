@@ -136,13 +136,6 @@ class ReModel:
         bias = self.model.get_layer(file_name).get_weights()[1]
         param = [weights, bias]
         self.model.get_layer(file_name).set_weights(param)
-        # for i in range(len(self.model.layers)):
-        #     l = self.model.layers[i]
-        #     layer_name = l.name
-        #     if layer_name == file_name:
-        #         print(len(self.model.layers[i].get_weights()))
-        #         print(weights.shape)
-        #         self.model.layers[i].set_weights(weights)
                 
     def csv_to_model(self, csv_file_path, export_path):
         if csv_file_path == list:
