@@ -2,10 +2,36 @@ from packages.util.Calldict import (layer_dicts, TEXTFIELD, DROPDOWN, MAIN, DETA
 from packages.GenerateModelFile import ModelInfo
 from packages import GenerateBatfile, copy_to_userproject
 from packages import read_activate_path
+from packages import py_to_dict
 
 import copy
 import flet as ft 
 import flet.canvas as cv
+
+
+class Pick_file_button(ft.ElevatedButton):
+        def __init__(self, page:ft.Page):
+            super().__init__()
+            
+            self.page = page
+            self.get_directory_dialog = ft.FilePicker(on_result=self.get_directory_result)
+            self.page.overlay.extend([self.get_directory_dialog])
+
+            self.bottom = 0
+            self.left = 0
+            self.text = "Open file"
+            self.icon=ft.icons.FOLDER_OPEN
+            self.on_click=lambda _: self.get_directory_dialog.pick_files(file_type=ft.FilePickerFileType.CUSTOM,allowed_extensions=["csv"],allow_multiple=True)
+            self.style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10))
+            self.width=50
+            self.height=50
+
+        def get_directory_result(self, e: ft.FilePickerResultEvent):
+            file = e.files[0]
+            result = py_to_dict.convert_model_to_dict(file)
+
+            print(result)
+
 
 class ModelBuild_NN(ft.Container):
     def __init__(self,page:ft.Page):
@@ -55,7 +81,8 @@ class ModelBuild_NN(ft.Container):
                 content=ft.Stack(
                     [
                         ft.Text("Design", style="headlineMedium" ,text_align=ft.alignment.top_center,left=0,right=0),
-                        ft.ElevatedButton(text="build", on_click=self.model_build, right=0, bottom=0)
+                        ft.ElevatedButton(text="build", on_click=self.model_build, right=0, bottom=0),
+                        Pick_file_button(self.page),
                     ],
                 ),
             ),
@@ -347,3 +374,9 @@ class ModelBuild_NN(ft.Container):
 
         self.preview_area.content.controls[1].src = self.page.client_storage.get("project_path")+"/Result/model.png"
         self.page.update()
+
+
+    
+
+    
+            

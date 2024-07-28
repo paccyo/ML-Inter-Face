@@ -4,6 +4,9 @@ from components.ML.test_._project.create_dataset import CreateDatasetDataFrame, 
 
 from components.ML.test_._project.select_algorithm import SelectAlgorithm
 
+from components.ML.test_._project.nn.nn_modelbuild import ModelBuild_NN
+from components.ML.test_._project.ml.ml_modelbuild import ModelBuild_ML
+
 from components.ML.test_._project.nn.modelcompile import ModelCompile
 from components.ML.test_._project.nn.modeltrain import ModelTrain_NN
 
@@ -69,13 +72,14 @@ class MLProject(ft.View):
         )
 
 
-        select_index = self.select_algorithm_content.check_now_index
-        if select_index != None:
+        select_alg = self.select_algorithm_content.check_now_content
+
+        if select_alg != None:
             self.project_tasks = self.project_tasks[:2]
             self.navigation_rail.destinations = self.navigation_rail.destinations[:2]
             self.navigation_rail.destinations.append(model_build)
-            self.project_tasks.append(self.select_algorithm_content.algorithm_list[select_index])
-            if select_index == 0:
+            self.project_tasks.append(ModelBuild_NN(self.page) if select_alg.data["alg"] == "NN" else ModelBuild_ML(self.page,select_alg.data["alg"]))
+            if select_alg.data["alg"] == "NN":
                 self.navigation_rail.destinations.append(model_compile)
                 self.project_tasks.append(ModelCompile(self.page))
                 self.navigation_rail.destinations.append(model_train)
@@ -95,7 +99,7 @@ class MLProject(ft.View):
 
     
     def on_change_navigation_rail(self,e):
-
+        print(self.project_tasks)
         self.page_content.controls[2] = self.project_tasks[e.control.selected_index]
-        
+
         self.page_content.update()
