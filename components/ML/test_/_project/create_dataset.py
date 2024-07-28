@@ -2,7 +2,6 @@ from packages.GenerateDataset import DatasetInfo
 from packages.util.Calldict import preprocess_dicts, DROPDOWN, DETAIL, TEXTFIELD, MAIN
 
 from packages.preprocessing_dataframe import Preprocess
-from packages.margin_dataframe import MarginFrame
 # from components.ML.test_._project._common.data_split import DataSplit
 import flet as ft
 import pandas as pd
@@ -126,7 +125,7 @@ class CreateDatasetDataFrame(ft.Container):
             content=ft.DataTable(
                 border=ft.border.all(2, "black"),
                 # border_radius=10,
-                # vertical_lines=ft.BorderSide(1, "blue"),
+                vertical_lines=ft.BorderSide(1),
                 # horizontal_lines=ft.BorderSide(1, "green"),
                 # sort_column_index=0,
                 # sort_ascending=True,
@@ -276,7 +275,7 @@ class CreateDatasetDataFrame(ft.Container):
         preprocess = Preprocess(self.project_info["data_info"]["dataframe"])
         if self.fill_option[e.control.data["column"]]:
             result = preprocess.deal_null(col_name=e.control.data["column"], deal_type=self.fill_option[e.control.data["column"]])
-            self.data = MarginFrame(original=self.data,target_col=e.control.data["column"],edit_part=result)
+            self.data = preprocess.MarginFrame(original=self.data,target_col=e.control.data["column"],edit_part=result)
             self.preprocess_content.content.controls = self.preprocess_content_update()
             self.preprocess_content.update()
 
