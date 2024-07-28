@@ -6,9 +6,9 @@ import webbrowser
 
 def view_DS(path):
     path = os.path.join(path, '*.html')
+    print(path)
     for html_path in glob.glob(path):
         webbrowser.open(html_path)
-
 
 
 if __name__ == '__main__':

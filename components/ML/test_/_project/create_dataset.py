@@ -2,11 +2,16 @@ from packages.GenerateDataset import DatasetInfo
 from packages.util.Calldict import preprocess_dicts, DROPDOWN, DETAIL, TEXTFIELD, MAIN
 
 from packages.preprocessing_dataframe import Preprocess
+from packages.DS import DS
+from packages.open_html import view_DS
 
 from components.ML.test_._project._common.split_data import SplitData
 
 import flet as ft
 import pandas as pd
+import glob
+import os
+import time
 
 class CreateDatasetImage(ft.Container):
     def __init__(self, page:ft.Page):
@@ -136,6 +141,8 @@ class CreateDatasetDataFrame(ft.Container):
         self.target = None
         self.target_content = None
 
+        self.ds = None
+
         self.project_info = self.page.client_storage.get("project_info")
         self.data = pd.read_csv(self.project_info["data_info"]["dataframe"])
         self.data_table = ft.Container(
@@ -174,8 +181,24 @@ class CreateDatasetDataFrame(ft.Container):
                 controls=[
                     ft.Container(
                         content=ft.Column(
-                            controls=[ft.Container(ft.TextButton(content=ft.Container(content=ft.Text(value=column)), on_click=self.on_click_columns_button, data={"now":None,"index":i}),alignment=ft.alignment.center)]+[
-                            ft.Container(content=ft.Text(self.data[column][n]), height=50, alignment=ft.alignment.center, border=ft.border.only(top=ft.BorderSide(width=1))) for n in range(10)
+                            controls=[
+                                ft.Container(
+                                    content=ft.TextButton(
+                                        content=ft.Container(
+                                            content=ft.Text(value=column), 
+                                            width=150, 
+                                            alignment=ft.alignment.center
+                                        ),
+                                        on_click=self.on_click_columns_button,
+                                        data={"now":None,"index":i}
+                                    ),
+                                alignment=ft.alignment.center)
+                            ]+[
+                                ft.Container(
+                                    content=ft.Text(self.data[column][n]), 
+                                    height=50, 
+                                    alignment=ft.alignment.center, 
+                                    border=ft.border.only(top=ft.BorderSide(width=1))) for n in range(10)
                             ],
                             width=200,
                         ),
@@ -192,7 +215,34 @@ class CreateDatasetDataFrame(ft.Container):
 
         self.create_button = ft.Container(
             content=ft.ElevatedButton(text="create_dataset",on_click=self.on_click_create_dataset),
-            alignment=ft.alignment.bottom_right,
+            alignment=ft.alignment.center_right,
+            width=200,
+            height=50,
+        )
+
+        self.analyze_button = ft.Container(
+            content=ft.ElevatedButton(text="data_analyze",on_click=self.on_click_data_analyze),
+            alignment=ft.alignment.center,
+            height=50,
+            width=200,
+        )
+
+        self.analyze_view_buttons = ft.Container(
+            content=ft.Row(
+                controls = [],
+                scroll=ft.ScrollMode.ALWAYS
+            ),
+            alignment=ft.alignment.center_left,
+            expand=True,
+            height=50,
+        )
+
+        self.buttons_content = ft.Row(
+            controls=[
+                self.analyze_button,
+                # self.analyze_view_buttons,
+                self.create_button,
+            ],
             height=50,
         )
 
@@ -202,13 +252,13 @@ class CreateDatasetDataFrame(ft.Container):
                     SplitData(self.page),
                     ft.Divider(),
                     self.data_table,
-                    self.create_button,
+                    self.buttons_content,
                 ]
             ),
             # expand=True,
             padding=ft.padding.only(top=10,right=50,left=50),
             expand=True
-        )  
+        ) 
 
         self.fill_option = {}
 
@@ -216,7 +266,7 @@ class CreateDatasetDataFrame(ft.Container):
             content=ft.Row(
                 controls=[
                     ft.VerticalDivider(),
-                    ft.Text(value="カラム名",width=450),
+                    ft.Text(value="カラム名", width=450),
                     ft.VerticalDivider(),
                     ft.Text(value="欠損値数", expand=True),
                     ft.VerticalDivider(),
@@ -280,6 +330,17 @@ class CreateDatasetDataFrame(ft.Container):
                 ) for (name ,value),_isnum in zip(self.data.isnull().sum().items(), [type(x)!=str for x in [self.data[column][0] for column in self.data.columns]])
             ]
 
+    def on_click_data_analyze(self,e):
+        path = self.page.client_storage.get("project_file_path")
+        path = path + "/Result"
+        if self.ds == None:
+            os.makedirs(name=path, exist_ok=True)
+            self.ds = DS()
+            self.ds.send(self.data, export_dir_result=path)
+        view_DS(path+"/DS_result/AutoViz/")
+        # self.analyze_view_buttons.update()
+
+
 
     def on_click_columns_button(self, e):
         columns_name = e.control.content.content.value
@@ -332,9 +393,14 @@ class CreateDatasetDataFrame(ft.Container):
         cols_dict = {}
         cols_dict["data"] = list(self.description)
         cols_dict["target"] = [self.target]
-
+        train = self.data_sample_content.content.controls[0].train
+        validation = self.data_sample_content.content.controls[0].validation
+        test = self.data_sample_content.content.controls[0].test
+        part_dict = {"train":train, "validation":validation, "test":test}
+        self.page.client_storage.set("part_dict",part_dict)
+        
         info.send_dataframe(
-            part=self.part_dict, 
+            part=part_dict, 
             dataframe=self.data, 
             cols_dict=cols_dict,
             project_path=project_path+"/Data", 

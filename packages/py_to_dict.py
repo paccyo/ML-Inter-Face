@@ -15,6 +15,7 @@ def convert_model_to_dict(path):
     result = []
     temp_result = {}
     for i, code_line in enumerate(code_lines):
+        temp_result = {}
         if 'def model_build():' in code_line:
             deal_start = True
             continue
@@ -71,7 +72,7 @@ def convert_model_to_dict(path):
                 else:
                     param_value = int(param_value)
                 param_dic[param_name][0] = param_value
-        temp_result[layer_name] = param_dic
+            temp_result[layer_name] = param_dic
         result.append(temp_result)
     return result
         
