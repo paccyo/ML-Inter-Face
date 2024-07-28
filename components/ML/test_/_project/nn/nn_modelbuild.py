@@ -9,35 +9,49 @@ import flet as ft
 import flet.canvas as cv
 
 
-class Pick_file_button(ft.ElevatedButton):
+
+
+
+class ModelBuild_NN(ft.Container):
+    class Pick_file_button(ft.ElevatedButton):
         def __init__(self, page:ft.Page):
             super().__init__()
             
             self.page = page
-            self.get_directory_dialog = ft.FilePicker(on_result=self.get_directory_result)
-            self.page.overlay.extend([self.get_directory_dialog])
+            self.pick_files_dialog = ft.FilePicker(on_result=self.pick_files_result)
+            # self.page.overlay.extend([self.pick_files_dialog])
+            
 
             self.bottom = 0
             self.left = 0
-            self.text = "Open file"
+            self.text = " "
             self.icon=ft.icons.FOLDER_OPEN
-            self.on_click=lambda _: self.get_directory_dialog.pick_files(file_type=ft.FilePickerFileType.CUSTOM,allowed_extensions=["csv"],allow_multiple=True)
+            # self.on_click=lambda _: self.get_directory_dialog.pick_files(file_type=ft.FilePickerFileType.CUSTOM, allowed_extensions=["csv"], allow_multiple=False)
+            self.on_click=self.pick_files
             self.style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10))
             self.width=50
             self.height=50
 
-        def get_directory_result(self, e: ft.FilePickerResultEvent):
+        async def pick_files(self,_):
+            await self.pick_files_dialog.pick_files_async(file_type=ft.FilePickerFileType.CUSTOM, allowed_extensions=["py"], allow_multiple=False)
+
+        async def pick_files_result(self, e: ft.FilePickerResultEvent):
             file = e.files[0]
             result = py_to_dict.convert_model_to_dict(file)
 
-            print(result)
 
 
-class ModelBuild_NN(ft.Container):
+
     def __init__(self,page:ft.Page):
         super().__init__()
         self.page = page
         self.expand = True
+
+
+        self.pick_files_dialog = ft.FilePicker(on_result=self.pick_files_result)
+        # self.page.overlay.extend([self.pick_files_dialog])
+
+
         self.sidebar_layers_container = ft.Container(
             content=ft.Column(
                 [
@@ -53,10 +67,21 @@ class ModelBuild_NN(ft.Container):
             ),
             expand=True,
             alignment=ft.alignment.top_left,
+            border=ft.border.only(bottom=ft.BorderSide(width=1)),
+            padding=ft.padding.only(bottom=5)
         )
 
         for layer_name in layer_dicts.keys():
-            self.sidebar_layers_container.content.controls[1].controls.append(ft.ElevatedButton(layer_name, style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0)),on_click=self.add_layer))
+            self.sidebar_layers_container.content.controls[1].controls.append(
+                ft.Tooltip(
+                    message=layer_dicts[layer_name]['description'],
+                    content=ft.ElevatedButton(
+                        text=layer_name, 
+                        style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0)),
+                        on_click=self.add_layer,
+                    )
+                )
+            )
 
         self.sidebar_layer_param_container = ft.Container(
             content=ft.Column(
@@ -73,7 +98,7 @@ class ModelBuild_NN(ft.Container):
                 expand=True,
             ),
             expand=True,
-            alignment=ft.alignment.top_left
+            alignment=ft.alignment.top_left,
         )
 
         self.design_area = ft.Container(
@@ -82,11 +107,22 @@ class ModelBuild_NN(ft.Container):
                     [
                         ft.Text("Design", style="headlineMedium" ,text_align=ft.alignment.top_center,left=0,right=0),
                         ft.ElevatedButton(text="build", on_click=self.model_build, right=0, bottom=0),
-                        Pick_file_button(self.page),
+                        # self.Pick_file_button(self.page),
+                        ft.ElevatedButton(
+                            bottom = 0,
+                            left = 0,
+                            text = " ",
+                            icon=ft.icons.FOLDER_OPEN,
+                            # self.on_click=lambda _: self.get_directory_dialog.pick_files(file_type=ft.FilePickerFileType.CUSTOM, allowed_extensions=["csv"], allow_multiple=False)
+                            on_click=self.pick_files,
+                            style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10)),
+                            width=50,
+                            height=50,
+                        )
                     ],
                 ),
             ),
-            bgcolor=ft.colors.RED,
+            bgcolor=ft.colors.GREY_100,
             expand=True,
         )
 
@@ -101,14 +137,13 @@ class ModelBuild_NN(ft.Container):
                 ),
             alignment=ft.alignment.top_center,
             width=300,
-            bgcolor=ft.colors.BLUE,
+            bgcolor=ft.colors.GREY_100,
             border_radius=15,
         )
 
         self.sidebar_content = ft.Column(
             [
                 self.sidebar_layers_container,
-                ft.Divider(),
                 self.sidebar_layer_param_container,
             ],
         )
@@ -125,10 +160,81 @@ class ModelBuild_NN(ft.Container):
             alignment=ft.MainAxisAlignment.START,
             expand=True,
         ) 
+    # happens when example is added to the page (when user chooses the FilePicker control from the grid)
+    def did_mount(self):
+        self.page.overlay.append(self.pick_files_dialog)
+        self.page.update()
+
+    # happens when example is removed from the page (when user chooses different control group on the navigation rail)
+    def will_unmount(self):
+        self.page.overlay.remove(self.pick_files_dialog)
+        self.page.update()
+
+    async def pick_files(self,_):
+        await self.pick_files_dialog.pick_files_async(file_type=ft.FilePickerFileType.CUSTOM, allowed_extensions=["py"], allow_multiple=False)
+
+    
+    async def pick_files_result(self, e: ft.FilePickerResultEvent):
+        file = e.files[0]
+        result = py_to_dict.convert_model_to_dict(file.path)
+        self.import_model_file_add_layer(result)
+    
+    def import_model_file_add_layer(self,result):
+        top_num = 100
+        # print(len(result))
+        for layer in result:
+
+            key = list(layer.keys())
+            value = list(layer.values())
+            rect = ft.GestureDetector(
+                    content=ft.Container(content=ft.Text(key[0]),bgcolor=value[0]["color"], border_radius=15),
+                    width=100,
+                    height=50,
+                    mouse_cursor=ft.MouseCursor.MOVE,
+                    drag_interval=10,
+                    top=top_num,
+                    left=50,
+                    on_vertical_drag_update=self.on_drag_update,
+                    on_tap=self.on_tap_layer,
+                    on_double_tap=self.on_double_tap_del_layer,
+                )
+            # print(value)
+            rect.content.content.data = copy.deepcopy(value[0])
+            self.design_area.content.content.controls.append(rect)
+            
+            top_num+=50
+        self.update_connect_layer()
+        self.design_area.content.content.update()
+
+
+    def add_layer(self, e):
+        data = layer_dicts
+        # # print(e.control.text)
+        rect = ft.GestureDetector(
+                content=ft.Container(content=ft.Text(e.control.text),bgcolor=data[e.control.text]["color"], border_radius=15),
+                width=100,
+                height=50,
+                mouse_cursor=ft.MouseCursor.MOVE,
+                drag_interval=10,
+                top=100,
+                left=50,
+                on_vertical_drag_update=self.on_drag_update,
+                on_tap=self.on_tap_layer,
+                on_double_tap=self.on_double_tap_del_layer,
+            )
+
+        print(data[e.control.text])
+        # copy.deepcopy(x)
+        # rect.content.content.data = data[e.control.text]
+        rect.content.content.data = copy.deepcopy(data[e.control.text])
+        self.design_area.content.content.controls.append(rect)
+        self.update_connect_layer()
+        self.design_area.content.content.update()
+
 
     def update_connect_layer(self):
         # # # print(self.design_area.content.shapes)
-        layers= sorted(self.design_area.content.content.controls[2:], key = lambda x:x.top)
+        layers= sorted(self.design_area.content.content.controls[3:], key = lambda x:x.top)
         self.design_area.content.shapes = []
         draw_line_list = []
         for layer in layers[:-1]:
@@ -157,6 +263,7 @@ class ModelBuild_NN(ft.Container):
 
     def on_tap_layer(self, e):
         
+        print(e.control.content.content.data["detail_view"])
         layer_type = e.control.content.content.value
         detail_view = True if e.control.content.content.data["detail_view"] == "True" else False
         # # # print(layer_type)
@@ -294,29 +401,7 @@ class ModelBuild_NN(ft.Container):
 
 
     # Main design area with drag-and-drop functionality
-    def add_layer(self, e):
-        data = layer_dicts
-        # # print(e.control.text)
-        rect = ft.GestureDetector(
-                content=ft.Container(content=ft.Text(e.control.text),bgcolor=data[e.control.text]["color"], border_radius=15),
-                width=100,
-                height=50,
-                mouse_cursor=ft.MouseCursor.MOVE,
-                drag_interval=10,
-                top=100,
-                left=50,
-                on_vertical_drag_update=self.on_drag_update,
-                on_tap=self.on_tap_layer,
-                on_double_tap=self.on_double_tap_del_layer,
-            )
 
-        print(data[e.control.text])
-        # copy.deepcopy(x)
-        # rect.content.content.data = data[e.control.text]
-        rect.content.content.data = copy.deepcopy(data[e.control.text])
-        self.design_area.content.content.controls.append(rect)
-        self.update_connect_layer()
-        self.design_area.content.content.update()
     
     def on_double_tap_del_layer(self, e):
         # e.control
