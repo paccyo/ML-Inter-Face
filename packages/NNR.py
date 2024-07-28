@@ -70,7 +70,6 @@ def generate_dimensions_list(data):
             else:
                 r = np.array([[j]*inner_iter_num for j in list(range(1, dim+1))]*outer_iter_num).reshape(-1,)
             result.append(r)
-        result = result[::-1]
         result.append([data.shape[-2]]*len(result[0]))
         result.append([data.shape[-1]]*len(result[0]))
         result = list(np.array(result).T)
@@ -91,7 +90,7 @@ def generate_save_weights(raw_weights):
     else:
         skip_iter = raw_weights.shape[-2]
     for j, weight_line_index in enumerate(range(0, len(converted_weights), skip_iter)):
-        converted_weights.insert(weight_line_index+place_keeper, dim_list[j])
+        converted_weights.insert(weight_line_index+place_keeper, tuple(dim_list[j]))
         place_keeper += 1
     return converted_weights
 
@@ -99,19 +98,27 @@ def save_csv(layer_name, weights, project_path):
     with open(f'{project_path}/{layer_name}.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
         for weight_line in weights:
+            if type(weight_line) == tuple:
+                print(str(weight_line).split(','))
+                weight_line = ','.join(str(weight_line).split(','))
             writer.writerow(weight_line)
 
 def save_blank_csv(layer_name, project_path):
     with open(f'{project_path}/{layer_name}.csv', 'w', newline='') as csvfile:
         pass
-    
 
-def read_csv(path):
-    pass
+def read_csv(file_path):
+    with open(f'{file_path}/.csv', 'r') as file:
+        csv_reader = csv.reader(file)
+    return csv_reader
+        
 
 def csv_to_model(file_path):
-    pass
+    csv_file = read_csv(file_path)
+    for row in csv_file:
+        print(row)
 
 
 if __name__ == '__main__':
     Research(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
+    # csv_to_model(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
