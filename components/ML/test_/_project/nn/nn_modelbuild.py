@@ -19,12 +19,12 @@ class Pick_file_button(ft.ElevatedButton):
 
             self.bottom = 0
             self.left = 0
-            self.text = "Open file",
-            self.icon=ft.icons.FOLDER_OPEN,
-            self.on_click=lambda _: self.get_directory_dialog.pick_files(file_type=ft.FilePickerFileType.CUSTOM,allowed_extensions=["csv"],allow_multiple=True),
-            self.style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10)),
-            self.width=500,
-            self.height=50,
+            self.text = "Open file"
+            self.icon=ft.icons.FOLDER_OPEN
+            self.on_click=lambda _: self.get_directory_dialog.pick_files(file_type=ft.FilePickerFileType.CUSTOM,allowed_extensions=["csv"],allow_multiple=True)
+            self.style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10))
+            self.width=50
+            self.height=50
 
         def get_directory_result(self, e: ft.FilePickerResultEvent):
             file = e.files[0]
@@ -82,7 +82,7 @@ class ModelBuild_NN(ft.Container):
                     [
                         ft.Text("Design", style="headlineMedium" ,text_align=ft.alignment.top_center,left=0,right=0),
                         ft.ElevatedButton(text="build", on_click=self.model_build, right=0, bottom=0),
-                        Pick_file_button(self.page)
+                        Pick_file_button(self.page),
                     ],
                 ),
             ),
