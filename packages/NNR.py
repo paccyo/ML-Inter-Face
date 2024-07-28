@@ -133,9 +133,10 @@ class ReModel:
         return read_weights
 
     def rewrite_model(self, file_name, weights):
-        bias = self.model.get_layer(file_name).get_weights()[1]
-        param = [weights, bias]
-        self.model.get_layer(file_name).set_weights(param)
+        if len(self.model.get_layer(file_name).get_weights()) != 0:
+            bias = self.model.get_layer(file_name).get_weights()[1]
+            param = [weights, bias]
+            self.model.get_layer(file_name).set_weights(param)
                 
     def csv_to_model(self, csv_file_path, export_path):
         if csv_file_path == list:
@@ -151,7 +152,7 @@ class ReModel:
 
 
 if __name__ == '__main__':
-    Research(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
-    # remodel = ReModel(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\trained_model.h5")
-    # remodel.csv_to_model(r"C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\conv2d_12.csv", export_path=r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
+    # Research(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
+    remodel = ReModel(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\trained_model.h5")
+    remodel.csv_to_model(r"C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\activation_1.csv", export_path=r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
     
