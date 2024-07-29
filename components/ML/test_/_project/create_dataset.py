@@ -56,6 +56,20 @@ class CreateDatasetImage(ft.Container):
         self.pre_dict = dict(**self.preprocess_dicts['ImageDataGenerator'], **self.preprocess_dicts["flow_from_directory"])
 
 
+        pre_dicts = {
+            'ImageDataGenerator': {
+                'featurewise_center':False,
+                'samplewise_center': False,
+            },
+            'flow_from_directory': {
+                'target_size': (256, 256),
+                'color_mode': '\'rgb\''
+            }
+        }
+
+        self.page.client_storage.set("color_mode", pre_dicts['flow_from_directory']['color_mode'].replace("\'",""))
+        self.page.client_storage.set("target_size", pre_dicts['flow_from_directory']['target_size'])
+
         self.preprocess = ft.Container(
             content=ft.Column(
                 controls=[
@@ -186,32 +200,6 @@ class CreateDatasetDataFrame(ft.Container):
         self.data_table = ft.Container(
             content=ft.Row(
                 controls=[
-                    ft.Container(
-                        content=ft.Column(
-                            controls=[
-                                ft.Container(
-                                    content=ft.TextButton(
-                                        content=ft.Container(
-                                            content=ft.Text(value=column), 
-                                            width=150, 
-                                            alignment=ft.alignment.center
-                                        ),
-                                        on_click=self.on_click_columns_button,
-                                        data={"now":None,"index":i}
-                                    ),
-                                alignment=ft.alignment.center)
-                            ]+[
-                                ft.Container(
-                                    content=ft.Text(self.data[column][n]), 
-                                    height=50, 
-                                    alignment=ft.alignment.center, 
-                                    border=ft.border.only(top=ft.BorderSide(width=1))) for n in range(10)
-                            ],
-                            width=200,
-                        ),
-                        border=ft.border.only(left=ft.BorderSide(width=1))
-                    )
-                    for i, column in enumerate(self.data.columns)
                 ],
                 scroll=ft.ScrollMode.ALWAYS,
                 expand=True
@@ -219,6 +207,7 @@ class CreateDatasetDataFrame(ft.Container):
             border=ft.border.all(),
             expand=True
         )
+        self.data_table.content.controls = self.data_table_update()
 
         self.create_button = ft.Container(
             content=ft.ElevatedButton(text="create_dataset",on_click=self.on_click_create_dataset),
@@ -299,7 +288,8 @@ class CreateDatasetDataFrame(ft.Container):
                     self.preprocess_content_app,
                     ft.Divider(),
                     self.preprocess_content,
-                ]
+                ],
+                scroll=ft.ScrollMode.HIDDEN,
             ),
         )
 
@@ -309,6 +299,35 @@ class CreateDatasetDataFrame(ft.Container):
                 ft.Tab(text="前処理",content=self.preprocess),
             ]
         )
+    def data_table_update(self):
+        return [ft.Container(
+                        content=ft.Column(
+                            controls=[
+                                ft.Container(
+                                    content=ft.TextButton(
+                                        content=ft.Container(
+                                            content=ft.Text(value=column), 
+                                            width=150, 
+                                            alignment=ft.alignment.center
+                                        ),
+                                        on_click=self.on_click_columns_button,
+                                        data={"now":None,"index":i}
+                                    ),
+                                alignment=ft.alignment.center)
+                            ]+[
+                                ft.Container(
+                                    content=ft.Text(self.data[column][n]), 
+                                    height=50, 
+                                    alignment=ft.alignment.center, 
+                                    border=ft.border.only(top=ft.BorderSide(width=1))) for n in range(10)
+                            ],
+                            width=200,
+                        ),
+                        border=ft.border.only(left=ft.BorderSide(width=1))
+                    )
+                    for i, column in enumerate(self.data.columns)
+                ]
+
     
     def preprocess_content_update(self):
         name_width = 450
@@ -386,9 +405,11 @@ class CreateDatasetDataFrame(ft.Container):
         preprocess = Preprocess(self.project_info["data_info"]["dataframe"])
         if self.fill_option[e.control.data["column"]]:
             result = preprocess.deal_null(col_name=e.control.data["column"], deal_type=self.fill_option[e.control.data["column"]])
-            self.data = preprocess.MarginFrame(original=self.data,target_col=e.control.data["column"],edit_part=result)
+            self.data = preprocess.MarginFrame(original=self.data, edit_part=result, target_col=e.control.data["column"])
             self.preprocess_content.content.controls = self.preprocess_content_update()
             self.preprocess_content.update()
+        self.data_table_update()
+        self.data_table.update()
 
 
 
