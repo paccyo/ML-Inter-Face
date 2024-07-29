@@ -1,7 +1,8 @@
 
-from packages.util import Calldict
+from util import Calldict
 import re
 import string
+from copy import deepcopy
 
 
 def convert_model_to_dict(path):
@@ -76,7 +77,9 @@ def convert_model_to_dict(path):
                     param_value = int(param_value)
                 param_dic[param_name][0] = param_value
             temp_result[layer_name] = param_dic
-        result.append(temp_result)
+        result.append(deepcopy(temp_result))
+        if layer_name == 'Activation':
+            pass
     return result
         
     
