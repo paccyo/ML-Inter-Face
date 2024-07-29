@@ -8,8 +8,10 @@ import copy
 import flet as ft 
 import flet.canvas as cv
 import pandas as pd
-
-
+import asyncio
+import glob
+import shutil
+import os
 
 class ModelBuild_NN(ft.Container):
     class Pick_file_button(ft.ElevatedButton):
@@ -413,7 +415,34 @@ class ModelBuild_NN(ft.Container):
         self.update_connect_layer()
         self.page.update()
 
+    async def get_model_graph(self):
+
+        self.preview_area.content.controls[1].src = "https://example.com/your_image.png"
+        self.update()
+
+        running = True
+        while running:
+            await asyncio.sleep(0.1)
+            result_files = glob.glob(self.project_path+"/Result/*.png")
+            print(result_files)
+            for result in result_files:
+                
+                if "model.png" in result:
+                    model_png = result
+                    running = False
+
+        await asyncio.sleep(0.2)
+        
+        self.preview_area.content.controls[1].src = model_png
+        self.update()
+                    
+
     def model_build(self, e):
+
+        self.project_path = self.page.client_storage.get("project_file_path")
+        shutil.rmtree(self.project_path+"/Result/")
+        os.makedirs(name=self.project_path+"/Result",exist_ok=True)
+
         layers=sorted(self.design_area.content.content.controls[3:], key = lambda x:x.top)
         lay_format = {}
         for i,layer in enumerate(layers):
@@ -450,6 +479,9 @@ class ModelBuild_NN(ft.Container):
         model_info = ModelInfo(mode="NN")
         project_info = self.page.client_storage.get("project_info")
         data_type = project_info["data_type"]
+        
+        self.page.run_task(self.get_model_graph)
+
         if data_type == "image":
             model_info.send(model_dict=lay_format,
                                     project_path=project_path+"/Scripts",
@@ -470,8 +502,8 @@ class ModelBuild_NN(ft.Container):
                                                   project_path=project_path+"/Result")
         GenerateBatfile.Runbat(project_path+"/Scripts"+"/output_model_graph_run.bat")
 
-        self.preview_area.content.controls[1].src = project_path+"/Result/model.png"
-        self.page.update()
+        # self.preview_area.content.controls[1].src = project_path+"/Result/model.png"
+        self.update()
 
 
     
