@@ -7,8 +7,7 @@ from packages import py_to_dict
 import copy
 import flet as ft 
 import flet.canvas as cv
-
-
+import pandas as pd
 
 
 
@@ -458,6 +457,10 @@ class ModelBuild_NN(ft.Container):
                                                     color_mode=self.page.client_storage.get("color_mode"))
                                     )
         elif data_type == "dataframe":
+            df = pd.read_csv(project_path+"/Data/original_data.csv")
+            print(df)
+            target_num = model_info.get_classnums(df=df, col_name=self.page.client_storage.get("target_column"))
+            self.page.client_storage.set("class_num",target_num)
             model_info.send(model_dict=lay_format,
                             project_path=project_path+"/Scripts",
                             shape=model_info.get_dataframe_shape(dataset_path=project_path+"/Data/dataset"))

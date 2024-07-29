@@ -123,7 +123,9 @@ class ModelTrain_NN(ft.Container):
         GenerateBatfile.generateNN(target_path=self.project_path+"/Scripts",
                                  run_path=read_activate_path.read_activ_path(),
                                  part_dict=part_dict,
-                                 data_type=self.page.client_storage.get("data_type"),
+                                 dataset_path=self.page.client_storage.get("project_file_path")+"/Data/dataset",
+                                 class_nums=self.page.client_storage.get("class_num"),
+                                 data_type=self.page.client_storage.get("project_info")["data_type"],
                                  epochs=self.epoch,
                                  batchs=self.batch_size,
                                  project_path=self.project_path+"/Result")

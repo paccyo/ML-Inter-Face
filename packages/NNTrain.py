@@ -90,7 +90,9 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
 
     elif data_type == 'dataframe':
         for csv_path in glob.glob(os.path.join(dataset_path, '*.*')):
-            dataset_type, data_or_target = os.path.splitext(os.path.basename(csv_path))[0].split('_')[0], os.path.splitext(os.path.basename(csv_path))[0].split('_')[0]
+            print(csv_path)
+            dataset_type, data_or_target = os.path.splitext(os.path.basename(csv_path))[0].split('_')[0], os.path.splitext(os.path.basename(csv_path))[0].split('_')[1]
+            print(dataset_type, data_or_target)
             if dataset_type == 'train' and data_or_target == 'data':
                 df_train_data = pd.read_csv(csv_path)
             elif dataset_type == 'train' and data_or_target == 'target':
