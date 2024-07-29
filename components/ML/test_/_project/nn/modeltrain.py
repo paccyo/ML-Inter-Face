@@ -122,7 +122,6 @@ class ModelTrain_NN(ft.Container):
         shutil.copy("packages/image/metrics_0epoch.png", self.project_path+"/Result")
         shutil.copy("packages/image/loss_0epoch.png" ,self.project_path+"/Result")
         self.part_dict = self.page.client_storage.get("part_dict")
-        print("+"*100)
         self.page.run_task(self.async_get_picture)
         self.on_click_train()
 
