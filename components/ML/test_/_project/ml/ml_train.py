@@ -25,10 +25,12 @@ class ModelTrain_ML(ft.Container):
         )
 
         self.image_content = ft.Container(
-            content=ft.Row(
+            content=ft.Column(
                 controls=[],
                 scroll=ft.ScrollMode.ALWAYS,
+                expand=True,
             ),
+            bgcolor=ft.colors.GREY_100,
             expand=True
         )
 
@@ -40,7 +42,8 @@ class ModelTrain_ML(ft.Container):
                 ],
                 expand=True
             ),
-            expand=True
+            expand=True,
+            padding=ft.padding.all(20)
         )
 
 
@@ -48,7 +51,9 @@ class ModelTrain_ML(ft.Container):
         running = True
         t1 = None
         while running:
+
             await asyncio.sleep(0.2)
+            self.image_content.content.controls = []
             result_files = glob.glob(self.project_path+"/Result/ML_result/*.png")
             print(result_files)
             if result_files != []:
@@ -61,8 +66,9 @@ class ModelTrain_ML(ft.Container):
                         height=self.page.height-50,
                     )
                     self.image_content.content.controls.append(rect)
-                self.image_content.update()
                 if time.time()-t1 > 1:
+                    self.image_content.content.scroll = ft.ScrollMode.ALWAYS
+                    self.image_content.update()
                     running = False
 
 
