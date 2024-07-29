@@ -90,28 +90,28 @@ class CreateDatasetImage(ft.Container):
                                     options=[ft.dropdown.Option(str(x)) for x in value[2]],
                                     on_change = self.on_change_value,
                                     data={"name":pre_name}
-                                ) if value[2] == DROPDOWN else ft.TextField(value=value[0],on_change=self.on_change_value)
+                                ) if value[1] == DROPDOWN else ft.TextField(value=value[0],on_change=self.on_change_value)
                             ]
                         ), 
                         on_click=self.on_click_preprocess, 
                         height=100, 
-                        data = {"hint":value[4],"video":ft.VideoMedia(value[5]) if value[5]!="None" else None}
+                        data = {"hint":value[4],"video":ft.VideoMedia(value[5]) if value[5]!="None" else ft.VideoMedia("packages/data_expansion_video/none.mp4")}
                     ) for pre_name ,value in self.pre_dict.items()
                 ],
                 scroll=ft.ScrollMode.HIDDEN,
             ),
-            expand=True,
+            width=500,
         )
 
 
         self.video_content = ft.Container(
             content=ft.Video(
-                playlist=None,
+                playlist=[ft.VideoMedia("packages/data_expansion_video/none.mp4")],
                 fit=ft.ImageFit.CONTAIN,
                 playlist_mode=ft.PlaylistMode.LOOP,
                 autoplay=True,
             ),
-            width=500,
+            expand=True,
         )
 
 
@@ -437,8 +437,6 @@ class CreateDatasetDataFrame(ft.Container):
             self.target = None
 
         self.update()
-            
-
 
     def on_change_fill_option(self,e):
         self.fill_option[e.control.data["column"]] = e.control.value
@@ -451,7 +449,7 @@ class CreateDatasetDataFrame(ft.Container):
             self.data = preprocess.MarginFrame(original=self.data, edit_part=result, target_col=e.control.data["column"])
             self.preprocess_content.content.controls = self.preprocess_content_update()
             self.preprocess_content.update()
-            
+
         self.data_table.content.controls = self.data_table_update()
         self.data_table.update()
 
