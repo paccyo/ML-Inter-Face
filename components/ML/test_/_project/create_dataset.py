@@ -451,7 +451,8 @@ class CreateDatasetDataFrame(ft.Container):
             self.data = preprocess.MarginFrame(original=self.data, edit_part=result, target_col=e.control.data["column"])
             self.preprocess_content.content.controls = self.preprocess_content_update()
             self.preprocess_content.update()
-        self.data_table_update()
+            
+        self.data_table.content.controls = self.data_table_update()
         self.data_table.update()
 
 
