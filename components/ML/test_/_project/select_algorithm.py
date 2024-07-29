@@ -9,7 +9,7 @@ class SelectAlgorithm(ft.Container):
         self.navigation_rail_update = navigation_rail_update
         self.expand = True 
         self.ML_dicts = ML_display_dicts
-
+        self.learning_type = self.page.client_storage.get("project_info")["learning_type"]
         self.check_now_content = None
 
         self.select_algorithm_button = ft.Container(
@@ -27,14 +27,14 @@ class SelectAlgorithm(ft.Container):
                         height=100, 
                         style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0)),
                         data = ML_dict
-                    ) for ML_name ,ML_dict in self.ML_dicts.items()
+                    ) for ML_name, ML_dict in self.ML_dicts.items() if ML_dict[self.learning_type] == 'True'
                 ],
                 scroll=ft.ScrollMode.HIDDEN,
             ),
             expand=True
         )
 
-        self.image_content = ft.Image(src=None,fit=ft.ImageFit.CONTAIN)
+        self.image_content = ft.Image(src="packages\image\logo.png",fit=ft.ImageFit.CONTAIN)
 
 
         self.content = ft.Column(
