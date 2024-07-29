@@ -140,6 +140,13 @@ class ModelInfo:
         df = pd.read_csv(train_data_path)
         return (len(df.values[0]),)
 
+    def get_classnums(self, df, col_name):
+        val_memory = []
+        df = df[col_name]
+        for val in df.values:
+            if val not in val_memory:
+                val_memory.append(val)
+        return len(val_memory)
 
 if __name__ == '__main__':
     # テストケース
