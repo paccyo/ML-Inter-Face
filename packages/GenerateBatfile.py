@@ -1,7 +1,7 @@
 
 import subprocess
 
-def generateNN(target_path, run_path, part_dict, data_type, epochs, batchs=None, project_path=None, dataset_path=None, class_nums=None, train_type=None):
+def generateNN(target_path, run_path, train_part, validation_part, test_part, data_type, epochs, batchs=None, project_path=None, dataset_path=None, class_nums=None, train_type=None):
     """
     NN用バッチファイル作成
 
@@ -11,11 +11,8 @@ def generateNN(target_path, run_path, part_dict, data_type, epochs, batchs=None,
     run_path->str: "仮想環境のactivate.batのパス"
     project_path->str: 
     """
-    train_part = part_dict['train']
-    validatioin_part = part_dict['validation']
-    test_part = part_dict['test']
     with open(target_path+'/run.bat', 'w') as f:
-        f.write(f'call "{run_path}"\npython {target_path}/NNTrain.py {train_part} {validatioin_part} {test_part} {data_type} {epochs} {batchs} {project_path} {dataset_path} {class_nums} {train_type}')
+        f.write(f'call "{run_path}"\npython {target_path}/NNTrain.py {train_part} {validation_part} {test_part} {data_type} {epochs} {batchs} {project_path} {dataset_path} {class_nums} {train_type}')
 
 def generateML(target_path, run_path, part_dict, dataset_path, export_path, train_mode, alg):
     """
