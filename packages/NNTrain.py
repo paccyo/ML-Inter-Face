@@ -86,11 +86,8 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
 
         model.fit(train_generator, validation_data=validation_generator, epochs=epochs, callbacks=[plot_callback])
 
-        model.save(f'{project_path}/trained_model.h5')
-
     elif data_type == 'dataframe':
         for csv_path in glob.glob(os.path.join(dataset_path, '*.*')):
-            print(csv_path)
             dataset_type, data_or_target = os.path.splitext(os.path.basename(csv_path))[0].split('_')[0], os.path.splitext(os.path.basename(csv_path))[0].split('_')[1]
             if dataset_type == 'train' and data_or_target == 'data':
                 df_train_data = pd.read_csv(csv_path)
@@ -133,8 +130,8 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
         model.fit(df_train_data.values, train_target, validation_data=(df_valdation_data.values, validation_target),
                   epochs=epochs, batch_size=batchs, callbacks=[plot_callback])
 
-        model.save(f'{project_path}/trained_model.h5')
-        
+    model.save(f'{project_path}/trained_model.h5')
+
 def conv_str_to_int(df_target):
     """
     dataframeの文字を数値化
