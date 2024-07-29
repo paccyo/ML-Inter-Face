@@ -46,13 +46,13 @@ class SelectAlgorithm(ft.Container):
                         ft.Container(
                             content=self.select_algorithm_button, 
                             expand=True, 
-                            bgcolor=ft.colors.RED, 
+                            bgcolor=ft.colors.BLUE_100, 
                             padding=ft.padding.only(top=70,bottom=70,left=50,right=50),
                         ),
                         ft.Container(
                             content=self.image_content,
                             expand=True,
-                            bgcolor=ft.colors.BLUE
+                            # bgcolor=ft.colors.BLUE
                         )
                     ],
                     expand=True

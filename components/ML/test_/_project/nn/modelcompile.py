@@ -51,6 +51,7 @@ class ModelCompile(ft.Container):
                 ]
             )
         )
+
         self.other_option.append(
             ft.Row(
                 controls=[
@@ -230,5 +231,5 @@ class ModelCompile(ft.Container):
         # print(compile_state)
         self.page.client_storage.set("compile", compile_state)
         compile_info.send(compile_state, 
-                            project_path=self.page.client_storage.get("project_path")+"/Scripts"
+                            project_path=self.page.client_storage.get("project_file_path")+"/Scripts"
                             )

@@ -94,7 +94,7 @@ class ModelTrain_NN(ft.Container):
                 self.graph_image,
                 self.pb_text,
                 self.pb,
-                ft.ElevatedButton(text="train",on_click=self.on_click_train, right=0, bottom=0),
+                ft.ElevatedButton(text="train",on_click=self.on_click_train, top=550,left=300),
             ],
             expand=True,
         )
@@ -117,11 +117,12 @@ class ModelTrain_NN(ft.Container):
         os.makedirs(name=self.project_path+"/Result",exist_ok=True)
         shutil.copy("packages/image/metrics_0epoch.png", self.project_path+"/Result")
         shutil.copy("packages/image/loss_0epoch.png" ,self.project_path+"/Result")
-
-        copy_to_userproject.CopyTrain(self.project_path+"/Scripts")
-        GenerateBatfile.generate(target_path=self.project_path+"/Scripts",
+        part_dict = self.page.client_storage.get("part_dict")
+        print(part_dict)
+        copy_to_userproject.CopyNNTrain(self.project_path+"/Scripts")
+        GenerateBatfile.generateNN(target_path=self.project_path+"/Scripts",
                                  run_path=read_activate_path.read_activ_path(),
-                                 part_dict=self.page.client_storage.get("part_dict"),
+                                 part_dict=part_dict,
                                  data_type=self.page.client_storage.get("data_type"),
                                  epochs=self.epoch,
                                  batchs=self.batch_size,

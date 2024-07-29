@@ -148,8 +148,8 @@ class Preprocessing(ft.Tab):
             }
         }
 
-        self.page.client_storage.set("color_mode",preprocess_dicts['flow_from_directory']['color_mode'].replace("\'",""))
-        self.page.client_storage.set("target_size",preprocess_dicts['flow_from_directory']['target_size'])
+        self.page.client_storage.set("color_mode", preprocess_dicts['flow_from_directory']['color_mode'].replace("\'",""))
+        self.page.client_storage.set("target_size", preprocess_dicts['flow_from_directory']['target_size'])
 
         print(preprocess_dicts)
         print(self.page.client_storage.get("data_type"))

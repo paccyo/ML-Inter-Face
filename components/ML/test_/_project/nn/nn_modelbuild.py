@@ -415,7 +415,7 @@ class ModelBuild_NN(ft.Container):
         self.page.update()
 
     def model_build(self, e):
-        layers=sorted(self.design_area.content.content.controls[2:], key = lambda x:x.top)
+        layers=sorted(self.design_area.content.content.controls[3:], key = lambda x:x.top)
         lay_format = {}
         for i,layer in enumerate(layers):
             # # # print(layer.content.content.data)
@@ -447,20 +447,27 @@ class ModelBuild_NN(ft.Container):
             lay_format[layer_type+str(i).zfill(4)] = layer_data     
         print(lay_format)
         self.page.client_storage.set("model",lay_format)
-        model_info = ModelInfo()
-        model_info.send(model_dict=lay_format,
-                             project_path=self.page.client_storage.get("project_path")+"/Scripts",
-                             shape=model_info.get_shape(image_size=self.page.client_storage.get("target_size"),
-                                                color_mode=self.page.client_storage.get("color_mode"))
-                             )
-        
-        copy_to_userproject.CopyModelGraph(target_path=self.page.client_storage.get("project_path")+"/Scripts")
-        GenerateBatfile.generate_output_graph_bat(target_path=self.page.client_storage.get("project_path")+"/Scripts",
+        project_path = self.page.client_storage.get("project_file_path")
+        model_info = ModelInfo(mode="NN")
+        project_info = self.page.client_storage.get("project_info")
+        data_type = project_info["data_type"]
+        if data_type == "image":
+            model_info.send(model_dict=lay_format,
+                                    project_path=project_path+"/Scripts",
+                                    shape=model_info.get_image_shape(image_size=self.page.client_storage.get("target_size"),
+                                                    color_mode=self.page.client_storage.get("color_mode"))
+                                    )
+        elif data_type == "dataframe":
+            model_info.send(model_dict=lay_format,
+                            project_path=project_path+"/Scripts",
+                            shape=model_info.get_dataframe_shape(dataset_path=project_path+"/Data/dataset"))
+        copy_to_userproject.CopyModelGraph(target_path=project_path+"/Scripts")
+        GenerateBatfile.generate_output_graph_bat(target_path=project_path+"/Scripts",
                                                   run_path=read_activate_path.read_activ_path(),
-                                                  project_path=self.page.client_storage.get("project_path")+"/Result")
-        GenerateBatfile.Runbat(self.page.client_storage.get("project_path")+"/Scripts"+"/output_model_graph_run.bat")
+                                                  project_path=project_path+"/Result")
+        GenerateBatfile.Runbat(project_path+"/Scripts"+"/output_model_graph_run.bat")
 
-        self.preview_area.content.controls[1].src = self.page.client_storage.get("project_path")+"/Result/model.png"
+        self.preview_area.content.controls[1].src = project_path+"/Result/model.png"
         self.page.update()
 
 
