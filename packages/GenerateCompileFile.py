@@ -23,21 +23,27 @@ class CompileInfo:
         """
         辞書からコンパイルを作成
         """
+        non_param = False
         # コメントはわかりやすくするための例
         for i, (compile_option_name, compile_option_info) in enumerate(compile_dict.items()):
             # Adam, Adamのパラメータ
             if i == 0:
                 for compile_algo_name, compile_params in compile_option_info.items():
                     params = ''
-                    # Adamのパラメータを格納
-                    for param_name, param_value in compile_params.items():
-                        params += f'{param_name}={param_value}, '
-                    break
+                    if compile_params:
+                        # Adamのパラメータを格納
+                        for param_name, param_value in compile_params.items():
+                            params += f'{param_name}={param_value}, '
+                        break
+                    else:
+                        non_param = True
                 # 不要なコンマ削除
-                params = params[:-2]
-
-                # 行の作成
-                self.compiles += f'    {compile_option_name} = {compile_algo_name}({params})\n'
+                if not non_param:
+                    params = params[:-2]
+                    # 行の作成
+                    self.compiles += f'    {compile_option_name} = {compile_algo_name}({params})\n'
+                else:
+                    self.compiles += f'    {compile_option_name} = \'adam\'\n'
             else:
                 # 行の作成
                 self.compiles += f'    {compile_option_name} = {compile_option_info[0]}\n'
