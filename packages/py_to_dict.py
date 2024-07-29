@@ -1,6 +1,7 @@
 
 from packages.util import Calldict
 import re
+import string
 
 
 def convert_model_to_dict(path):
@@ -57,21 +58,25 @@ def convert_model_to_dict(path):
             # パラメータ名, パラメータ値
             param_name, param_value = txt.split('=')
             param_dic = original_layer_dic[layer_name]
-            try:
-                int(param_value)
-            except:
-                param_value = param_value.replace('\'', '').replace('\"', '')
-                if '#' in param_value:
-                    index = param_value[2:-1]
-                    param_value_text = pattern_list[int(index)]
-                    param_value = tuple(map(int, param_value_text.split(',')))
-                param_dic[param_name][0] = param_value
-            else:
-                if '.' in param_value:
-                    param_value = float(param_value)
+            param_value = param_value.replace('\'', '').replace('\"', '')
+            print(param_value)
+            if '#' in param_value:
+                index = param_value[2:-1]
+                param_value_text = pattern_list[int(index)]
+                param_value_split = param_value_text.split(',')
+                print(pattern_list)
+                print(param_value_text)
+                if '' in param_value_split:
+                    param_value = (int(param_value_split[0]),)
                 else:
-                    param_value = int(param_value)
+                    param_value = tuple(map(int, ))
+            elif param_value[0] in string.ascii_lowercase or param_value[0] in string.ascii_uppercase:
                 param_dic[param_name][0] = param_value
+            elif '.' in param_value:
+                param_value = float(param_value)
+            else:
+                param_value = int(param_value)
+            param_dic[param_name][0] = param_value
             temp_result[layer_name] = param_dic
         result.append(temp_result)
     return result

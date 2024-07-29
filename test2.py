@@ -19,7 +19,7 @@ def plot_confusion_matrix(cm, class_names=None, export_path=None):
     if class_names:
         sns.heatmap(cm_array, annot=True, fmt="d", cmap="Blues", xticklabels=class_names, yticklabels=class_names)
     else:
-        sns.heatmap(cm_array, annot=True, fmt="d", cmap="Blues")
+        sns.heatmap(cm_array, annot=True, fmt="d", cmap="Blues", xticklabels=['Positive', 'Negative'], yticklabels=['Positive', 'Negative'])
     
     plt.xlabel('予測ラベル')
     plt.ylabel('正解ラベル')
@@ -27,6 +27,6 @@ def plot_confusion_matrix(cm, class_names=None, export_path=None):
     plt.show()
     # plt.savefig(f'{export_path}/confusion_matrix.png')
 
-matrix = [[0, 0],
-          [0, 0]]
+matrix = [[527+197+90, 94+30+33+15+9+5],
+          [33+9+94+5+30+15, 197+5+15+90+527+9+30+90+527+33+94+197]]
 plot_confusion_matrix(matrix)
