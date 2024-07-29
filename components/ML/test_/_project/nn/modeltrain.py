@@ -113,12 +113,14 @@ class ModelTrain_NN(ft.Container):
         print("epoch",self.epoch,type(self.epoch))
 
     def on_click_train(self, e):
+        part_dict = self.page.client_storage.get("part_dict")
+        print(part_dict)
+        print(self.page.client_storage.get("project_info"))
         shutil.rmtree(self.project_path+"/Result/")
         os.makedirs(name=self.project_path+"/Result",exist_ok=True)
         shutil.copy("packages/image/metrics_0epoch.png", self.project_path+"/Result")
         shutil.copy("packages/image/loss_0epoch.png" ,self.project_path+"/Result")
-        part_dict = self.page.client_storage.get("part_dict")
-        print(part_dict)
+        
         copy_to_userproject.CopyNNTrain(self.project_path+"/Scripts")
         GenerateBatfile.generateNN(target_path=self.project_path+"/Scripts",
                                  run_path=read_activate_path.read_activ_path(),
@@ -128,6 +130,7 @@ class ModelTrain_NN(ft.Container):
                                  data_type=self.page.client_storage.get("project_info")["data_type"],
                                  epochs=self.epoch,
                                  batchs=self.batch_size,
+                                 train_type=self.page.client_storage.get("project_info")["learning_type"],
                                  project_path=self.project_path+"/Result")
         GenerateBatfile.Runbat(self.project_path+"/Scripts"+"/run.bat")
         e.control.disabled = True

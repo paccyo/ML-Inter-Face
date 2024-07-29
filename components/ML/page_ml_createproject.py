@@ -121,7 +121,7 @@ class MLCreateProject(ft.View):
         if self.project_filename != "":
             info["project_name"] = self.project_filename 
             info["data_type"] = "image" if self.segment_button_data_type.selected_index == 1 else "dataframe"
-            info["learning_type"] = "classification" if self.segment_button_learning.controls[self.segment_button_learning.selected_index].value == "分類" else "regression"
+            info["learning_type"] = "categorical" if self.segment_button_learning.controls[self.segment_button_learning.selected_index].value == "分類" else "regression"
             if self.get_pick_container.content.data:
                 if info["data_type"] == "image":
                     info["data_info"][info["data_type"]]["data_path"] = self.get_pick_container.content.data
