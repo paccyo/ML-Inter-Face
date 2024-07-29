@@ -222,7 +222,7 @@ layer_dicts = {
             'use_cudnn': ['auto', 'DropDown', ['None', 'True', 'False'], 'DETAIL', 'LSTMレイヤーがGPUのCuDNN（CUDA Deep Neural Network library）最適化を使用するかどうかを指定します。'],
             'color':ft.colors.DEEP_ORANGE,
             'detail_view':'False',
-            'description':"test"
+            'description':"リカレントニューラルネットワーク（RNN）の一種で、時系列データやシーケンスデータの処理に特化しています。"
         },
         # 'GRU': {
         #     'units': None,
@@ -565,7 +565,7 @@ ML_dicts = {
 ML_display_dicts = {
     'ニューラルネットワーク':{
         'regression':'True',
-        'classification':'True',
+        'categorical':'True',
         'alg':'NN',
         'image':'None',
         "check":False, 
@@ -574,7 +574,7 @@ ML_display_dicts = {
     },
     '決定木':{
         'regression':'False',
-        'classification':'True',
+        'categorical':'True',
         'alg':'DecisionTreeClassifier',
         'image':'None',
         "check":False, 
@@ -583,7 +583,7 @@ ML_display_dicts = {
     },
     '回帰木':{
         'regression':'True',
-        'classification':'False',
+        'categorical':'False',
         'alg':'DecisionTreeRegressor',
         'image':'None',
         "check":False, 
@@ -592,7 +592,7 @@ ML_display_dicts = {
     },
     'ロジスティック回帰':{
         'regression':'False',
-        'classification':'True',
+        'categorical':'True',
         'alg':'LogisticRegression',
         'image':'None',
         "check":False, 
@@ -601,7 +601,7 @@ ML_display_dicts = {
     },
     'ランダムフォレスト分類':{
         'regression':'False',
-        'classification':'True',
+        'categorical':'True',
         'alg':'RandomForestClassifier',
         'image':'None',
         "check":False, 
@@ -610,7 +610,7 @@ ML_display_dicts = {
     },
     'ランダムフォレスト回帰':{
         'regression':'True',
-        'classification':'False',
+        'categorical':'False',
         'alg':'RandomForestRegressor',
         'image':'None',
         "check":False, 
@@ -619,7 +619,7 @@ ML_display_dicts = {
     },
     'サポートベクターマシン分類':{
         'regression':'False',
-        'classification':'True',
+        'categorical':'True',
         'alg':'SVC',
         'image':'None',
         "check":False, 
@@ -628,7 +628,7 @@ ML_display_dicts = {
     },
     'サポートベクターマシン回帰':{
         'regression':'True',
-        'classification':'False',
+        'categorical':'False',
         'alg':'SVR',
         'image':'None',
         "check":False, 
