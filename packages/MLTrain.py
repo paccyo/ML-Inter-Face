@@ -164,7 +164,7 @@ def evaluate(model, data_type='validation', train_mode=None,  alg=None, data=Non
         file_name = "RandomForest.png"
         graph.write_png(f'{export_path}/{file_name}')
 
-    if alg == 'decisiontree':
+    if alg == 'DecisionTreeClassifier':
         if train_mode == 'categorical':
             plot_tree(model, feature_names=columns, class_names=model.classes_, filled=True)
         else:
