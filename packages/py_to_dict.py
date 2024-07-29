@@ -55,28 +55,26 @@ def convert_model_to_dict(path):
             text = text.replace(pat, f'#{j}')
         text_list = text.split(',')
         for txt in text_list:
-            # パラメータ名, パラメータ値
-            param_name, param_value = txt.split('=')
             param_dic = original_layer_dic[layer_name]
-            param_value = param_value.replace('\'', '').replace('\"', '')
-            print(param_value)
-            if '#' in param_value:
-                index = param_value[2:-1]
-                param_value_text = pattern_list[int(index)]
-                param_value_split = param_value_text.split(',')
-                print(pattern_list)
-                print(param_value_text)
-                if '' in param_value_split:
-                    param_value = (int(param_value_split[0]),)
+            # パラメータ名, パラメータ値
+            if '=' in txt:
+                param_name, param_value = txt.split('=')
+                param_value = param_value.replace('\'', '').replace('\"', '')
+                if '#' in param_value:
+                    index = param_value[2:-1]
+                    param_value_text = pattern_list[int(index)]
+                    param_value_split = param_value_text.split(',')
+                    if '' in param_value_split:
+                        param_value = (int(param_value_split[0]),)
+                    else:
+                        param_value = tuple(map(int, param_value_split))
+                elif param_value[0] in string.ascii_lowercase or param_value[0] in string.ascii_uppercase:
+                    param_dic[param_name][0] = param_value
+                elif '.' in param_value:
+                    param_value = float(param_value)
                 else:
-                    param_value = tuple(map(int, ))
-            elif param_value[0] in string.ascii_lowercase or param_value[0] in string.ascii_uppercase:
+                    param_value = int(param_value)
                 param_dic[param_name][0] = param_value
-            elif '.' in param_value:
-                param_value = float(param_value)
-            else:
-                param_value = int(param_value)
-            param_dic[param_name][0] = param_value
             temp_result[layer_name] = param_dic
         result.append(temp_result)
     return result
@@ -107,6 +105,6 @@ if __name__ == '__main__':
                 'detail_view':'False'
             }}]
         
-    result = convert_model_to_dict(r'C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\model_info_NN.py')
+    result = convert_model_to_dict(r"C:\Users\Yuuki\Downloads\model_info.py")
     print(result)
     print(len(result))
