@@ -1,6 +1,3 @@
-from components.ML.test_._project.nn.nn_modelbuild import ModelBuild_NN
-from components.ML.test_._project.ml.ml_modelbuild import ModelBuild_ML
-
 from packages.util.Calldict import ML_display_dicts
 
 import flet as ft 
@@ -13,19 +10,7 @@ class SelectAlgorithm(ft.Container):
         self.expand = True 
         self.ML_dicts = ML_display_dicts
 
-        self.select_algorithm = ""
-        self.check_now_index = None
-
-        self.algorithm_list = [
-            ModelBuild_NN(self.page),
-            ModelBuild_ML(self.page,'DecisionTreeClassifier'),
-            ModelBuild_ML(self.page,'DecisionTreeRegressor'),
-            ModelBuild_ML(self.page,'LogisticRegression'),
-            ModelBuild_ML(self.page,'RandomForestClassifier'),
-            ModelBuild_ML(self.page,'RandomForestRegressor'),
-            ModelBuild_ML(self.page,'SVC'),
-            ModelBuild_ML(self.page,'SVR'),
-        ]
+        self.check_now_content = None
 
         self.select_algorithm_button = ft.Container(
             content=ft.Column(
@@ -49,6 +34,8 @@ class SelectAlgorithm(ft.Container):
             expand=True
         )
 
+        self.image_content = ft.Image(src=None,fit=ft.ImageFit.CONTAIN)
+
 
         self.content = ft.Column(
             controls=[
@@ -63,7 +50,8 @@ class SelectAlgorithm(ft.Container):
                             padding=ft.padding.only(top=70,bottom=70,left=50,right=50),
                         ),
                         ft.Container(
-                            expand=True, 
+                            content=self.image_content,
+                            expand=True,
                             bgcolor=ft.colors.BLUE
                         )
                     ],
@@ -75,22 +63,33 @@ class SelectAlgorithm(ft.Container):
 
     def on_click_algorithm(self, e):
         
-        if self.check_now_index == None:
-            self.check_now_index = e.control.data["index"]
-            self.page.client_storage.set("alg",self.select_algorithm_button.content.controls[self.check_now_index].data["alg"])
-        elif self.check_now_index != e.control.data["index"]:
-            self.page.client_storage.set("alg",self.select_algorithm_button.content.controls[self.check_now_index].data["alg"])
-            self.select_algorithm_button.content.controls[self.check_now_index].content.controls[0].name = None
-            self.select_algorithm_button.content.controls[self.check_now_index].update()
-            self.check_now_index = e.control.data["index"]
-        elif self.check_now_index == e.control.data["index"]:
+        if self.check_now_content == None:
+            self.check_now_content = e.control
+            self.page.client_storage.set("alg",e.control.data["alg"])
+        elif self.check_now_content != e.control:
+            self.page.client_storage.set("alg",e.control.data["alg"])
+            self.check_now_content.content.controls[0].name = None
+            self.check_now_content.update()
+            self.check_now_content = e.control
+        elif self.check_now_content == e.control:
             self.page.client_storage.set("alg",None) 
-            self.check_now_index = None
+            self.check_now_content = None
 
         if e.control.content.controls[0].name == ft.icons.CHECK:
             e.control.content.controls[0].name = None
         else:
             e.control.content.controls[0].name = ft.icons.CHECK
 
+        # if self.page.client_storage.get("alg"):
+        #     if self.page.client_storage.get("alg") == "NN"
+        if self.check_now_content:
+            self.image_content_update(self.check_now_content.data['path'])
         self.navigation_rail_update()
         e.control.update()
+
+    def image_content_update(self, image):
+        if image:
+            self.image_content.src = image
+        else:
+            self.image_content.src = None
+        self.image_content.update()

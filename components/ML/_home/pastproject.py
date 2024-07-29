@@ -15,7 +15,7 @@ class PastProject(ft.Container):
         past_project = []
         for project in self.pastproject_list:
             rect = []
-            
+
             rect = ft.Container(
                 content=ft.ElevatedButton(
                     content=ft.Column(
@@ -39,7 +39,8 @@ class PastProject(ft.Container):
 
             if rect != []:
                 past_project.append(rect)
-            
+        
+        
         # print(self.pastproject_list)
         self.past_project = ft.Container(
             content=ft.Column(
@@ -56,6 +57,7 @@ class PastProject(ft.Container):
                 self.past_project
             ],
         )
+
     
     def on_click_past_project(self, e):
         self.page.client_storage.set("project_file_path", os.path.abspath(e.control.data))

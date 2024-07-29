@@ -15,6 +15,7 @@ def convert_model_to_dict(path):
     result = []
     temp_result = {}
     for i, code_line in enumerate(code_lines):
+        temp_result = {}
         if 'def model_build():' in code_line:
             deal_start = True
             continue
@@ -27,7 +28,7 @@ def convert_model_to_dict(path):
         code_line = code_line.replace(' ', '').replace('\n', '')
         # レイヤ名
         layer_name = code_line.split('=')[1].split('(')[0]
-
+        
         start_index = None
         end_index = None
         c = 0
@@ -71,7 +72,7 @@ def convert_model_to_dict(path):
                 else:
                     param_value = int(param_value)
                 param_dic[param_name][0] = param_value
-        temp_result[layer_name] = param_dic
+            temp_result[layer_name] = param_dic
         result.append(temp_result)
     return result
         
@@ -100,6 +101,7 @@ if __name__ == '__main__':
                 'color':'AAA',
                 'detail_view':'False'
             }}]
-    
-result = convert_model_to_dict(r'C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\model_info_NN.py')
-print(result)
+        
+    result = convert_model_to_dict(r'C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\model_info_NN.py')
+    print(result)
+    print(len(result))
