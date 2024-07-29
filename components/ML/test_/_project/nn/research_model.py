@@ -63,7 +63,7 @@ class ResearchModel(ft.Container):
                         height=self.page.height-50,
                     )
                     self.image_content.content.controls.append(rect)
-                self.image_content.content.scroll = ft.ScrollMode.ALWAYS
+                # self.image_content.content.scroll = ft.ScrollMode.ALWAYS
                 self.image_content.update()
                 
                 if time.time()-t1 > 30:
