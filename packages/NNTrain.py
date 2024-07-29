@@ -9,7 +9,6 @@ import os
 import glob
 import pandas as pd
 from keras.utils import to_categorical
-from packages import convert_type
 
 
 print('RunTrainfile')
@@ -107,13 +106,13 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
 
         if train_type == 'classifier':
             if train_part != 0:
-                train_target = convert_type.conv_str_to_int(df_train_target.values)
+                train_target = conv_str_to_int(df_train_target.values)
                 train_target = to_categorical(train_target, num_classes=class_nums)
             elif validation_part != 0:
-                validation_target = convert_type.conv_str_to_int(df_validation_target.values)
+                validation_target = conv_str_to_int(df_validation_target.values)
                 validation_target = to_categorical(validation_target, num_classes=class_nums)
             elif test_part != 0:
-                test_target = convert_type.conv_str_to_int(df_test_target.values)
+                test_target = conv_str_to_int(df_test_target.values)
                 test_target = to_categorical(test_target, num_classes=class_nums)
 
         model = model_info.model_build()
@@ -129,16 +128,18 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
 
         model.save(f'{project_path}/trained_model.h5')
         
-
-
-        
-        
-        
-
-
-
-
-
+def conv_str_to_int(df_target):
+    """
+    dataframeの文字を数値化
+    """
+    labels_str = []
+    labels = []
+    for data in df_target:
+        if data not in labels_str:
+            labels_str.append(data)
+    for data in df_target:
+        labels.append(labels_str.index(data))
+    return labels
 
 _, train_part, validation_part, test_part, data_type, epochs, batchs, project_path, dataset_path, class_nums, train_type = sys.argv[0], sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], sys.argv[8], sys.argv[9], sys.argv[10]
 run(train_part, validation_part, test_part, data_type, epochs, batchs, project_path, dataset_path, class_nums, train_type)
