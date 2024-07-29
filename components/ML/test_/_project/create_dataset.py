@@ -264,20 +264,10 @@ class CreateDatasetDataFrame(ft.Container):
             width=200,
         )
 
-        self.analyze_view_buttons = ft.Container(
-            content=ft.Row(
-                controls = [],
-                scroll=ft.ScrollMode.ALWAYS
-            ),
-            alignment=ft.alignment.center_left,
-            expand=True,
-            height=50,
-        )
 
         self.buttons_content = ft.Row(
             controls=[
                 self.analyze_button,
-                # self.analyze_view_buttons,
                 self.create_button,
             ],
             height=50,
@@ -408,7 +398,6 @@ class CreateDatasetDataFrame(ft.Container):
             self.ds = DS()
             self.ds.send(self.data, export_dir_result=path)
         view_DS(path+"/DS_result/AutoViz/")
-        # self.analyze_view_buttons.update()
 
 
 

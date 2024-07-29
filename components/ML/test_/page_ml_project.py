@@ -9,6 +9,7 @@ from components.ML.test_._project.ml.ml_modelbuild import ModelBuild_ML
 
 from components.ML.test_._project.nn.modelcompile import ModelCompile
 from components.ML.test_._project.nn.modeltrain import ModelTrain_NN
+from components.ML.test_._project.nn.research_model import ResearchModel
 
 from components.ML.test_._project.ml.ml_train import ModelTrain_ML
 
@@ -71,6 +72,12 @@ class MLProject(ft.View):
             label="モデルの学習",
         )
 
+        reserch_model = ft.NavigationRailDestination(
+            icon_content=ft.Icon(ft.icons.SEARCH_OUTLINED, color=ft.colors.RED),
+            selected_icon_content=ft.Icon(ft.icons.SEARCH, color=ft.colors.RED),
+            label="モデルの研究",
+        )
+
 
         select_alg = self.select_algorithm_content.check_now_content
 
@@ -84,6 +91,10 @@ class MLProject(ft.View):
                 self.project_tasks.append(ModelCompile(self.page))
                 self.navigation_rail.destinations.append(model_train)
                 self.project_tasks.append(ModelTrain_NN(self.page))
+                if self.page.client_storage.get("user_root") == "researcher":
+                    self.navigation_rail.destinations.append(reserch_model)
+                    self.project_tasks.append(ResearchModel(self.page))
+                    
             else:    
                 self.navigation_rail.destinations.append(model_train)
                 self.project_tasks.append(ModelTrain_ML(self.page))
