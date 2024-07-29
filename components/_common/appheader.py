@@ -12,6 +12,10 @@ class AppHeader(ft.AppBar):
         self.toolbar_height=toolbar_height
         self.bgcolor=bgcolor
 
+        self.root = self.page.client_storage.get("user_root")
+
+        self.root_text = ft.Text(value=self.root)
+
         self.toggle_dark_light_icon = ft.IconButton(
             icon="light_mode",
             selected_icon = "dark_mode",
@@ -29,6 +33,7 @@ class AppHeader(ft.AppBar):
             ft.Container(
                 content=ft.Row(
                     [
+                        self.root_text,
                         self.toggle_dark_light_icon,
                         self.menubutton
                     ],
