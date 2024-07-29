@@ -506,7 +506,7 @@ preprocess_dicts = {
                 'cval': [0.0, 'TextField', 1, 'DETAIL', '境界外のピクセルに使用する値を指定します。', 'None'],
                 'horizontal_flip': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'ランダムに水平反転を行うかどうかを指定します。', 'packages/data_expansion_video/horizontal_flip.mp4'],
                 'vertical_flip': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'ランダムに垂直反転を行うかどうかを指定します。', 'packages/data_expansion_video/vertical_flip.mp4'],
-                'rescale': ['None', 'DropDown', ['None', 1./255], 'MAIN', '再スケーリング係数を指定します。', 'None'],
+                'rescale': [1./255, 'DropDown', [1./255], 'MAIN', '再スケーリング係数を指定します。', 'None'],
                 'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。', 'None'],
                 'interpolation_order': [1, 'DropDown', [0, 1, 2, 3], 'DETAIL', '補間の順序を指定します。', 'None'],
                 'dtype': ['None', 'DropDown', ['None', 'float32', 'float64', 'uint8'], 'MAIN', 'データ型を指定します。', 'None']
