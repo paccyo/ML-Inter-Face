@@ -544,7 +544,7 @@ compile_dicts = {
     }
 
 ML_dicts = {
-    'DecisionTreeClassifier':{'max_depth':['None', 'TextField', 1, 'MAIN', '木の深さを指定します。', 'packages\alg_param_video\max_depth.mp4'],
+    'DecisionTreeClassifier':{'max_depth':['None', 'TextField', 1, 'MAIN', '木の深さを指定します。', 'packages/alg_param_video/max_depth.mp4'],
                               'min_samples_split':[2, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
                               'min_samples_leaf':[1, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
                               },
