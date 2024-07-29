@@ -320,72 +320,72 @@ class ModelBuild_NN(ft.Container):
                 control_type = value[1]
                 main_detail = value[3]
                 tips = value[4]
-                # if main_detail == MAIN or detail:
-                if control_type == TEXTFIELD:
-                    if value[2] == 1:
-                        rect = ft.Row( 
+                if main_detail == MAIN or detail:
+                    if control_type == TEXTFIELD:
+                        if value[2] == 1:
+                            rect = ft.Row( 
+                                controls=[
+                                    ft.Tooltip(
+                                        message = tips,
+                                        content=ft.Text(value=param+':')),
+                                    ft.TextField(
+                                        value=param_value,
+                                        border="underline",
+                                        text_size=20,
+                                        on_change=on_change_params,
+                                        data={"index":None,"param":param}
+                                    )
+                                ],
+                                width=200,
+                            )
+                        elif value[2] == 2:
+                            rect = ft.Row( 
+                                controls=[
+                                    ft.Tooltip(
+                                        message = tips,
+                                        content=ft.Text(value=param+':')),
+                                    ft.Text(value='('),
+                                    ft.TextField(
+                                        value=param_value[0],
+                                        border="underline",
+                                        text_size=20,
+                                        width=30,
+                                        on_change=on_change_params,
+                                        data={"index":0,"param":param}
+                                    ),
+                                    ft.Text(value=','),
+                                    ft.TextField(
+                                        value=param_value[1],
+                                        border="underline",
+                                        text_size=20,
+                                        width=30,
+                                        on_change=on_change_params,
+                                        data={"index":1,"param":param}
+                                    ),
+                                    ft.Text(value=')'),
+                                ],
+                                width=200,
+                            )
+
+                    elif control_type == DROPDOWN:
+                        rect = ft.Row(
                             controls=[
                                 ft.Tooltip(
                                     message = tips,
                                     content=ft.Text(value=param+':')),
-                                ft.TextField(
+                                ft.Dropdown(
+                                    width=100,
+                                    height=50,
+                                    text_size=10,
+                                    scale=1,
                                     value=param_value,
-                                    border="underline",
-                                    text_size=20,
                                     on_change=on_change_params,
+                                    options=[ft.dropdown.Option(str(x)) for x in value[2]],
                                     data={"index":None,"param":param}
                                 )
                             ],
                             width=200,
                         )
-                    elif value[2] == 2:
-                        rect = ft.Row( 
-                            controls=[
-                                ft.Tooltip(
-                                    message = tips,
-                                    content=ft.Text(value=param+':')),
-                                ft.Text(value='('),
-                                ft.TextField(
-                                    value=param_value[0],
-                                    border="underline",
-                                    text_size=20,
-                                    width=30,
-                                    on_change=on_change_params,
-                                    data={"index":0,"param":param}
-                                ),
-                                ft.Text(value=','),
-                                ft.TextField(
-                                    value=param_value[1],
-                                    border="underline",
-                                    text_size=20,
-                                    width=30,
-                                    on_change=on_change_params,
-                                    data={"index":1,"param":param}
-                                ),
-                                ft.Text(value=')'),
-                            ],
-                            width=200,
-                        )
-
-                elif control_type == DROPDOWN:
-                    rect = ft.Row(
-                        controls=[
-                            ft.Tooltip(
-                                message = tips,
-                                content=ft.Text(value=param+':')),
-                            ft.Dropdown(
-                                width=100,
-                                height=50,
-                                text_size=10,
-                                scale=1,
-                                value=param_value,
-                                on_change=on_change_params,
-                                options=[ft.dropdown.Option(str(x)) for x in value[2]],
-                                data={"index":None,"param":param}
-                            )
-                        ],
-                        width=200,
-                    )
                 if rect != []:
                     params.append(rect)
 
