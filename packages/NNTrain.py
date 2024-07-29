@@ -105,7 +105,8 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
                 df_test_data = pd.read_csv(csv_path)
             elif dataset_type == 'test' and data_or_target == 'target':
                 df_test_target = pd.read_csv(csv_path)
-
+        print(type(train_type), train_type)
+        print(type(validation_part), validation_part)
         if train_type == 'categorical':
             if train_part != 0:
                 train_target = conv_str_to_int(df_train_target.values)
