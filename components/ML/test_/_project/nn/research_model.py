@@ -19,7 +19,7 @@ class ResearchModel(ft.Container):
             content=ft.Column(
                 controls=[
                     ft.ElevatedButton(text="researchmodel",on_click=self.on_click_researchmodel),
-                    ft.ElevatedButton(text="remodel",on_click=self.pick_files_result),
+                    ft.ElevatedButton(text="remodel",on_click=self.pick_files),
                 ],
             ),
         width=200,
@@ -84,7 +84,7 @@ class ResearchModel(ft.Container):
 
 
     def on_click_remodel(self,path):
-        self.remodel.csv_to_model(csv_file_path=path,export_path=self.project_path+"/Result")
+        self.remodel.csv_to_model(csv_file_path=path, export_path=self.project_path+"/Result")
 
     # happens when example is added to the page (when user chooses the FilePicker control from the grid)
     def did_mount(self):
@@ -101,5 +101,6 @@ class ResearchModel(ft.Container):
 
     
     async def pick_files_result(self, e: ft.FilePickerResultEvent):
+        print(e,e.files)
         file = e.files[0]
         self.on_click_remodel(file.path)
