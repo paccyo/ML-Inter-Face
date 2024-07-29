@@ -23,14 +23,18 @@ class ModelBuild_ML(ft.Container):
             padding=ft.padding.all(50)
         )
 
+        # ft.Checkbox(label="detail option", value=detail, on_change = on_change_detail_checkbox)
 
         for key, value in self.dicts.items():
+            if key in ['detail_view']:
+                continue
             rect = []
             def_value = value[0]
             option = value[2]
             input_type = value[1]
             detail = value[3]
             hint = value[4]
+            
             if input_type == TEXTFIELD:
                 rect = ft.Row(
                     controls=[
