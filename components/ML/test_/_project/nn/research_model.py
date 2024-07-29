@@ -25,8 +25,7 @@ class ResearchModel(ft.Container):
 
         self.image_content = ft.Container(
             content=ft.Column(
-                controls=[
-                ],
+                controls=[],
                 expand=True,
                 scroll=ft.ScrollMode.ALWAYS,
             ),
@@ -84,7 +83,7 @@ class ResearchModel(ft.Container):
 
     # happens when example is added to the page (when user chooses the FilePicker control from the grid)
     def did_mount(self):
-        self.page.overlay.append(self.pick_files_dialog)
+        self.page.overlay.append(self.pick_files_result)
         self.page.update()
 
     # happens when example is removed from the page (when user chooses different control group on the navigation rail)
