@@ -29,7 +29,7 @@ class ResearchModel(ft.Container):
                 ],
                 expand=True,
                 scroll=ft.ScrollMode.ALWAYS,
-            )
+            ),
             expand=True
         )
 
