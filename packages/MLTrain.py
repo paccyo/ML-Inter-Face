@@ -66,6 +66,7 @@ def draw_border(clf, data, target, x_min=-6, x_max=6, y_min=-4, y_max=8, export_
     z = np.array(conv_str_to_int(z))
     ax.contourf(xx, yy, z.reshape(xx.shape), cmap=plt.cm.coolwarm)
     ax.scatter(data[:, 0], data[:, 1], c=target, cmap=plt.cm.coolwarm)
+    plt.title('分類境界線')
     plt.savefig(f'{export_path}/border.png')
 
 def draw_ROC(model, data, target, export_path):
@@ -83,6 +84,7 @@ def draw_ROC(model, data, target, export_path):
     for i, class_ in enumerate(classes):
         plt.plot(fpr[i], tpr[i], label=f'{class_}')
     plt.legend()
+    plt.title('ROC曲線')
     plt.savefig(f'{export_path}/ROC.png')
 
 def export_score(target, pred, export_path):
