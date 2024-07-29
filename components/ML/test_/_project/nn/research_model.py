@@ -2,6 +2,9 @@ from packages.NNR import ReModel
 from packages.NNR import Research
 
 import flet as ft
+import asyncio
+import time
+import glob
 
 class ResearchModel(ft.Container):
     def __init__(self,page:ft.Page):
@@ -10,13 +13,61 @@ class ResearchModel(ft.Container):
 
         self.expand = True
 
-        self.content = ft.Column(
-            controls=[
-                ft.ElevatedButton(text="researchmodel",on_click=self.on_click_researchmodel),
-                ft.ElevatedButton(text="remodel",on_click=self.pick_files_result),
-            ]
+        self.buttons = ft.Container(
+            content=ft.Column(
+                controls=[
+                    ft.ElevatedButton(text="researchmodel",on_click=self.on_click_researchmodel),
+                    ft.ElevatedButton(text="remodel",on_click=self.pick_files_result),
+                ],
+            ),
+        width=200,
         )
-    
+
+        self.image_content = ft.Container(
+            content=ft.Column(
+                controls=[
+                ],
+                expand=True,
+                scroll=ft.ScrollMode.ALWAYS,
+            )
+            expand=True
+        )
+
+        self.content = ft.Container(
+            content=ft.Row(
+                controls=[
+                    self.buttons,
+                    self.image_content,
+                ],
+                expand=True,
+            ),
+            expand=True
+        )
+
+    async def update_image(self):
+        running = True
+        t1 = None
+        while running:
+            await asyncio.sleep(0.2)
+            self.image_content.content.controls = []
+            result_files = glob.glob(self.project_path+"/Result/weights*.png")
+            print(result_files)
+            if result_files != []:
+                if t1 == None:
+                    t1 = time.time()
+                for result in result_files:
+                    rect = ft.Container(
+                        content=ft.Image(src=result,fit=ft.ImageFit.CONTAIN),
+                        width=self.page.height-50,
+                        height=self.page.height-50,
+                    )
+                    self.image_content.content.controls.append(rect)
+                if time.time()-t1 > 5:
+                    self.image_content.content.scroll = ft.ScrollMode.ALWAYS
+                    self.image_content.update()
+                    running = False
+                    
+
     def on_click_researchmodel(self,e):
         
         self.project_path = self.page.client_storage.get("project_file_path")
@@ -24,6 +75,8 @@ class ResearchModel(ft.Container):
         Research(self.project_path+"/Result")
         
         self.remodel = ReModel(self.project_path+"/Result/trained_model.h5")
+
+        self.page.run_task(self.update_image)
 
 
     def on_click_remodel(self,path):
