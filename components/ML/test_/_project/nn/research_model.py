@@ -84,6 +84,7 @@ class ResearchModel(ft.Container):
 
 
     def on_click_remodel(self,path):
+        self.remodel = ReModel(self.project_path+"/Result/trained_model.h5")
         self.remodel.csv_to_model(csv_file_path=path, export_path=self.project_path+"/Result")
 
     # happens when example is added to the page (when user chooses the FilePicker control from the grid)
@@ -102,5 +103,7 @@ class ResearchModel(ft.Container):
     
     async def pick_files_result(self, e: ft.FilePickerResultEvent):
         print(e,e.files)
-        file = e.files[0]
-        self.on_click_remodel(file.path)
+        file = []
+        for f in e.files:
+            file.append(f.path)
+        self.on_click_remodel(file)
