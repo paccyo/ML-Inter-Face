@@ -544,22 +544,22 @@ compile_dicts = {
     }
 
 ML_dicts = {
-    'DecisionTreeClassifier':{'max_depth':['None', 'TextField', 1, 'MAIN', 'UNK'],
-                              'min_samples_split':[2, 'TextField', 1, 'DETAIL', 'UNK'],
-                              'min_samples_leaf':[1, 'TextField', 1, 'DETAIL', 'UNK'],
+    'DecisionTreeClassifier':{'max_depth':['None', 'TextField', 1, 'MAIN', '木の深さを指定します。', 'packages\alg_param_video\max_depth.mp4'],
+                              'min_samples_split':[2, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
+                              'min_samples_leaf':[1, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
                               },
-    'DecisionTreeRegressor':{'max_depth':['None', 'TextField', 1, 'MAIN', 'UNK'],
-                             'min_samples_split':[2, 'TextField', 1, 'DETAIL', 'UNK'],
-                             'min_samples_leaf':[1, 'TextField', 1, 'DETAIL', 'UNK'],
+    'DecisionTreeRegressor':{'max_depth':['None', 'TextField', 1, 'MAIN', '木の深さを指定します。', 'None'],
+                             'min_samples_split':[2, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
+                             'min_samples_leaf':[1, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
                              },
-    'LogisticRegression':{'penalty':['l2', 'DropDown', ['None', 'l1', 'l2', 'elasticnet'], 'DETAIL', 'UNK']},
-    'RandomForestClassifier':{'n_estimators':[100, 'TextField', 1, 'DETAIL', 'UNK'],
-                              'max_depth':['None', 'TextField', 1, 'MAIN', 'UNK']},
-    'RandomForestRegressor':{'n_estimators':[100, 'TextField', 1, 'DETAIL', 'UNK'],
-                              'max_depth':['None', 'TextField', 1, 'MAIN', 'UNK']},
-    'SVC':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK'],
-           'probability':['True', 'DropDown', ['True'], 'MAIN', 'UNK']},
-    'SVR':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK']},
+    'LogisticRegression':{'penalty':['l2', 'DropDown', ['None', 'l1', 'l2', 'elasticnet'], 'DETAIL', 'UNK', 'None']},
+    'RandomForestClassifier':{'n_estimators':[100, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
+                              'max_depth':['None', 'TextField', 1, 'MAIN', '木の深さを指定します。', 'None']},
+    'RandomForestRegressor':{'n_estimators':[100, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
+                              'max_depth':['None', 'TextField', 1, 'MAIN', '木の深さを指定します。', 'None']},
+    'SVC':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK', 'None'],
+           'probability':['True', 'DropDown', ['True'], 'MAIN', 'UNK', 'None']},
+    'SVR':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK', 'None']},
 }
 
 ML_display_dicts = {
