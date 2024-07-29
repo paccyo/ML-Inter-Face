@@ -92,7 +92,6 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
         for csv_path in glob.glob(os.path.join(dataset_path, '*.*')):
             print(csv_path)
             dataset_type, data_or_target = os.path.splitext(os.path.basename(csv_path))[0].split('_')[0], os.path.splitext(os.path.basename(csv_path))[0].split('_')[1]
-            print(dataset_type, data_or_target)
             if dataset_type == 'train' and data_or_target == 'data':
                 df_train_data = pd.read_csv(csv_path)
             elif dataset_type == 'train' and data_or_target == 'target':
@@ -106,13 +105,10 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
             elif dataset_type == 'test' and data_or_target == 'target':
                 df_test_target = pd.read_csv(csv_path)
         if train_type == 'categorical':
-            print('ASAFGLJADHFLKJHDFLK')
-            print(type(validation_part), validation_part)
             if train_part != 0:
                 train_target = conv_str_to_int(df_train_target.values)
                 train_target = to_categorical(train_target, num_classes=class_nums)
             if validation_part != 0:
-                print('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV')
                 validation_target = conv_str_to_int(df_validation_target.values)
                 validation_target = to_categorical(validation_target, num_classes=class_nums)
             if test_part != 0:
@@ -121,9 +117,9 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
         else:
             if train_part != 0:
                 train_target = conv_str_to_int(df_train_target.values)
-            elif validation_part != 0:
+            if validation_part != 0:
                 validation_target = conv_str_to_int(df_validation_target.values)
-            elif test_part != 0:
+            if test_part != 0:
                 test_target = conv_str_to_int(df_test_target.values)
 
         model = model_info.model_build()
