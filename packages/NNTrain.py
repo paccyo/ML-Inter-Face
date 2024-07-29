@@ -105,16 +105,17 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
                 df_test_data = pd.read_csv(csv_path)
             elif dataset_type == 'test' and data_or_target == 'target':
                 df_test_target = pd.read_csv(csv_path)
-        print(type(train_type), train_type)
-        print(type(validation_part), validation_part)
         if train_type == 'categorical':
+            print('ASAFGLJADHFLKJHDFLK')
+            print(type(validation_part), validation_part)
             if train_part != 0:
                 train_target = conv_str_to_int(df_train_target.values)
                 train_target = to_categorical(train_target, num_classes=class_nums)
-            elif validation_part != 0:
+            if validation_part != 0:
+                print('VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV')
                 validation_target = conv_str_to_int(df_validation_target.values)
                 validation_target = to_categorical(validation_target, num_classes=class_nums)
-            elif test_part != 0:
+            if test_part != 0:
                 test_target = conv_str_to_int(df_test_target.values)
                 test_target = to_categorical(test_target, num_classes=class_nums)
         else:
@@ -134,7 +135,7 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
         plot_callback = PlotCallback()
 
         model.fit(df_train_data.values, train_target, validation_data=(df_valdation_data.values, validation_target),
-                  epochs=epochs, batchs=batchs, callbacks=[plot_callback])
+                  epochs=epochs, batch_size=batchs, callbacks=[plot_callback])
 
         model.save(f'{project_path}/trained_model.h5')
         
