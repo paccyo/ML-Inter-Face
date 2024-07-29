@@ -84,13 +84,13 @@ class SplitData(ft.Container):
 
         width = self.page.width-350
         test_width = width-(self.validation_content.width+self.train_content.width)
-        train = int(((self.train_content.width/width)+0.06)*10)
-        validation = int(((self.validation_content.width/width)+0.06)*10)
-        test = 10-train-validation
-        self.train_content.content.controls[1].value = train
-        self.validation_content.content.controls[1].value = validation
-        self.test_content.content.controls[1].value = test
-
+        self.train = int(((self.train_content.width/width)+0.06)*10)
+        self.validation = int(((self.validation_content.width/width)+0.06)*10)
+        self.test = 10-self.train-self.validation
+        self.train_content.content.controls[1].value = self.train
+        self.validation_content.content.controls[1].value = self.validation
+        self.test_content.content.controls[1].value = self.test
+        
         self.content = ft.Row(
             controls=[
                 self.train_content,
@@ -104,12 +104,13 @@ class SplitData(ft.Container):
     def ratio_update(self):
         width = self.page.width-350
         test_width = width-(self.validation_content.width+self.train_content.width)
-        train = int(((self.train_content.width/width)+0.06)*10)
-        validation = int(((self.validation_content.width/width)+0.06)*10)
-        test = 10-train-validation
-        self.train_content.content.controls[1].value = train
-        self.validation_content.content.controls[1].value = validation
-        self.test_content.content.controls[1].value = test
+        self.train = int(((self.train_content.width/width)+0.06)*10)
+        self.validation = int(((self.validation_content.width/width)+0.06)*10)
+        self.test = 10-self.train-self.validation
+        self.train_content.content.controls[1].value = self.train
+        self.validation_content.content.controls[1].value = self.validation
+        self.test_content.content.controls[1].value = self.test
         self.train_content.content.update()
         self.validation_content.content.update()
         self.test_content.content.update()
+

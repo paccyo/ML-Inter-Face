@@ -119,8 +119,9 @@ class MLCreateProject(ft.View):
         with open("packages/util/project_info.json",encoding="utf-8") as f:
             info = json.load(f)
         if self.project_filename != "":
-            info["project_name"] = self.project_filename
+            info["project_name"] = self.project_filename 
             info["data_type"] = "image" if self.segment_button_data_type.selected_index == 1 else "dataframe"
+            info["learning_type"] = "classification" if e.control.controls[int(e.data)].value == "分類" else "regression"
             if self.get_pick_container.content.data:
                 if info["data_type"] == "image":
                     info["data_info"][info["data_type"]]["data_path"] = self.get_pick_container.content.data

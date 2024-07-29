@@ -7,6 +7,7 @@ import japanize_matplotlib
 import math
 from keras.models import load_model
 import csv
+import os
 
 
 def Research(project_path):
@@ -111,10 +112,10 @@ def save_blank_csv(layer_name, project_path):
 
 class ReModel:
 
-    def __init__(self):
-        self.model = None
+    def __init__(self, model_path):
+        self.model = load_model(model_path)
 
-    def csv_to_model(file_path):
+    def csv_to_weights(self, file_path):
         read_weights = []
         shape_size = None
         with open(f'{file_path}', 'r') as file:
@@ -130,18 +131,28 @@ class ReModel:
             read_weights = np.array(read_weights)
             read_weights = read_weights.reshape(shape_size)
         return read_weights
-    
-    def load_model_file(self, model_path):
-        self.model = load_model(model_path)
 
-    def rewrite_model(self):
-        for i in range(len(self.model.layers)):
-            l = self.model.layers[i]
-            
-    
-
+    def rewrite_model(self, file_name, weights):
+        if len(self.model.get_layer(file_name).get_weights()) != 0:
+            bias = self.model.get_layer(file_name).get_weights()[1]
+            param = [weights, bias]
+            self.model.get_layer(file_name).set_weights(param)
+                
+    def csv_to_model(self, csv_file_path, export_path):
+        if csv_file_path == list:
+            for path in csv:
+                weights = self.csv_to_weights(path)
+                file_name = os.path.splitext(os.path.basename(csv_file_path))[0]
+                self.rewrite_model(file_name, weights)
+        else:
+            weights = self.csv_to_weights(csv_file_path)
+            file_name = os.path.splitext(os.path.basename(csv_file_path))[0]
+            self.rewrite_model(file_name, weights)
+        self.model.save(f'{export_path}/edited_model.h5')
 
 
 if __name__ == '__main__':
     # Research(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
-    csv_to_model(r"C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\conv2d_12.csv")
+    remodel = ReModel(r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\trained_model.h5")
+    remodel.csv_to_model(r"C:\Users\Yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image\activation_1.csv", export_path=r"C:\Users\yuuki\Documents\GUI_MLearning\ML-Inter-Face\packages\image")
+    
