@@ -528,7 +528,7 @@ compile_dicts = {
         'optimizer':{
             'None':{'detail_view':'False'},
             'Adam':{
-                'learning_rate':[0.001, 'TextField', 1, 'MAIN', '学習率を指定します。'],
+                'learning_rate':[0.001, 'TextField', 1, 'DETAIL', '学習率を指定します。'],
                 'beta_1':[0.9, 'TextField', 1, 'DETAIL', '1番目のモーメント推定の減衰率を指定します。'],
                 'beta_2':[0.999, 'TextField', 1, 'DETAIL', '2番目のモーメント推定の減衰率を指定します。'],
                 'epsilon':[1e-07, 'TextField', 1, 'DETAIL', '数値安定性のための小さな定数を指定します。'],
