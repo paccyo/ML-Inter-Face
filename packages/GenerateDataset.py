@@ -66,7 +66,7 @@ class DatasetInfo:
         elif data_type == 'dataframe':
             os.makedirs(f'{project_path}/dataset', exist_ok=True)
 
-    def generate_image_dataset(self, part, data_path, project_path):
+    def generate_image_dataset(self, part, data_path, project_path, data_type):
         self.delete_dir(project_path)
         part = [part['train'], part['validation'], part['test']]
         for i, label_path in enumerate(glob.glob(os.path.join(data_path, '*'))):
@@ -75,7 +75,7 @@ class DatasetInfo:
             # ラベル名
             label = label_path.split('\\')[-1]
             # フォルダ作成
-            self.generate_dir(label, part, project_path)
+            self.generate_dir(label, part, project_path, data_type)
             train_n, validation_n, test_n = self.calc_part(part, sum_n)
             # 画像を突っ込む
             for i, image_path in enumerate(glob.glob(os.path.join(label_path, '*.*'))):
