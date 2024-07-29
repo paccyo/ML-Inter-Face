@@ -13,6 +13,8 @@ class ResearchModel(ft.Container):
 
         self.expand = True
 
+        self.pick_files_dialog = ft.FilePicker(on_result=self.pick_files_result)
+
         self.buttons = ft.Container(
             content=ft.Column(
                 controls=[
@@ -83,16 +85,16 @@ class ResearchModel(ft.Container):
 
     # happens when example is added to the page (when user chooses the FilePicker control from the grid)
     def did_mount(self):
-        self.page.overlay.append(self.pick_files_result)
+        self.page.overlay.append(self.pick_files_dialog)
         self.page.update()
 
     # happens when example is removed from the page (when user chooses different control group on the navigation rail)
     def will_unmount(self):
-        self.page.overlay.remove(self.pick_files_result)
+        self.page.overlay.remove(self.pick_files_dialog)
         self.page.update()
 
     async def pick_files(self,_):
-        await self.pick_files_result.pick_files_async(file_type=ft.FilePickerFileType.CUSTOM, allowed_extensions=["csv"], allow_multiple=False)
+        await self.pick_files_dialog.pick_files_async(file_type=ft.FilePickerFileType.CUSTOM, allowed_extensions=["csv"], allow_multiple=False)
 
     
     async def pick_files_result(self, e: ft.FilePickerResultEvent):
