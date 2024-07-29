@@ -66,7 +66,7 @@ class ModelTrain_ML(ft.Container):
                         height=self.page.height-50,
                     )
                     self.image_content.content.controls.append(rect)
-                if time.time()-t1 > 1:
+                if time.time()-t1 > 2:
                     self.image_content.content.scroll = ft.ScrollMode.ALWAYS
                     self.image_content.update()
                     running = False
