@@ -94,7 +94,7 @@ class ModelTrain_NN(ft.Container):
                 self.graph_image,
                 self.pb_text,
                 self.pb,
-                ft.ElevatedButton(text="train",on_click=self.on_click_train, top=550,left=300),
+                ft.ElevatedButton(text="train",on_click=self.on_click_train_pre, top=550,left=300),
             ],
             expand=True,
         )
@@ -112,9 +112,15 @@ class ModelTrain_NN(ft.Container):
         self.page.update()
         print("epoch",self.epoch,type(self.epoch))
 
-    def on_click_train(self, e):
-        part_dict = self.page.client_storage.get("part_dict")
-        print(part_dict)
+    def on_click_train_pre(self,e):
+        self.part_dict = self.page.client_storage.get("part_dict")
+        print("+"*100)
+        print(self.part_dict)
+        self.on_click_train()
+
+
+    def on_click_train(self):
+        
         print(self.page.client_storage.get("project_info"))
         shutil.rmtree(self.project_path+"/Result/")
         os.makedirs(name=self.project_path+"/Result",exist_ok=True)
@@ -123,8 +129,11 @@ class ModelTrain_NN(ft.Container):
         
         copy_to_userproject.CopyNNTrain(self.project_path+"/Scripts")
         GenerateBatfile.generateNN(target_path=self.project_path+"/Scripts",
-                                 run_path=read_activate_path.read_activ_path(),
-                                 part_dict=part_dict,
+                                  run_path=read_activate_path.read_activ_path(),
+                                 #  part_dict=self.part_dict,
+                                 train_part=self.part_dict["train"],
+                                 validation_part=self.part_dict["validation"],
+                                 test_part=self.part_dict["test"],
                                  dataset_path=self.page.client_storage.get("project_file_path")+"/Data/dataset",
                                  class_nums=self.page.client_storage.get("class_num"),
                                  data_type=self.page.client_storage.get("project_info")["data_type"],

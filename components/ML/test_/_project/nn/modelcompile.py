@@ -182,6 +182,9 @@ class ModelCompile(ft.Container):
 
 
     def on_click_compile(self, e):
+        self.part_dict = self.page.client_storage.get("part_dict")
+        print("+"*100)
+        print(self.part_dict)
         compile_info = CompileInfo()
         compile_state = {}
         optimizer = self.compile_dicts["select_optimizer"][0]
