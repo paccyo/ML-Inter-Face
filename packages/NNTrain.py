@@ -118,6 +118,13 @@ def run(train_part, validation_part, test_part, data_type, epochs, batchs=None, 
             elif test_part != 0:
                 test_target = conv_str_to_int(df_test_target.values)
                 test_target = to_categorical(test_target, num_classes=class_nums)
+        else:
+            if train_part != 0:
+                train_target = conv_str_to_int(df_train_target.values)
+            elif validation_part != 0:
+                validation_target = conv_str_to_int(df_validation_target.values)
+            elif test_part != 0:
+                test_target = conv_str_to_int(df_test_target.values)
 
         model = model_info.model_build()
 
