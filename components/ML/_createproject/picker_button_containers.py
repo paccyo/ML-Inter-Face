@@ -1,8 +1,6 @@
 from packages import DatasetCHK
 
 import flet as ft
-    
-
 
 
 class Pick_file_Container(ft.Container):
@@ -42,15 +40,10 @@ class Pick_file_Container(ft.Container):
         self.update()
 
 
-
-
-
-
 class Pick_folder_Container(ft.Container):
     def __init__(self, page:ft.Page, learning_way):
         super().__init__()
         self.page = page
-
         self.get_directory_dialog = ft.FilePicker(on_result=self.get_directory_result)
         self.data = None
         self.page.overlay.extend([self.get_directory_dialog])
@@ -65,7 +58,6 @@ class Pick_folder_Container(ft.Container):
             width=300,
             height=50,
         )
-
 
         self.content = ft.Column(
             controls=[

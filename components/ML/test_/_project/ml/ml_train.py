@@ -14,9 +14,9 @@ class ModelTrain_ML(ft.Container):
         print(self.project_path)
         self.alg = self.page.client_storage.get("alg")
         self.run = read_activate_path.read_activ_path()
+        
 
-
-        self.content = ft.ElevatedButton(text="train",on_click=self.on_click_train)
+        self.content = ft.ElevatedButton(text="train", on_click=self.on_click_train)
 
 
     def on_click_train(self, e):
