@@ -159,11 +159,11 @@ class CreateDatasetImage(ft.Container):
 
         self.video_content.content.update()
         
-        self.page.run_task(self.update_video)
+    #     self.page.run_task(self.update_video)
 
-    async def update_video(self):
-        await asyncio.sleep(0.2)
-        self.update()
+    # async def update_video(self):
+    #     await asyncio.sleep(0.2)
+    #     self.update()
 
     def on_click_create_dataset(self,e):
         
