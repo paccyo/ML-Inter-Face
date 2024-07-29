@@ -97,7 +97,7 @@ class ResearchModel(ft.Container):
         self.page.update()
 
     async def pick_files(self,_):
-        await self.pick_files_dialog.pick_files_async(file_type=ft.FilePickerFileType.CUSTOM, allowed_extensions=["csv"], allow_multiple=False)
+        await self.pick_files_dialog.pick_files_async(file_type=ft.FilePickerFileType.CUSTOM, allowed_extensions=["csv"], allow_multiple=True)
 
     
     async def pick_files_result(self, e: ft.FilePickerResultEvent):
