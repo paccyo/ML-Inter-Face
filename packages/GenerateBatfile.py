@@ -14,9 +14,8 @@ def generateNN(target_path, run_path, part_dict, data_type, epochs, batchs=None,
     train_part = part_dict['train']
     validatioin_part = part_dict['validation']
     test_part = part_dict['test']
-    if data_type == 'image':
-        with open(target_path+'/run.bat', 'w') as f:
-            f.write(f'call "{run_path}"\npython {target_path}/NNTrain.py {train_part} {validatioin_part} {test_part} {data_type} {epochs} {batchs} {project_path}')
+    with open(target_path+'/run.bat', 'w') as f:
+        f.write(f'call "{run_path}"\npython {target_path}/NNTrain.py {train_part} {validatioin_part} {test_part} {data_type} {epochs} {batchs} {project_path}')
 
 def generateML(target_path, run_path, part_dict, dataset_path, export_path, train_mode, alg):
     """
