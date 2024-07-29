@@ -426,8 +426,7 @@ class CreateDatasetDataFrame(ft.Container):
         test = self.data_sample_content.content.controls[0].test
         part_dict = {"train":train, "validation":validation, "test":test}
         print(part_dict)
-        self.page.client_storage.set("part_dict", part_dict)
-        
+        self.page.client_storage.set("target_column", self.target)
         info.send_dataframe(
             part=part_dict, 
             dataframe=self.data, 
