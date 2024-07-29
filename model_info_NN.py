@@ -3,12 +3,10 @@ from keras.layers import *
 
 
 def model_build():
-    Input0000 = Input(shape=(256, 256, 3))
-    Dense0000 = Dense(units=0, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None)(Input0000)
-    Activation0000 = Activation(activation='relu')(Dense0000)
-    Conv2D0000 = Conv2D(filters=123, kernel_size=(0, 0), strides=(1, 1), padding='valid', data_format=None, dilation_rate=(1, 1), groups=1, use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None)(Activation0000)
-    MaxPooling2D0000 = MaxPooling2D(pool_size=(2, 2), strides=(1,1), padding='valid', data_format=None, name=None)(Conv2D0000)
-    Flatten0000 = Flatten(data_format=None)(MaxPooling2D0000)
-    GlobalAveragePooling2D0000 = GlobalAveragePooling2D(data_format=None, keepdims=False)(Flatten0000)
-    model = Model(inputs=Input0000, outputs=GlobalAveragePooling2D0000)
+    Input0000 = Input(shape=(4,))
+    Dense0001 = Dense(units=32)(Input0000)
+    Activation0002 = Activation(activation='relu')(Dense0001)
+    Dense0003 = Dense(units=3)(Activation0002)
+    Activation0004 = Activation(activation='softmax')(Dense0003)
+    model = Model(inputs=Input0000, outputs=Activation0004)
     return model
