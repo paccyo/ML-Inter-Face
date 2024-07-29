@@ -77,6 +77,7 @@ class PreprocessInfo:
     def write_Prepfile(self, dataset_type, project_path):
         with open(f'{project_path}/{dataset_type}_preprocess_info.py', 'w') as f:
             f.write(f'{self.imports}\n\ndef preprocess_info():\n{self.preps}')
+        self.preps = ''
 
     def loop_judge(self, dicts, dataset_type, dataset_path, project_path):
         if dataset_type == 'train':

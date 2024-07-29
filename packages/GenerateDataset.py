@@ -114,13 +114,13 @@ class DatasetInfo:
         sum_n = len(list(df.index))
         train_n, validation_n, test_n = self.calc_part(part, sum_n)
         # 説明変数
-        train_df_data = df_data.iloc[:train_n]
-        validation_df_data = df_data.iloc[train_n:train_n+validation_n]
-        test_df_data = df_data.iloc[train_n+validation_n:train_n+validation_n+test_n]
+        train_df_data = df_data[:train_n]
+        validation_df_data = df_data[train_n:train_n+validation_n]
+        test_df_data = df_data[train_n+validation_n:train_n+validation_n+test_n]
         # 目的変数
-        train_df_target = df_target.iloc[:train_n]
-        validation_df_target = df_target.iloc[train_n:train_n+validation_n]
-        test_df_target = df_target.iloc[train_n+validation_n:train_n+validation_n+test_n]
+        train_df_target = df_target[:train_n]
+        validation_df_target = df_target[train_n:train_n+validation_n]
+        test_df_target = df_target[train_n+validation_n:train_n+validation_n+test_n]
         # 説明変数
         if len(train_df_data.values):
             train_df_data.to_csv(os.path.join(project_path, 'dataset/train_data.csv'), index=False)
