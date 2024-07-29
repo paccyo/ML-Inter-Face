@@ -28,7 +28,7 @@ class Preprocess:
             deal_df = deal_df.fillna(deal_df.median())
         return deal_df
     
-    def MarginFrame(original, edit_part, target_col):
+    def MarginFrame(self, original, edit_part, target_col):
         """
         dataframeの更新を行う
 
