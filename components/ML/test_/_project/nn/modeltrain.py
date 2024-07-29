@@ -115,7 +115,6 @@ class ModelTrain_NN(ft.Container):
     def on_click_train_pre(self,e):
         self.part_dict = self.page.client_storage.get("part_dict")
         print("+"*100)
-        print(self.part_dict)
         self.on_click_train()
 
 
