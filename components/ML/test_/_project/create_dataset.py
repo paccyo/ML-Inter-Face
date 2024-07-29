@@ -67,6 +67,7 @@ class CreateDatasetImage(ft.Container):
             'ImageDataGenerator': {
                 'featurewise_center':False,
                 'samplewise_center': False,
+                "rescale": 1.0/255,
             },
             'flow_from_directory': {
                 'target_size': (256, 256),
