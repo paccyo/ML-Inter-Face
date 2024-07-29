@@ -22,26 +22,33 @@ class CreateDatasetImage(ft.Container):
         project_info = self.page.client_storage.get("project_info")
         self.sample_data = project_info["data_info"]["image"]["sample_paths"][list(project_info["data_info"]["image"]["sample_paths"].keys())[0]]
 
-        self.data_sample_content = ft.Container(
-            content=ft.Container(
-                content=ft.Image(src=self.sample_data[0],fit=ft.ImageFit.CONTAIN),
-                padding=ft.padding.only(left=50, top=50, right=50),
-            )
-        )
+        # self.data_sample_content = ft.Container(
+        #     content=ft.Container(
+        #         content=ft.Image(src=self.sample_data[0],fit=ft.ImageFit.CONTAIN),
+        #     )
+        # )
+        # self.image()
 
         self.data_sample_content = ft.Container(
             content=ft.Column(
                 controls=[
                     SplitData(self.page),
                     ft.Divider(),
-                    ft.Container(
-                        content=ft.Image(src=self.sample_data[0],fit=ft.ImageFit.CONTAIN),
-                        padding=ft.padding.only(left=50, top=50, right=50),
-                    )
+                    ft.Row(
+                        controls = [
+                            ft.Container(
+                                content=ft.Image(src=self.sample_data[n],fit=ft.ImageFit.CONTAIN),
+                                padding=ft.padding.only(left=50, top=50, right=50),
+                            ) for n in range(len(self.sample_data))
+                        ],
+                        scroll=ft.ScrollMode.ALWAYS
+                    ),
+                    
                 ],
                 
             ),
-            expand=True
+            expand=True,
+            padding=ft.padding.only(left=50, top=10, right=50),
         )
 
 

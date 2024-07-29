@@ -220,7 +220,9 @@ layer_dicts = {
             'stateful': ['False', 'DropDown', ['True', 'False'], 'MAIN', 'LSTMレイヤーが状態をシーケンス間で保持するかどうかを制御します。通常、LSTMレイヤーはバッチごとに状態をリセットしますが、stateful=Trueに設定することで、シーケンスの状態をバッチ間で保持し、連続的なシーケンスを処理する際に役立ちます。'],
             'unroll': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'LSTMレイヤーの計算を展開（アンロール）するかどうかを制御します。これにより、計算の効率を改善することができますが、メモリ使用量が増加することがあります。'],
             'use_cudnn': ['auto', 'DropDown', ['None', 'True', 'False'], 'DETAIL', 'LSTMレイヤーがGPUのCuDNN（CUDA Deep Neural Network library）最適化を使用するかどうかを指定します。'],
-            'color':ft.colors.DEEP_ORANGE
+            'color':ft.colors.DEEP_ORANGE,
+            'detail_view':'False',
+            'description':"test"
         },
         # 'GRU': {
         #     'units': None,

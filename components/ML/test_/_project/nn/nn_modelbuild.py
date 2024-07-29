@@ -77,9 +77,11 @@ class ModelBuild_NN(ft.Container):
                     message=layer_dicts[layer_name]['description'],
                     content=ft.ElevatedButton(
                         text=layer_name, 
-                        style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=0)),
+                        style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=1)),
                         on_click=self.add_layer,
-                    )
+                        expand=True,
+                    ),
+                    height=30,
                 )
             )
 
@@ -146,6 +148,7 @@ class ModelBuild_NN(ft.Container):
                 self.sidebar_layers_container,
                 self.sidebar_layer_param_container,
             ],
+            width=250,
         )
 
         
