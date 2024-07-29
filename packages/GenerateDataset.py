@@ -108,7 +108,7 @@ class DatasetInfo:
         part = [part['train'], part['validation'], part['test']]
         df = dataframe
         if shuffle:
-            df = df.sample(frac=1)
+            df = df.sample(frac=1).reset_index(drop=True)
         df_data = df[cols_dict['data']]
         df_target = df[cols_dict['target']]
         sum_n = len(list(df.index))
