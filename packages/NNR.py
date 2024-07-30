@@ -139,13 +139,8 @@ class ReModel:
             self.model.get_layer(file_name).set_weights(param)
                 
     def csv_to_model(self, csv_file_path, export_path):
-        if csv_file_path == list:
-            for path in csv:
-                weights = self.csv_to_weights(path)
-                file_name = os.path.splitext(os.path.basename(csv_file_path))[0]
-                self.rewrite_model(file_name, weights)
-        else:
-            weights = self.csv_to_weights(csv_file_path)
+        for path in csv_file_path:
+            weights = self.csv_to_weights(path)
             file_name = os.path.splitext(os.path.basename(csv_file_path))[0]
             self.rewrite_model(file_name, weights)
         self.model.save(f'{export_path}/edited_model.h5')
