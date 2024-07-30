@@ -60,9 +60,9 @@ def main(page: ft.Page):
     # ルート変更時のロジック設定
     page.on_route_change = route_change
 
-    # page.go("/Page_SignIn")
+    page.go("/Page_SignIn")
     # page.go("/Page_DSHome")
-    page.go("/Page_MainMenu")
+    # page.go("/Page_MainMenu")
     # page.go("/Page_MLHome")
     # page.go("/Page_MLProject")
 
