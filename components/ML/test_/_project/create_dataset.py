@@ -2,6 +2,7 @@ from packages.GenerateDataset import DatasetInfo
 from packages.util.Calldict import preprocess_dicts, DROPDOWN, DETAIL, TEXTFIELD, MAIN
 
 from packages.preprocessing_dataframe import Preprocess
+from packages.GeneratePreprocessFile import PreprocessInfo
 from packages.DS import DS
 from packages.open_html import view_DS
 
@@ -12,6 +13,7 @@ import pandas as pd
 import glob
 import os
 import time
+import asyncio
 
 class CreateDatasetImage(ft.Container):
     def __init__(self, page:ft.Page):
@@ -41,9 +43,14 @@ class CreateDatasetImage(ft.Container):
                                 padding=ft.padding.only(left=50, top=50, right=50),
                             ) for n in range(len(self.sample_data))
                         ],
-                        scroll=ft.ScrollMode.ALWAYS
+                        scroll=ft.ScrollMode.ALWAYS,
+                        expand=True
                     ),
-                    
+                    ft.Container(
+                        content=ft.ElevatedButton(text="create_dataset",on_click=self.on_click_create_dataset),
+                        height=50,
+                        alignment=ft.alignment.center_right,
+                    ),
                 ],
                 
             ),
@@ -56,10 +63,11 @@ class CreateDatasetImage(ft.Container):
         self.pre_dict = dict(**self.preprocess_dicts['ImageDataGenerator'], **self.preprocess_dicts["flow_from_directory"])
 
 
-        pre_dicts = {
+        self.pre_dicts = {
             'ImageDataGenerator': {
                 'featurewise_center':False,
                 'samplewise_center': False,
+                "rescale": 1.0/255,
             },
             'flow_from_directory': {
                 'target_size': (256, 256),
@@ -67,8 +75,8 @@ class CreateDatasetImage(ft.Container):
             }
         }
 
-        self.page.client_storage.set("color_mode", pre_dicts['flow_from_directory']['color_mode'].replace("\'",""))
-        self.page.client_storage.set("target_size", pre_dicts['flow_from_directory']['target_size'])
+        self.page.client_storage.set("color_mode", self.pre_dicts['flow_from_directory']['color_mode'].replace("\'",""))
+        self.page.client_storage.set("target_size", self.pre_dicts['flow_from_directory']['target_size'])
 
         self.preprocess = ft.Container(
             content=ft.Column(
@@ -83,28 +91,28 @@ class CreateDatasetImage(ft.Container):
                                     options=[ft.dropdown.Option(str(x)) for x in value[2]],
                                     on_change = self.on_change_value,
                                     data={"name":pre_name}
-                                ) if value[2] == DROPDOWN else ft.TextField(value=value[0],on_change=self.on_change_value)
+                                ) if value[1] == DROPDOWN else ft.TextField(value=value[0],on_change=self.on_change_value)
                             ]
                         ), 
                         on_click=self.on_click_preprocess, 
                         height=100, 
-                        data = {"hint":value[4],"video":ft.VideoMedia(value[5]) if value[5]!="None" else None}
+                        data = {"hint":value[4],"video":ft.VideoMedia(value[5]) if value[5]!="None" else ft.VideoMedia("packages/data_expansion_video/none.mp4")}
                     ) for pre_name ,value in self.pre_dict.items()
                 ],
                 scroll=ft.ScrollMode.HIDDEN,
             ),
-            expand=True,
+            width=500,
         )
 
 
         self.video_content = ft.Container(
             content=ft.Video(
-                playlist=None,
+                playlist=[ft.VideoMedia("packages/data_expansion_video/none.mp4")],
                 fit=ft.ImageFit.CONTAIN,
                 playlist_mode=ft.PlaylistMode.LOOP,
                 autoplay=True,
             ),
-            width=500,
+            expand=True,
         )
 
 
@@ -127,7 +135,7 @@ class CreateDatasetImage(ft.Container):
                 ft.Tab(text="データプレビュー", content=self.data_sample_content),
                 ft.Tab(text="前処理", content=ft.Container(
                     content=self.preprocess_content,
-                    expand=True, 
+                    expand=True,
                     )
                 ),
             ]
@@ -136,7 +144,7 @@ class CreateDatasetImage(ft.Container):
     def on_change_value(self,e):
         pass
 
-    def on_click_preprocess(self,e):
+    def on_click_preprocess(self, e):
         print(e.control.data["video"])
         if e.control.data["video"] != None:
             if 0<len(self.video_content.content.playlist):
@@ -148,7 +156,40 @@ class CreateDatasetImage(ft.Container):
             pass
         print(self.video_content.content.playlist)
             # self.video_content.content.playlist_remove()
+
         self.video_content.content.update()
+        
+    #     self.page.run_task(self.update_video)
+
+    # async def update_video(self):
+    #     await asyncio.sleep(0.2)
+    #     self.update()
+
+    def on_click_create_dataset(self,e):
+        
+
+        project_path = self.page.client_storage.get("project_file_path")
+        project_info = self.page.client_storage.get("project_info")
+
+        data_path = project_info["data_info"]["image"]["data_path"]
+        train = self.data_sample_content.content.controls[0].train
+        validation = self.data_sample_content.content.controls[0].validation
+        test = self.data_sample_content.content.controls[0].test
+        part_dict = {"train":train, "validation":validation, "test":test}
+        print(part_dict)
+        self.page.client_storage.set("part_dict", part_dict)
+
+        info = DatasetInfo()
+
+        info.send_image(
+            part=part_dict, 
+            data_path=data_path,
+            project_path=project_path+"/Data",
+            data_type="image"
+        )
+
+        preprocess_info = PreprocessInfo(data_type="image", dataset_path=project_path+"/Data/dataset", project_path=project_path+"/Scripts")
+        preprocess_info.send(self.pre_dicts)
 
 
 class CreateDatasetDataFrame(ft.Container):
@@ -223,20 +264,10 @@ class CreateDatasetDataFrame(ft.Container):
             width=200,
         )
 
-        self.analyze_view_buttons = ft.Container(
-            content=ft.Row(
-                controls = [],
-                scroll=ft.ScrollMode.ALWAYS
-            ),
-            alignment=ft.alignment.center_left,
-            expand=True,
-            height=50,
-        )
 
         self.buttons_content = ft.Row(
             controls=[
                 self.analyze_button,
-                # self.analyze_view_buttons,
                 self.create_button,
             ],
             height=50,
@@ -299,6 +330,8 @@ class CreateDatasetDataFrame(ft.Container):
                 ft.Tab(text="前処理",content=self.preprocess),
             ]
         )
+
+
     def data_table_update(self):
         return [ft.Container(
                         content=ft.Column(
@@ -327,7 +360,7 @@ class CreateDatasetDataFrame(ft.Container):
                     )
                     for i, column in enumerate(self.data.columns)
                 ]
-
+    
     
     def preprocess_content_update(self):
         name_width = 450
@@ -356,6 +389,7 @@ class CreateDatasetDataFrame(ft.Container):
                 ) for (name ,value),_isnum in zip(self.data.isnull().sum().items(), [type(x)!=str for x in [self.data[column][0] for column in self.data.columns]])
             ]
 
+
     def on_click_data_analyze(self,e):
         path = self.page.client_storage.get("project_file_path")
         path = path + "/Result"
@@ -364,7 +398,6 @@ class CreateDatasetDataFrame(ft.Container):
             self.ds = DS()
             self.ds.send(self.data, export_dir_result=path)
         view_DS(path+"/DS_result/AutoViz/")
-        # self.analyze_view_buttons.update()
 
 
 
@@ -394,8 +427,6 @@ class CreateDatasetDataFrame(ft.Container):
             self.target = None
 
         self.update()
-            
-
 
     def on_change_fill_option(self,e):
         self.fill_option[e.control.data["column"]] = e.control.value
@@ -408,7 +439,8 @@ class CreateDatasetDataFrame(ft.Container):
             self.data = preprocess.MarginFrame(original=self.data, edit_part=result, target_col=e.control.data["column"])
             self.preprocess_content.content.controls = self.preprocess_content_update()
             self.preprocess_content.update()
-        self.data_table_update()
+
+        self.data_table.content.controls = self.data_table_update()
         self.data_table.update()
 
 

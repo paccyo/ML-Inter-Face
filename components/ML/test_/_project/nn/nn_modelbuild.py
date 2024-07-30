@@ -8,8 +8,10 @@ import copy
 import flet as ft 
 import flet.canvas as cv
 import pandas as pd
-
-
+import asyncio
+import glob
+import shutil
+import os
 
 class ModelBuild_NN(ft.Container):
     class Pick_file_button(ft.ElevatedButton):
@@ -318,72 +320,72 @@ class ModelBuild_NN(ft.Container):
                 control_type = value[1]
                 main_detail = value[3]
                 tips = value[4]
-                # if main_detail == MAIN or detail:
-                if control_type == TEXTFIELD:
-                    if value[2] == 1:
-                        rect = ft.Row( 
+                if main_detail == MAIN or detail:
+                    if control_type == TEXTFIELD:
+                        if value[2] == 1:
+                            rect = ft.Row( 
+                                controls=[
+                                    ft.Tooltip(
+                                        message = tips,
+                                        content=ft.Text(value=param+':')),
+                                    ft.TextField(
+                                        value=param_value,
+                                        border="underline",
+                                        text_size=20,
+                                        on_change=on_change_params,
+                                        data={"index":None,"param":param}
+                                    )
+                                ],
+                                width=200,
+                            )
+                        elif value[2] == 2:
+                            rect = ft.Row( 
+                                controls=[
+                                    ft.Tooltip(
+                                        message = tips,
+                                        content=ft.Text(value=param+':')),
+                                    ft.Text(value='('),
+                                    ft.TextField(
+                                        value=param_value[0],
+                                        border="underline",
+                                        text_size=20,
+                                        width=30,
+                                        on_change=on_change_params,
+                                        data={"index":0,"param":param}
+                                    ),
+                                    ft.Text(value=','),
+                                    ft.TextField(
+                                        value=param_value[1],
+                                        border="underline",
+                                        text_size=20,
+                                        width=30,
+                                        on_change=on_change_params,
+                                        data={"index":1,"param":param}
+                                    ),
+                                    ft.Text(value=')'),
+                                ],
+                                width=200,
+                            )
+
+                    elif control_type == DROPDOWN:
+                        rect = ft.Row(
                             controls=[
                                 ft.Tooltip(
                                     message = tips,
                                     content=ft.Text(value=param+':')),
-                                ft.TextField(
+                                ft.Dropdown(
+                                    width=100,
+                                    height=50,
+                                    text_size=10,
+                                    scale=1,
                                     value=param_value,
-                                    border="underline",
-                                    text_size=20,
                                     on_change=on_change_params,
+                                    options=[ft.dropdown.Option(str(x)) for x in value[2]],
                                     data={"index":None,"param":param}
                                 )
                             ],
                             width=200,
                         )
-                    elif value[2] == 2:
-                        rect = ft.Row( 
-                            controls=[
-                                ft.Tooltip(
-                                    message = tips,
-                                    content=ft.Text(value=param+':')),
-                                ft.Text(value='('),
-                                ft.TextField(
-                                    value=param_value[0],
-                                    border="underline",
-                                    text_size=20,
-                                    width=30,
-                                    on_change=on_change_params,
-                                    data={"index":0,"param":param}
-                                ),
-                                ft.Text(value=','),
-                                ft.TextField(
-                                    value=param_value[1],
-                                    border="underline",
-                                    text_size=20,
-                                    width=30,
-                                    on_change=on_change_params,
-                                    data={"index":1,"param":param}
-                                ),
-                                ft.Text(value=')'),
-                            ],
-                            width=200,
-                        )
-
-                elif control_type == DROPDOWN:
-                    rect = ft.Row(
-                        controls=[
-                            ft.Tooltip(
-                                message = tips,
-                                content=ft.Text(value=param+':')),
-                            ft.Dropdown(
-                                width=100,
-                                height=50,
-                                text_size=10,
-                                scale=1,
-                                value=param_value,
-                                on_change=on_change_params,
-                                options=[ft.dropdown.Option(str(x)) for x in value[2]],
-                                data={"index":None,"param":param}
-                            )
-                        ],
-                        width=200,
-                    )
                 if rect != []:
                     params.append(rect)
 
@@ -413,7 +415,34 @@ class ModelBuild_NN(ft.Container):
         self.update_connect_layer()
         self.page.update()
 
+    async def get_model_graph(self):
+
+        self.preview_area.content.controls[1].src = "https://example.com/your_image.png"
+        self.update()
+
+        running = True
+        while running:
+            await asyncio.sleep(0.1)
+            result_files = glob.glob(self.project_path+"/Result/*.png")
+            print(result_files)
+            for result in result_files:
+                
+                if "model.png" in result:
+                    model_png = result
+                    running = False
+
+        await asyncio.sleep(0.2)
+        
+        self.preview_area.content.controls[1].src = model_png
+        self.update()
+                    
+
     def model_build(self, e):
+
+        self.project_path = self.page.client_storage.get("project_file_path")
+        shutil.rmtree(self.project_path+"/Result/")
+        os.makedirs(name=self.project_path+"/Result",exist_ok=True)
+
         layers=sorted(self.design_area.content.content.controls[3:], key = lambda x:x.top)
         lay_format = {}
         for i,layer in enumerate(layers):
@@ -450,6 +479,9 @@ class ModelBuild_NN(ft.Container):
         model_info = ModelInfo(mode="NN")
         project_info = self.page.client_storage.get("project_info")
         data_type = project_info["data_type"]
+        
+        self.page.run_task(self.get_model_graph)
+
         if data_type == "image":
             model_info.send(model_dict=lay_format,
                                     project_path=project_path+"/Scripts",
@@ -470,8 +502,8 @@ class ModelBuild_NN(ft.Container):
                                                   project_path=project_path+"/Result")
         GenerateBatfile.Runbat(project_path+"/Scripts"+"/output_model_graph_run.bat")
 
-        self.preview_area.content.controls[1].src = project_path+"/Result/model.png"
-        self.page.update()
+        # self.preview_area.content.controls[1].src = project_path+"/Result/model.png"
+        self.update()
 
 
     

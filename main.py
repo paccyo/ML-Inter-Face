@@ -54,6 +54,8 @@ def main(page: ft.Page):
         page.views.pop()  # 1つ前に戻る
         page.go("/back")
 
+    page.client_storage.set("user_root","student")
+
     # 戻る時のロジック設定
     page.on_view_pop = view_pop
 

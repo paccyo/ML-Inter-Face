@@ -91,13 +91,13 @@ class MLCreateProject(ft.View):
     def on_change_learning_way(self, e):
         if e.control.controls[int(e.data)].value == "分類":
             self.file_contener.learning_way = "categorical"
-            self.older_container.learning_way = "categorical"
+            self.folder_container.learning_way = "categorical"
         elif e.control.controls[int(e.data)].value == "回帰":
             self.file_contener.learning_way = "regression"
-            self.older_container.learning_way = "regression"
+            self.folder_container.learning_way = "regression"
 
         self.file_contener.update()
-        self.older_container.update()
+        self.folder_container.update()
 
     def on_change_segment_button_data_type(self,e):
         if e.control.controls[int(e.data)].value == "画像":

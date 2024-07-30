@@ -61,6 +61,21 @@ def CHK(path=None, data_type=None, learning_way=None, export_path=None):
                 return True, df
             else:
                 return False, {}
+    if learning_way == 'regression':
+        if data_type == 'dataframe':
+            if type(datasets_path) == list:
+                data_list = []
+                for file in datasets_path:
+                    data_list.append(pd.read_csv(file))
+                df = pd.concat(data_list, axis=0, sort=False)
+                COPY(df, export_path)
+                return True, df
+            elif '.csv' == os.path.splitext(os.path.basename(datasets_path))[-1]:
+                df = pd.read_csv(datasets_path)
+                COPY(df, export_path)
+                return True, df
+            else:
+                return False, {}
             
 def COPY(df, project_path):
     """

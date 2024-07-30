@@ -66,7 +66,7 @@ class DatasetInfo:
         elif data_type == 'dataframe':
             os.makedirs(f'{project_path}/dataset', exist_ok=True)
 
-    def generate_image_dataset(self, part, data_path, project_path):
+    def generate_image_dataset(self, part, data_path, project_path, data_type):
         self.delete_dir(project_path)
         part = [part['train'], part['validation'], part['test']]
         for i, label_path in enumerate(glob.glob(os.path.join(data_path, '*'))):
@@ -75,7 +75,7 @@ class DatasetInfo:
             # ラベル名
             label = label_path.split('\\')[-1]
             # フォルダ作成
-            self.generate_dir(label, part, project_path)
+            self.generate_dir(label, part, project_path, data_type)
             train_n, validation_n, test_n = self.calc_part(part, sum_n)
             # 画像を突っ込む
             for i, image_path in enumerate(glob.glob(os.path.join(label_path, '*.*'))):
@@ -108,19 +108,19 @@ class DatasetInfo:
         part = [part['train'], part['validation'], part['test']]
         df = dataframe
         if shuffle:
-            df = df.sample(frac=1)
+            df = df.sample(frac=1).reset_index(drop=True)
         df_data = df[cols_dict['data']]
         df_target = df[cols_dict['target']]
         sum_n = len(list(df.index))
         train_n, validation_n, test_n = self.calc_part(part, sum_n)
         # 説明変数
-        train_df_data = df_data.iloc[:train_n]
-        validation_df_data = df_data.iloc[train_n:train_n+validation_n]
-        test_df_data = df_data.iloc[train_n+validation_n:train_n+validation_n+test_n]
+        train_df_data = df_data[:train_n]
+        validation_df_data = df_data[train_n:train_n+validation_n]
+        test_df_data = df_data[train_n+validation_n:train_n+validation_n+test_n]
         # 目的変数
-        train_df_target = df_target.iloc[:train_n]
-        validation_df_target = df_target.iloc[train_n:train_n+validation_n]
-        test_df_target = df_target.iloc[train_n+validation_n:train_n+validation_n+test_n]
+        train_df_target = df_target[:train_n]
+        validation_df_target = df_target[train_n:train_n+validation_n]
+        test_df_target = df_target[train_n+validation_n:train_n+validation_n+test_n]
         # 説明変数
         if len(train_df_data.values):
             train_df_data.to_csv(os.path.join(project_path, 'dataset/train_data.csv'), index=False)

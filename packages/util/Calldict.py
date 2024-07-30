@@ -222,7 +222,7 @@ layer_dicts = {
             'use_cudnn': ['auto', 'DropDown', ['None', 'True', 'False'], 'DETAIL', 'LSTMレイヤーがGPUのCuDNN（CUDA Deep Neural Network library）最適化を使用するかどうかを指定します。'],
             'color':ft.colors.DEEP_ORANGE,
             'detail_view':'False',
-            'description':"test"
+            'description':"リカレントニューラルネットワーク（RNN）の一種で、時系列データやシーケンスデータの処理に特化しています。"
         },
         # 'GRU': {
         #     'units': None,
@@ -506,7 +506,7 @@ preprocess_dicts = {
                 'cval': [0.0, 'TextField', 1, 'DETAIL', '境界外のピクセルに使用する値を指定します。', 'None'],
                 'horizontal_flip': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'ランダムに水平反転を行うかどうかを指定します。', 'packages/data_expansion_video/horizontal_flip.mp4'],
                 'vertical_flip': ['False', 'DropDown', ['True', 'False'], 'DETAIL', 'ランダムに垂直反転を行うかどうかを指定します。', 'packages/data_expansion_video/vertical_flip.mp4'],
-                'rescale': ['None', 'DropDown', ['None', 1./255], 'MAIN', '再スケーリング係数を指定します。', 'None'],
+                'rescale': [1./255, 'DropDown', [1./255], 'MAIN', '再スケーリング係数を指定します。', 'None'],
                 'data_format': ['channels_last', 'DropDown', ['channels_first', 'channels_last'], 'DETAIL', 'データのフォーマットを指定します。', 'None'],
                 'interpolation_order': [1, 'DropDown', [0, 1, 2, 3], 'DETAIL', '補間の順序を指定します。', 'None'],
                 'dtype': ['None', 'DropDown', ['None', 'float32', 'float64', 'uint8'], 'MAIN', 'データ型を指定します。', 'None']
@@ -528,7 +528,7 @@ compile_dicts = {
         'optimizer':{
             'None':{'detail_view':'False'},
             'Adam':{
-                'learning_rate':[0.001, 'TextField', 1, 'MAIN', '学習率を指定します。'],
+                'learning_rate':[0.001, 'TextField', 1, 'DETAIL', '学習率を指定します。'],
                 'beta_1':[0.9, 'TextField', 1, 'DETAIL', '1番目のモーメント推定の減衰率を指定します。'],
                 'beta_2':[0.999, 'TextField', 1, 'DETAIL', '2番目のモーメント推定の減衰率を指定します。'],
                 'epsilon':[1e-07, 'TextField', 1, 'DETAIL', '数値安定性のための小さな定数を指定します。'],
@@ -544,28 +544,28 @@ compile_dicts = {
     }
 
 ML_dicts = {
-    'DecisionTreeClassifier':{'max_depth':['None', 'TextField', 1, 'MAIN', 'UNK'],
-                              'min_samples_split':[2, 'TextField', 1, 'DETAIL', 'UNK'],
-                              'min_samples_leaf':[1, 'TextField', 1, 'DETAIL', 'UNK'],
+    'DecisionTreeClassifier':{'max_depth':['None', 'TextField', 1, 'MAIN', '木の深さを指定します。', 'packages/alg_param_video/max_depth.mp4'],
+                              'min_samples_split':[2, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
+                              'min_samples_leaf':[1, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
                               },
-    'DecisionTreeRegressor':{'max_depth':['None', 'TextField', 1, 'MAIN', 'UNK'],
-                             'min_samples_split':[2, 'TextField', 1, 'DETAIL', 'UNK'],
-                             'min_samples_leaf':[1, 'TextField', 1, 'DETAIL', 'UNK'],
+    'DecisionTreeRegressor':{'max_depth':['None', 'TextField', 1, 'MAIN', '木の深さを指定します。', 'None'],
+                             'min_samples_split':[2, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
+                             'min_samples_leaf':[1, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
                              },
-    'LogisticRegression':{'penalty':['l2', 'DropDown', ['None', 'l1', 'l2', 'elasticnet'], 'DETAIL', 'UNK']},
-    'RandomForestClassifier':{'n_estimators':[100, 'TextField', 1, 'DETAIL', 'UNK'],
-                              'max_depth':['None', 'TextField', 1, 'MAIN', 'UNK']},
-    'RandomForestRegressor':{'n_estimators':[100, 'TextField', 1, 'DETAIL', 'UNK'],
-                              'max_depth':['None', 'TextField', 1, 'MAIN', 'UNK']},
-    'SVC':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK'],
-           'probability':['True', 'DropDown', ['True'], 'MAIN', 'UNK']},
-    'SVR':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK']},
+    'LogisticRegression':{'penalty':['l2', 'DropDown', ['None', 'l1', 'l2', 'elasticnet'], 'DETAIL', 'UNK', 'None']},
+    'RandomForestClassifier':{'n_estimators':[100, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
+                              'max_depth':['None', 'TextField', 1, 'MAIN', '木の深さを指定します。', 'None']},
+    'RandomForestRegressor':{'n_estimators':[100, 'TextField', 1, 'DETAIL', 'UNK', 'None'],
+                              'max_depth':['None', 'TextField', 1, 'MAIN', '木の深さを指定します。', 'None']},
+    'SVC':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK', 'None'],
+           'probability':['True', 'DropDown', ['True'], 'MAIN', 'UNK', 'None']},
+    'SVR':{'kernel':['rbf', 'DropDown', ['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'], 'DETAIL', 'UNK', 'None']},
 }
 
 ML_display_dicts = {
     'ニューラルネットワーク':{
         'regression':'True',
-        'classification':'True',
+        'categorical':'True',
         'alg':'NN',
         'image':'None',
         "check":False, 
@@ -574,7 +574,7 @@ ML_display_dicts = {
     },
     '決定木':{
         'regression':'False',
-        'classification':'True',
+        'categorical':'True',
         'alg':'DecisionTreeClassifier',
         'image':'None',
         "check":False, 
@@ -583,7 +583,7 @@ ML_display_dicts = {
     },
     '回帰木':{
         'regression':'True',
-        'classification':'False',
+        'categorical':'False',
         'alg':'DecisionTreeRegressor',
         'image':'None',
         "check":False, 
@@ -592,7 +592,7 @@ ML_display_dicts = {
     },
     'ロジスティック回帰':{
         'regression':'False',
-        'classification':'True',
+        'categorical':'True',
         'alg':'LogisticRegression',
         'image':'None',
         "check":False, 
@@ -601,7 +601,7 @@ ML_display_dicts = {
     },
     'ランダムフォレスト分類':{
         'regression':'False',
-        'classification':'True',
+        'categorical':'True',
         'alg':'RandomForestClassifier',
         'image':'None',
         "check":False, 
@@ -610,7 +610,7 @@ ML_display_dicts = {
     },
     'ランダムフォレスト回帰':{
         'regression':'True',
-        'classification':'False',
+        'categorical':'False',
         'alg':'RandomForestRegressor',
         'image':'None',
         "check":False, 
@@ -619,7 +619,7 @@ ML_display_dicts = {
     },
     'サポートベクターマシン分類':{
         'regression':'False',
-        'classification':'True',
+        'categorical':'True',
         'alg':'SVC',
         'image':'None',
         "check":False, 
@@ -628,7 +628,7 @@ ML_display_dicts = {
     },
     'サポートベクターマシン回帰':{
         'regression':'True',
-        'classification':'False',
+        'categorical':'False',
         'alg':'SVR',
         'image':'None',
         "check":False, 
