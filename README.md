@@ -1,6 +1,6 @@
 <html>
   <h1 align="center">ML-Inter-Face</h1>
-  <h2 align="center">"プログラミング言語は書かず"に"モデルの構築やパラメータの調整"を体験してみよう！</h2>
+  <h3 align="center">"プログラミング言語は書かず"に"モデルの構築やパラメータの調整"を体験してみよう！</h3>
   <a href="https://open.vscode.dev/paccho/ML-Inter-Face"><img src="https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc"></img></a>
   <h3>1. 概要</h3>
   <p>ML-Inter-FaceはビジュアルプログラミングでAIを開発することができるサービスです。<br>
